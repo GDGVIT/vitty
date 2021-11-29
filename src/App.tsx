@@ -1,5 +1,6 @@
 import React from 'react'
 import { initializeApp } from 'firebase/app'
+import Nav from './components/Nav'
 import Auth from './components/Auth'
 // import './styles/App.css'
 
@@ -18,10 +19,12 @@ const App: React.FC = () => {
   const app = initializeApp(firebaseConfig)
 
   return (
-    <div>
-      VITTY
-      <Auth />
-    </div>
+    <>
+      <Nav />
+      <main>
+        <Auth />
+      </main>
+    </>
   )
 }
 

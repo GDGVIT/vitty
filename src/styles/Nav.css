@@ -1,0 +1,27 @@
+header {
+  width: 100%;
+  position: fixed;
+  height: 4rem;
+  padding: 1rem 2rem;
+  background-color: var(--dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.logo img {
+  height: 1.25rem;
+}
+
+
+.sign-out {
+  color: var(--blue);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sign-out:hover {
+  opacity: 0.5;
+}

@@ -12,7 +12,7 @@
 
 .google-sign-in button,
 .apple-sign-in button {
-  background-color: #fff;
+  background-color: var(--light);
   border: 0;
   border-radius: 0.5rem;
   outline: none;

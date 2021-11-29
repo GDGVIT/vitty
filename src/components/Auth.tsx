@@ -2,7 +2,7 @@ import React from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { FaApple } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
-import '../styles/auth.css'
+import '../styles/Auth.css'
 
 const Auth: React.FC = () => {
   const auth = getAuth()
