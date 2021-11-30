@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
+import React, { useContext, useEffect, useState } from 'react'
+import { AppContext } from './../Context'
+import { getAuth, signOut } from 'firebase/auth'
 import './../styles/Nav.css'
 import Logo from './../assets/logo.svg'
 
 const Nav: React.FC = () => {
+  const { userState } = useContext(AppContext)
+  const [user, setUser] = userState
   const [text, setText] = useState('')
 
   const logOut = (): void => {
     const auth = getAuth()
     signOut(auth).then(() => {
       setText('')
+      setUser('')
     }).catch((error) => {
       console.error(error)
     })
   }
 
   useEffect(() => {
-    const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
-      if (user !== null) setText('Sign Out')
-    })
-  }, [])
+    if (user !== '') setText('Sign Out')
+  }, [user])
 
   return (
     <header>

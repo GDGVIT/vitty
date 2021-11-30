@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from './../Context'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { FaApple } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import '../styles/Auth.css'
 
 const Auth: React.FC = () => {
+  const { userState } = useContext(AppContext)
+  const [, setUser] = userState
+
   const auth = getAuth()
   const googleProvider = new GoogleAuthProvider()
   const logIn = (auth: any, provider: any): void => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user
-        // TODO: Create context and add
-        console.log(user)
+        setUser(user.uid)
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code

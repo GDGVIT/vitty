@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Nav from './components/Nav'
 import Auth from './components/Auth'
 // import './styles/App.css'
@@ -18,11 +20,26 @@ const App: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const app = initializeApp(firebaseConfig)
 
+  const { userState } = useContext(AppContext)
+  const [user, setUser] = userState
+
+  useEffect(() => {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user1) => {
+      if (user1 !== null) setUser(user1.uid)
+      else setUser('')
+    })
+  }, [setUser])
+
   return (
     <>
       <Nav />
       <main>
-        <Auth />
+        {
+          user === ''
+            ? <Auth />
+            : <div>Signed in</div>
+        }
       </main>
     </>
   )
