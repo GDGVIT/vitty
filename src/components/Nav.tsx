@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from './../Context'
 import { getAuth, signOut } from 'firebase/auth'
 import './../styles/Nav.css'
-import Logo from './../assets/logo.svg'
+import VTLogo from './../assets/landing_logo.png'
 
 const Nav: React.FC = () => {
   const { userState } = useContext(AppContext)
@@ -26,7 +26,8 @@ const Nav: React.FC = () => {
   return (
     <header>
       <div className='logo'>
-        <img src={Logo} alt='VITTY' />
+        <img src={VTLogo} alt='VITTY' />
+        {/* <img src={Logo} alt='VITTY' /> */}
       </div>
       <div className='sign-out' onClick={() => logOut()}>{text}</div>
     </header>

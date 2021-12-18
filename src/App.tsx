@@ -2,9 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import EllipseTR from './assets/ellipse_tr.png'
+import EllipseBL from './assets/ellipse_bl.png'
 import Nav from './components/Nav'
 import Auth from './components/Auth'
-// import './styles/App.css'
+import HomeCarousel from './components/HomeCarousel'
+import './styles/App.css'
 
 const App: React.FC = () => {
   const firebaseConfig = {
@@ -37,9 +40,15 @@ const App: React.FC = () => {
       <main>
         {
           user === ''
-            ? <Auth />
-            : <div>Signed in</div>
+            ?
+            <div className='landing'>
+              <HomeCarousel />
+              <Auth />
+            </div>
+            : <div>Logged In</div>
         }
+        <div className='ellipse ellipse-tr'><img src={EllipseTR} alt='Vitty' /></div>
+        <div className='ellipse ellipse-bl'><img src={EllipseBL} alt='Vitty' /></div>
       </main>
     </>
   )

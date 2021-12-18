@@ -28,6 +28,7 @@ const Auth: React.FC = () => {
   // TODO: Apple sign in
   return (
     <div className='auth'>
+      <h1>Welcome to VIT<span>TY</span></h1>
       <div className='google-sign-in'>
         <button onClick={() => logIn(auth, googleProvider)}> <FcGoogle /> Sign in with Google</button>
       </div>

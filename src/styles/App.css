@@ -1,0 +1,48 @@
+.ellipse {
+  position: fixed;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+.ellipse img {
+  width: 17.5rem;
+  overflow: hidden;
+}
+
+.ellipse-tr {
+  top: 3rem;
+  right: 0;
+}
+
+.ellipse-bl {
+  bottom: -0.5rem;
+  left: 0;
+}
+
+.landing {
+  overflow-x: hidden;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+@media screen and (min-width: 1025px) {
+  .ellipse img {
+    width: 35vw;
+  }
+
+  .ellipse-tr {
+    top: 4rem;
+  }
+
+  .ellipse-bl {
+    left: -10rem;
+  }
+
+  .landing {
+    flex-direction: row;
+  }
+}

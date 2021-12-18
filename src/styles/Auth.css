@@ -3,6 +3,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
+}
+
+.auth h1 {
+  display: none;
+  margin-bottom: 2.5rem;
+}
+
+.auth h1 span {
+  font-weight: 500;
 }
 
 .google-sign-in,
@@ -13,9 +23,11 @@
 .google-sign-in button,
 .apple-sign-in button {
   background-color: var(--light);
+  width: 14.5rem;
   border: 0;
   border-radius: 0.5rem;
   outline: none;
+  margin: 0.25rem 0;
   padding: 0.75rem 1rem;
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
@@ -35,4 +47,10 @@
 .apple-sign-in svg {
   font-size: 1.75rem;
   margin-right: 0.75rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .auth h1 {
+    display: flex;
+  }
 }

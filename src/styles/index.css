@@ -20,6 +20,8 @@ body {
 :root {
   --dark: #041727;
   --blue: #688FBC;
+  --midblue: #9DBADC;
+  --lightblue: #C3D4E8;
   --light: #fff;
 }
 
@@ -33,5 +35,6 @@ body {
 }
 
 main {
+  background-color: var(--dark);
   margin-top: 4.5rem;
 }
