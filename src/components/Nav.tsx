@@ -20,7 +20,7 @@ const Nav: React.FC = () => {
   }
 
   useEffect(() => {
-    if (user !== '') setText('Sign Out')
+    if (user !== '' && user !== 'loading') setText('Sign Out')
   }, [user])
 
   return (

@@ -10,7 +10,7 @@ interface ContextType {
 export const AppContext = createContext<ContextType>({} as any)
 
 export const AppProvider = (props: any): JSX.Element => {
-  const [user, setUser] = useState<string>('')
+  const [user, setUser] = useState<string>('loading')
 
   return (
     <AppContext.Provider

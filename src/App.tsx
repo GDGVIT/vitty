@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React, { useContext, useEffect } from 'react'
 import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
@@ -7,6 +8,7 @@ import EllipseBL from './assets/ellipse_bl.png'
 import Nav from './components/Nav'
 import Auth from './components/Auth'
 import HomeCarousel from './components/HomeCarousel'
+import LoggedIn from './components/LoggedIn'
 import './styles/App.css'
 
 const App: React.FC = () => {
@@ -39,13 +41,14 @@ const App: React.FC = () => {
       <Nav />
       <main>
         {
-          user === ''
-            ?
-            <div className='landing'>
-              <HomeCarousel />
-              <Auth />
-            </div>
-            : <div>Logged In</div>
+          user === 'loading'
+            ? <div>Loading</div>
+            : user === ''
+              ? <div className='landing'>
+                  <HomeCarousel />
+                  <Auth />
+                </div>
+              : <LoggedIn />
         }
         <div className='ellipse ellipse-tr'><img src={EllipseTR} alt='Vitty' /></div>
         <div className='ellipse ellipse-bl'><img src={EllipseBL} alt='Vitty' /></div>
