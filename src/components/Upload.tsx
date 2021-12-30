@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { uploadText, uploadImage } from '../utils/apiCalls'
+import { parseAndUpload } from '../utils/parseResponse'
 
-const Upload: React.FC = () => {
+const Upload: React.FC<any> = (props): JSX.Element => {
+  const [text, setText] = useState('')
   const [photo, setPhoto] = useState()
   const [label, setLabel] = useState('No file chosen')
 
-  const onUploadPicture = (e: any): void => {
+  const onUploadPicture = (e: React.BaseSyntheticEvent): void => {
     if (e.target.files !== null && e.target.files.length !== 0) {
       const size = e.target.files[0].size / 1000 / 1000 // file size in MB
       if (size > 30) {
@@ -15,6 +18,26 @@ const Upload: React.FC = () => {
       setPhoto(e.target.files[0])
       setLabel(e.target.files[0].name)
     }
+  }
+
+  const submitImage = (e: React.BaseSyntheticEvent): void => {
+    e.preventDefault()
+    if (photo === undefined || label === 'No file chosen') {
+      alert('Please upload an image first!')
+      return
+    }
+    props.changeStatus('loading')
+    uploadImage(photo).then((res) => { parseAndUpload(res.Slots) }, () => { props.changeStatus('upload') })
+  }
+
+  const submitText = (e: React.BaseSyntheticEvent): void => {
+    e.preventDefault()
+    if (text === '') {
+      alert('Please paste the text first!')
+      return
+    }
+    props.changeStatus('loading')
+    uploadText(text).then((res) => { parseAndUpload(res.Slots) }, () => { props.changeStatus('upload') })
   }
 
   return (
@@ -31,9 +54,11 @@ const Upload: React.FC = () => {
             autoFocus
             type='text'
             id='input-text'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           />
           <li>Submit to continue! :)</li>
-          <button type='submit'>Submit Text</button>
+          <button type='submit' onClick={submitText}>Submit Text</button>
         </ol>
       </div>
 
@@ -62,7 +87,7 @@ const Upload: React.FC = () => {
             <p className='file-details'>{label}</p>
           </div>
           <li>Submit to continue! :)</li>
-          <button type='submit'>Submit Picture</button>
+          <button type='submit' onClick={submitImage}>Submit Picture</button>
         </ol>
       </div>
     </div>
