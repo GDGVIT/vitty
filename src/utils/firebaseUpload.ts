@@ -13,6 +13,10 @@ interface CourseProps {
 export const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {
   for (let i = 0; i < courses.length; i++) {
     const course = courses[i]
+    if (course.courseType === 'Lab') {
+      const labSlot = parseInt(course.slot.slice(1))
+      course.slot = `L${labSlot} + L${labSlot + 1}`
+    }
     const ref = doc(db, 'users', userId, 'timetable', day, 'periods', `P${String(i)}`)
     void setDoc(ref, {
       slot: course.slot,
