@@ -104,6 +104,6 @@ const parseObject = (daySlots: any[], timings: {[slot: string]: string}): any[] 
     // delete el.Venue
   })
 
-  newSlots.sort((a, b) => (timings[a.Slot] > timings[b.Slot] ? 1 : -1))
+  newSlots.sort((a, b) => (timings[a.Slot] > timings[b.Slot] ? -1 : 1))
   return newSlots
 }

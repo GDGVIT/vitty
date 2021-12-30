@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './../styles/LoggedIn.css'
 import Upload from './Upload'
+import Review from './Review'
 
 const LoggedIn: React.FC = () => {
   const [status, setStatus] = useState('loading')
@@ -15,29 +16,35 @@ const LoggedIn: React.FC = () => {
     setStatus('upload')
   }, [])
 
-  useEffect(() => {
-    console.log('mon', monSlots)
-    console.log('tue', tueSlots)
-    console.log('wed', wedSlots)
-    console.log('thu', thuSlots)
-    console.log('fri', friSlots)
-  }, [friSlots, monSlots, thuSlots, tueSlots, wedSlots])
-
-  const changeStatus = (str: string): void => { setStatus(str) }
+  // useEffect(() => {
+  // console.log('mon', monSlots)
+  //   console.log('tue', tueSlots)
+  //   console.log('wed', wedSlots)
+  //   console.log('thu', thuSlots)
+  //   console.log('fri', friSlots)
+  // }, [friSlots, monSlots, thuSlots, tueSlots, wedSlots])
 
   return (
     <section className='logged-in'>
       {
         status === 'upload'
           ? <Upload
-              changeStatus={changeStatus}
+              setStatus={setStatus}
               setMonSlots={setMonSlots}
               setTueSlots={setTueSlots}
               setWedSlots={setWedSlots}
               setThuSlots={setThuSlots}
               setFriSlots={setFriSlots}
             />
-          : <span>Loading</span>
+          : status === 'review'
+            ? <Review
+                monSlots={monSlots}
+                tueSlots={tueSlots}
+                wedSlots={wedSlots}
+                thuSlots={thuSlots}
+                friSlots={friSlots}
+              />
+            : <span>Loading</span>
       }
     </section>
   )

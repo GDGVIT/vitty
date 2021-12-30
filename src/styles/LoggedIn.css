@@ -4,6 +4,19 @@
   padding: 2rem;
 }
 
+.upload-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-wrapper h1 {
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+}
+
 .upload {
   width: 100%;
   height: 100%;
@@ -106,7 +119,6 @@
 }
 
 .upload button {
-  /* need some help here senor */
   background-color: var(--bright);
   border: none;
   font-weight: bold;
