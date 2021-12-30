@@ -20,6 +20,15 @@ const Upload: React.FC<any> = (props): JSX.Element => {
     }
   }
 
+  const onParse = (res: any): void => {
+    const [monSlots, tueSlots, wedSlots, thuSlots, friSlots] = parseAndUpload(res.Slots)
+    props.setMonSlots(monSlots)
+    props.setTueSlots(tueSlots)
+    props.setWedSlots(wedSlots)
+    props.setThuSlots(thuSlots)
+    props.setFriSlots(friSlots)
+  }
+
   const submitImage = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault()
     if (photo === undefined || label === 'No file chosen') {
@@ -27,7 +36,7 @@ const Upload: React.FC<any> = (props): JSX.Element => {
       return
     }
     props.changeStatus('loading')
-    uploadImage(photo).then((res) => { parseAndUpload(res.Slots) }, () => { props.changeStatus('upload') })
+    uploadImage(photo).then((res) => { onParse(res) }, () => { props.changeStatus('upload') })
   }
 
   const submitText = (e: React.BaseSyntheticEvent): void => {
@@ -37,7 +46,7 @@ const Upload: React.FC<any> = (props): JSX.Element => {
       return
     }
     props.changeStatus('loading')
-    uploadText(text).then((res) => { parseAndUpload(res.Slots) }, () => { props.changeStatus('upload') })
+    uploadText(text).then((res) => { onParse(res) }, () => { props.changeStatus('upload') })
   }
 
   return (

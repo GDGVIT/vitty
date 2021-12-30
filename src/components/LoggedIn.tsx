@@ -4,11 +4,24 @@ import Upload from './Upload'
 
 const LoggedIn: React.FC = () => {
   const [status, setStatus] = useState('loading')
+  const [monSlots, setMonSlots] = useState()
+  const [tueSlots, setTueSlots] = useState()
+  const [wedSlots, setWedSlots] = useState()
+  const [thuSlots, setThuSlots] = useState()
+  const [friSlots, setFriSlots] = useState()
 
   useEffect(() => {
     // if (no userdata) setStatus('upload')
     setStatus('upload')
   }, [])
+
+  useEffect(() => {
+    console.log('mon', monSlots)
+    console.log('tue', tueSlots)
+    console.log('wed', wedSlots)
+    console.log('thu', thuSlots)
+    console.log('fri', friSlots)
+  }, [friSlots, monSlots, thuSlots, tueSlots, wedSlots])
 
   const changeStatus = (str: string): void => { setStatus(str) }
 
@@ -16,7 +29,14 @@ const LoggedIn: React.FC = () => {
     <section className='logged-in'>
       {
         status === 'upload'
-          ? <Upload changeStatus={changeStatus} />
+          ? <Upload
+              changeStatus={changeStatus}
+              setMonSlots={setMonSlots}
+              setTueSlots={setTueSlots}
+              setWedSlots={setWedSlots}
+              setThuSlots={setThuSlots}
+              setFriSlots={setFriSlots}
+            />
           : <span>Loading</span>
       }
     </section>

@@ -1,11 +1,11 @@
 import { monTimings, tueTimings, wedTimings, thuTimings, friTimings } from '../constants/timings'
 import { courses } from '../constants/courses'
 
-const monSlots: any[] = []
-const tueSlots: any[] = []
-const wedSlots: any[] = []
-const thuSlots: any[] = []
-const friSlots: any[] = []
+let monSlots: any[] = []
+let tueSlots: any[] = []
+let wedSlots: any[] = []
+let thuSlots: any[] = []
+let friSlots: any[] = []
 
 export const parseAndUpload = (arr: any[]): any => {
   parseText(arr)
@@ -14,7 +14,12 @@ export const parseAndUpload = (arr: any[]): any => {
   addDetails(wedSlots, wedTimings)
   addDetails(thuSlots, thuTimings)
   addDetails(friSlots, friTimings)
-  // now display and upload to firebase
+  monSlots = parseObject(monSlots, monTimings)
+  tueSlots = parseObject(tueSlots, tueTimings)
+  wedSlots = parseObject(wedSlots, wedTimings)
+  thuSlots = parseObject(thuSlots, thuTimings)
+  friSlots = parseObject(friSlots, friTimings)
+  return [monSlots, tueSlots, wedSlots, thuSlots, friSlots]
 }
 
 const parseText = (arr: any[]): any => {
@@ -31,11 +36,6 @@ const parseText = (arr: any[]): any => {
       if (Object.prototype.hasOwnProperty.call(friTimings, slot)) friSlots.push(el)
     }
   })
-  monSlots.sort((a, b) => (monTimings[a.Slot] > monTimings[b.Slot] ? 1 : -1))
-  tueSlots.sort((a, b) => (tueTimings[a.Slot] > tueTimings[b.Slot] ? 1 : -1))
-  wedSlots.sort((a, b) => (wedTimings[a.Slot] > wedTimings[b.Slot] ? 1 : -1))
-  thuSlots.sort((a, b) => (thuTimings[a.Slot] > thuTimings[b.Slot] ? 1 : -1))
-  friSlots.sort((a, b) => (friTimings[a.Slot] > friTimings[b.Slot] ? 1 : -1))
   // console.log('Monday', monSlots)
   // console.log('Tuesday', tueSlots)
   // console.log('Wednesday', wedSlots)
@@ -67,18 +67,43 @@ const addDetails = (daySlots: any[], timings: {[slot: string]: string}): void =>
     let courseName: string
     if (courses[el.Course_Name] === undefined) courseName = el.Course_Name
     else courseName = courses[el.Course_Name]
-
-    // reparsing object properly
-    el.slot = nullCheck(el.Slot)
-    delete el.Slot
-    el.courseCode = nullCheck(el.Course_Name)
-    delete el.Course_Name
     el.courseName = nullCheck(courseName)
-    el.courseType = nullCheck(el.Course_type)
-    delete el.Course_type
-    el.location = nullCheck(el.Venue)
-    delete el.Venue
     el.startTime = startTime
     el.endTime = endTime
   })
+}
+
+const parseObject = (daySlots: any[], timings: {[slot: string]: string}): any[] => {
+  const newSlots: any[] = []
+
+  daySlots.forEach((el) => {
+    // reparsing object properly
+    const newEl = {
+      slot: '',
+      courseCode: '',
+      courseType: '',
+      courseName: '',
+      location: '',
+      startTime: new Date(),
+      endTime: new Date()
+    }
+    newEl.slot = nullCheck(el.Slot)
+    newEl.courseCode = nullCheck(el.Course_Name)
+    newEl.courseType = nullCheck(el.Course_type)
+    newEl.location = nullCheck(el.Venue)
+    newEl.courseName = el.courseName
+    newEl.startTime = el.startTime
+    newEl.endTime = el.endTime
+
+    newSlots.push(newEl)
+
+    // WHY DOESNT THIS JUST WORK
+    // delete el.Slot
+    // delete el.Course_Name
+    // delete el.Course_type
+    // delete el.Venue
+  })
+
+  newSlots.sort((a, b) => (timings[a.Slot] > timings[b.Slot] ? 1 : -1))
+  return newSlots
 }
