@@ -2,6 +2,7 @@
 import React, { useContext, useEffect } from 'react'
 import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore/lite'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import EllipseTR from './assets/ellipse_tr.png'
 import EllipseBL from './assets/ellipse_bl.png'
@@ -22,8 +23,8 @@ const App: React.FC = () => {
     measurementId: 'G-3L22VJ3LVW'
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const app = initializeApp(firebaseConfig)
+  const db = getFirestore(app)
 
   const { userState } = useContext(AppContext)
   const [user, setUser] = userState
@@ -48,7 +49,7 @@ const App: React.FC = () => {
                   <HomeCarousel />
                   <Auth />
                 </div>
-              : <LoggedIn />
+              : <LoggedIn db={db} />
         }
         <div className='ellipse ellipse-tr'><img src={EllipseTR} alt='Vitty' /></div>
         <div className='ellipse ellipse-bl'><img src={EllipseBL} alt='Vitty' /></div>

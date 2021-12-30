@@ -3,7 +3,7 @@ import './../styles/LoggedIn.css'
 import Upload from './Upload'
 import Review from './Review'
 
-const LoggedIn: React.FC = () => {
+const LoggedIn: React.FC<any> = ({ db }) => {
   const [status, setStatus] = useState('loading')
   const [monSlots, setMonSlots] = useState()
   const [tueSlots, setTueSlots] = useState()
@@ -15,14 +15,6 @@ const LoggedIn: React.FC = () => {
     // if (no userdata) setStatus('upload')
     setStatus('upload')
   }, [])
-
-  // useEffect(() => {
-  // console.log('mon', monSlots)
-  //   console.log('tue', tueSlots)
-  //   console.log('wed', wedSlots)
-  //   console.log('thu', thuSlots)
-  //   console.log('fri', friSlots)
-  // }, [friSlots, monSlots, thuSlots, tueSlots, wedSlots])
 
   return (
     <section className='logged-in'>
@@ -38,13 +30,17 @@ const LoggedIn: React.FC = () => {
             />
           : status === 'review'
             ? <Review
+                setStatus={setStatus}
                 monSlots={monSlots}
                 tueSlots={tueSlots}
                 wedSlots={wedSlots}
                 thuSlots={thuSlots}
                 friSlots={friSlots}
+                db={db}
               />
-            : <span>Loading</span>
+            : status === 'finished'
+              ? <div className=''>Finished</div>
+              : <span>Loading</span>
       }
     </section>
   )

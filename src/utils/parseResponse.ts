@@ -1,5 +1,6 @@
 import { monTimings, tueTimings, wedTimings, thuTimings, friTimings } from '../constants/timings'
 import { courses } from '../constants/courses'
+import { labTime, theoryTime } from '../constants/variables'
 
 const monSlots: any[] = []
 const tueSlots: any[] = []
@@ -36,12 +37,11 @@ const parseText = (arr: any[]): any => {
       if (Object.prototype.hasOwnProperty.call(friTimings, slot)) friSlots.push({ ...el })
     }
   })
-  // console.log('Monday', monSlots)
-  // console.log('Tuesday', tueSlots)
-  // console.log('Wednesday', wedSlots)
-  // console.log('Thursday', thuSlots)
-  // console.log('Friday', friSlots)
 }
+
+const addMinutes = (date: Date, minutes: number): Date => new Date(date.getTime() + minutes * 60000)
+
+const nullCheck = (x: any): any => (x == null ? '' : x)
 
 // const changeTimezone = (date: Date, ianatz: string): Date => {
 //   const invdate = new Date(date.toLocaleString('en-US', { timeZone: ianatz }))
@@ -49,17 +49,13 @@ const parseText = (arr: any[]): any => {
 //   return new Date(date.getTime() - diff)
 // }
 
-const addMinutes = (date: Date, minutes: number): Date => new Date(date.getTime() + minutes * 60000)
-
-const nullCheck = (x: any): any => (x == null ? '' : x)
-
 const addDetails = (daySlots: any[], timings: {[slot: string]: string}): void => {
   daySlots.forEach((el) => {
     // calculating timings
     const startTime = new Date('April 1 2021 ' + timings[el.Slot] + ':00+05:30')
     let endTime: Date
-    if (el.Course_type === 'Lab') endTime = addMinutes(startTime, 100)
-    else endTime = addMinutes(startTime, 50)
+    if (el.Course_type === 'Lab') endTime = addMinutes(startTime, labTime)
+    else endTime = addMinutes(startTime, theoryTime)
     // startTime = changeTimezone(startTime, Intl.DateTimeFormat().resolvedOptions().timeZone)
     // endTime = changeTimezone(endTime, Intl.DateTimeFormat().resolvedOptions().timeZone)
 
