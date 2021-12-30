@@ -11,7 +11,13 @@ interface CourseProps {
   endTime: Date
 }
 
-const Course: React.FC<any> = ({ slots }) => {
+const Course: React.FC<any> = ({ slots, setShowModal, setModalSlot, setModalStatus }) => {
+  const onClickEdit = (slot: string): void => {
+    setModalSlot(slot)
+    setShowModal(true)
+    setModalStatus('remove')
+  }
+
   return (
     <div className='course-wrapper'>
       {
@@ -38,7 +44,7 @@ const Course: React.FC<any> = ({ slots }) => {
                   <div className='course-loc'>{course.location} <FaMapMarkerAlt /></div>
                 </div>
               </div>
-              <div className='course-edit'><FaEdit /></div>
+              <div className='course-edit' onClick={() => onClickEdit(course.slot)}><FaEdit /></div>
             </div>
           )
         })

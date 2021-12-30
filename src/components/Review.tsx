@@ -1,12 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from './../Context'
 import { uploadDailySlots } from './../utils/firebaseUpload'
 import Course from './Course'
+import Modal from './Modal'
 import './../styles/Review.css'
 
 const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlots, friSlots, db }): JSX.Element => {
   const { userState } = useContext(AppContext)
   const [user] = userState
+  const [activeSlots, setActiveSlots] = useState(monSlots)
+  const [showModal, setShowModal] = useState(false)
+  const [modalSlot, setModalSlot] = useState('')
+  const [modalStatus, setModalStatus] = useState('')
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault()
@@ -19,32 +24,56 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
   }
 
   return (
-    <div className='review-wrapper'>
-      <h1>Review Timetable</h1>
-      <div className='review'>
-        <div className='day'>
-          <h3>Monday</h3>
-          <Course slots={monSlots} />
+    <>
+      <div className='review-wrapper'>
+        <h1>Review Timetable</h1>
+        <div className='review'>
+          <div className='review-block'>
+            <div className='days'>
+              <div
+                className={`day ${activeSlots === monSlots ? 'active' : ''}`}
+                onClick={() => { setActiveSlots(monSlots) }}
+              >
+                Mon
+              </div>
+              <div
+                className={`day ${activeSlots === tueSlots ? 'active' : ''}`}
+                onClick={() => { setActiveSlots(tueSlots) }}
+              >
+                Tue
+              </div>
+              <div
+                className={`day ${activeSlots === wedSlots ? 'active' : ''}`}
+                onClick={() => { setActiveSlots(wedSlots) }}
+              >
+                Wed
+              </div>
+              <div
+                className={`day ${activeSlots === thuSlots ? 'active' : ''}`}
+                onClick={() => { setActiveSlots(thuSlots) }}
+              >
+                Thu
+              </div>
+              <div
+                className={`day ${activeSlots === friSlots ? 'active' : ''}`}
+                onClick={() => { setActiveSlots(friSlots) }}
+              >
+                Fri
+              </div>
+            </div>
+            <Course
+              slots={activeSlots}
+              setShowModal={setShowModal}
+              setModalSlot={setModalSlot}
+              setModalStatus={setModalStatus}
+            />
+          </div>
         </div>
-        <div className='day'>
-          <h3>Tuesday</h3>
-          <Course slots={tueSlots} />
-        </div>
-        <div className='day'>
-          <h3>Wednesday</h3>
-          <Course slots={wedSlots} />
-        </div>
-        <div className='day'>
-          <h3>Thursday</h3>
-          <Course slots={thuSlots} />
-        </div>
-        <div className='day'>
-          <h3>Friday</h3>
-          <Course slots={friSlots} />
-        </div>
+        <button className='review-add' onClick={() => { setShowModal(true); setModalStatus('add') }}>Add Slot</button>
+        <button className='review-confirm' onClick={handleConfirm}>Confirm</button>
       </div>
-      <button className='review-confirm' onClick={handleConfirm}>Confirm</button>
-    </div>
+      {showModal && <Modal onClose={() => setShowModal(false)} slot={modalSlot} status={modalStatus} />}
+    </>
   )
 }
 

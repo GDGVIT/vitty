@@ -8,7 +8,7 @@ const wedSlots: any[] = []
 const thuSlots: any[] = []
 const friSlots: any[] = []
 
-export const parseAndUpload = (arr: any[]): any => {
+export const parseAndReturn = (arr: any[]): any => {
   parseText(arr)
   addDetails(monSlots, monTimings)
   addDetails(tueSlots, tueTimings)

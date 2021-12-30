@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { uploadText, uploadImage } from '../utils/apiCalls'
-import { parseAndUpload } from '../utils/parseResponse'
+import { parseAndReturn } from '../utils/parseResponse'
 
 const Upload: React.FC<any> = ({ setStatus, setMonSlots, setTueSlots, setWedSlots, setThuSlots, setFriSlots }): JSX.Element => {
   const [text, setText] = useState('')
@@ -21,7 +21,7 @@ const Upload: React.FC<any> = ({ setStatus, setMonSlots, setTueSlots, setWedSlot
   }
 
   const onParse = (res: any): void => {
-    const [monSlots, tueSlots, wedSlots, thuSlots, friSlots] = parseAndUpload(res.Slots)
+    const [monSlots, tueSlots, wedSlots, thuSlots, friSlots] = parseAndReturn(res.Slots)
     setMonSlots(monSlots)
     setTueSlots(tueSlots)
     setWedSlots(wedSlots)
