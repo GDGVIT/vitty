@@ -20,7 +20,7 @@ export const isAvailable = async (userId: string, db: any): Promise<boolean> => 
 }
 
 export const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {
-  DeleteDailySlots(day, userId, db).then(() => {
+  deleteDailySlots(day, userId, db).then(() => {
     for (let i = 0; i < courses.length; i++) {
       const course = courses[i]
       if (course.courseType === 'Lab') {
@@ -46,9 +46,21 @@ export const uploadDailySlots = (courses: CourseProps[], day: string, userId: st
   }, () => {})
 }
 
-const DeleteDailySlots = async (day: string, userId: string, db: any): Promise<void> => {
+const deleteDailySlots = async (day: string, userId: string, db: any): Promise<void> => {
   const querySnapshot = await getDocs(collection(db, 'users', userId, 'timetable', day, 'periods'))
   querySnapshot.forEach(async (qsD) => {
     await deleteDoc(doc(db, 'users', userId, 'timetable', day, 'periods', qsD.id))
+  })
+}
+
+export const deleteTimetable = (userId: string, db: any): void => {
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+  days.forEach(day => {
+    deleteDailySlots(day, userId, db).then(() => {}, () => {})
+  })
+  const ref = doc(db, 'users', userId)
+  void setDoc(ref, {
+    isTimetableAvailable: false,
+    isUpdated: true
   })
 }

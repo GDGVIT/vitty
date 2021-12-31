@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from 'react'
-import Phone from './../assets/fin.png'
+import { deleteTimetable } from '../utils/firestoreCalls'
 import { AiFillEdit } from 'react-icons/ai'
 import { DiAndroid } from 'react-icons/di'
 import { FaAppStoreIos, FaChrome } from 'react-icons/fa'
+import Phone from './../assets/fin.png'
 import './../styles/Finished.css'
 
-const Finished: React.FC<{name: string|undefined}> = ({ name }) => {
+const Finished: React.FC<any> = ({ setStatus, name, userId, db }) => {
+  const handleClick = (): void => {
+    deleteTimetable(userId, db)
+    setStatus('upload')
+  }
+
   return (
     <div className='fin-wrapper'>
       <h1>You're all set{name !== '' && name !== undefined ? `, ${name}` : ''}!</h1>
@@ -20,7 +27,7 @@ const Finished: React.FC<{name: string|undefined}> = ({ name }) => {
             <a className='disabled' href='/'><FaAppStoreIos /> Get it on the App Store (coming soon)</a>
             <a href='https://chrome.google.com/webstore/detail/vitty/eeohmkjefmpmddidkjadpifbfcplkifh'><FaChrome /> Get it on the Chrome Web Store</a>
           </div>
-          <button className='fin-edit'><AiFillEdit />Edit Timetable</button>
+          <button className='fin-edit' onClick={handleClick}><AiFillEdit />Edit Timetable</button>
         </div>
       </div>
     </div>

@@ -52,7 +52,12 @@ const LoggedIn: React.FC<any> = ({ db, name }) => {
                 db={db}
               />
             : status === 'finished'
-              ? <Finished name={name} />
+              ? <Finished
+                  setStatus={setStatus}
+                  name={name}
+                  userId={user}
+                  db={db}
+                />
               : <span>Loading</span>
       }
     </section>
