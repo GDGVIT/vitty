@@ -127,6 +127,7 @@
 
 .review-add,
 .review-confirm {
+  z-index: 1;
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   border-radius: 0.5rem;

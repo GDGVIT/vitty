@@ -16,6 +16,21 @@ header {
   height: 1.25rem;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-pfp {
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--dimmer);
+  margin-right: 0.5rem;
+}
+
+.user-pfp img {
+  height: 100%;
+}
 
 .sign-out {
   color: var(--blue);

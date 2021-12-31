@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-indent */
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore/lite'
@@ -29,17 +29,23 @@ const App: React.FC = () => {
   const { userState } = useContext(AppContext)
   const [user, setUser] = userState
 
+  const [name, setName] = useState<string|undefined>('')
+  const [pic, setPic] = useState<string|null>('')
+
   useEffect(() => {
     const auth = getAuth()
     onAuthStateChanged(auth, (user1) => {
-      if (user1 !== null) setUser(user1.uid)
-      else setUser('')
+      if (user1 !== null) {
+        setPic(user1.photoURL)
+        setUser(user1.uid)
+        setName(user1.displayName?.split(' ')[0])
+      } else setUser('')
     })
   }, [setUser])
 
   return (
     <>
-      <Nav />
+      <Nav pic={pic} />
       <main>
         {
           user === 'loading'
@@ -49,7 +55,7 @@ const App: React.FC = () => {
                   <HomeCarousel />
                   <Auth />
                 </div>
-              : <LoggedIn db={db} />
+              : <LoggedIn db={db} name={name} />
         }
         <div className='ellipse ellipse-tr'><img src={EllipseTR} alt='Vitty' /></div>
         <div className='ellipse ellipse-bl'><img src={EllipseBL} alt='Vitty' /></div>

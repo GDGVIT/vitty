@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AppContext } from './../Context'
-import './../styles/LoggedIn.css'
+import { isAvailable } from '../utils/firestoreCalls'
 import Upload from './Upload'
 import Review from './Review'
-import { isAvailable } from '../utils/firestoreCalls'
+import Finished from './Finished'
+import './../styles/LoggedIn.css'
 
-const LoggedIn: React.FC<any> = ({ db }) => {
+const LoggedIn: React.FC<any> = ({ db, name }) => {
   const { userState } = useContext(AppContext)
   const [user] = userState
   const [status, setStatus] = useState('loading')
@@ -51,7 +52,7 @@ const LoggedIn: React.FC<any> = ({ db }) => {
                 db={db}
               />
             : status === 'finished'
-              ? <div className=''>Finished</div>
+              ? <Finished name={name} />
               : <span>Loading</span>
       }
     </section>
