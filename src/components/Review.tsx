@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from './../Context'
 import { uploadDailySlots } from './../utils/firebaseUpload'
 import Course from './Course'
@@ -12,10 +12,6 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
   const [showModal, setShowModal] = useState(false)
   const [modalSlot, setModalSlot] = useState('')
   const [modalStatus, setModalStatus] = useState('')
-
-  useEffect(() => {
-    console.log(activeSlots)
-  }, [activeSlots])
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault()

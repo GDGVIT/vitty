@@ -1,4 +1,5 @@
-import { doc, setDoc } from 'firebase/firestore/lite'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { doc, setDoc, collection, getDocs, deleteDoc } from 'firebase/firestore/lite'
 
 interface CourseProps {
   slot: string
@@ -11,26 +12,35 @@ interface CourseProps {
 }
 
 export const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {
-  for (let i = 0; i < courses.length; i++) {
-    const course = courses[i]
-    if (course.courseType === 'Lab') {
-      const labSlot = parseInt(course.slot.slice(1))
-      course.slot = `L${labSlot} + L${labSlot + 1}`
+  DeleteDailySlots(day, userId, db).then(() => {
+    for (let i = 0; i < courses.length; i++) {
+      const course = courses[i]
+      if (course.courseType === 'Lab') {
+        const labSlot = parseInt(course.slot.slice(1))
+        course.slot = `L${labSlot} + L${labSlot + 1}`
+      }
+      const ref = doc(db, 'users', userId, 'timetable', day, 'periods', `P${String(i)}`)
+      void setDoc(ref, {
+        slot: course.slot,
+        courseCode: course.courseCode,
+        courseName: course.courseName,
+        Course_type: course.courseType,
+        location: course.location,
+        startTime: course.startTime,
+        endTime: course.endTime
+      })
     }
-    const ref = doc(db, 'users', userId, 'timetable', day, 'periods', `P${String(i)}`)
+    const ref = doc(db, 'users', userId)
     void setDoc(ref, {
-      slot: course.slot,
-      courseCode: course.courseCode,
-      courseName: course.courseName,
-      Course_type: course.courseType,
-      location: course.location,
-      startTime: course.startTime,
-      endTime: course.endTime
+      isTimetableAvailable: true,
+      isUpdated: true
     })
-  }
-  const ref = doc(db, 'users', userId)
-  void setDoc(ref, {
-    isTimetableAvailable: true,
-    isUpdated: true
+  }, () => {})
+}
+
+const DeleteDailySlots = async (day: string, userId: string, db: any): Promise<void> => {
+  const querySnapshot = await getDocs(collection(db, 'users', userId, 'timetable', day, 'periods'))
+  querySnapshot.forEach(async (qsD) => {
+    await deleteDoc(doc(db, 'users', userId, 'timetable', day, 'periods', qsD.id))
   })
 }

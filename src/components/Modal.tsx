@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { removeSlot } from '../utils/parseReview'
+import { addSlot, removeSlot } from '../utils/parseReview'
 // import { FaTimes } from 'react-icons/fa'
 import './../styles/Modal.css'
 
@@ -42,22 +42,37 @@ const Modal: React.FC<Props> = ({ onClose, getActive, resetActive, slot, status,
           setTip(`Tip: Don't forget to take out ${slot?.slice(1)} as well!`)
         } else setTip(`Tip: Don't forget to take out T${String(slot)} as well!`)
       }
-    }
-  }, [])
+    } else setTip('Tip: If the slot already exists, make sure you remove it from the timetable first!')
+  }, [status, slot])
 
-  const onRemove = (): void => {
-    const [m, t, w, th, f] = removeSlot(slot, monSlots, tueSlots, wedSlots, thuSlots, friSlots)
+  const onSave = (dailySlots: CourseProps[][]): void => {
+    const [m, t, w, th, f] = dailySlots
     setMonSlots(m)
     setTueSlots(t)
     setWedSlots(w)
     setThuSlots(th)
     setFriSlots(f)
     const s = getActive()
+    resetActive([])
     if (s === 'm') resetActive(m)
     else if (s === 't') resetActive(t)
     else if (s === 'w') resetActive(w)
     else if (s === 'th') resetActive(th)
     else if (s === 'f') resetActive(f)
+    onClose()
+  }
+
+  const onRemove = (): void => {
+    const res = removeSlot(slot, monSlots, tueSlots, wedSlots, thuSlots, friSlots)
+    onSave(res)
+  }
+
+  const onAdd = (): void => {
+    addSlot(slotAdd, monSlots, tueSlots, wedSlots, thuSlots, friSlots).then(
+      (res) => {
+        onSave(res)
+      }, () => {}
+    )
     onClose()
   }
 
@@ -88,7 +103,7 @@ const Modal: React.FC<Props> = ({ onClose, getActive, resetActive, slot, status,
                   </>
                 :
                   <>
-                    <button className='modal-yes'>Confirm</button>
+                    <button className='modal-yes' onClick={onAdd}>Confirm</button>
                     <button className='modal-no' onClick={onClose}>Cancel</button>
                   </>
             }

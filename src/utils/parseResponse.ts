@@ -9,7 +9,12 @@ const thuSlots: any[] = []
 const friSlots: any[] = []
 
 export const parseAndReturn = (arr: any[]): any => {
-  parseText(arr)
+  monSlots.splice(0, monSlots.length)
+  tueSlots.splice(0, tueSlots.length)
+  wedSlots.splice(0, wedSlots.length)
+  thuSlots.splice(0, thuSlots.length)
+  friSlots.splice(0, friSlots.length)
+  parseSlots(arr)
   addDetails(monSlots, monTimings)
   addDetails(tueSlots, tueTimings)
   addDetails(wedSlots, wedTimings)
@@ -23,7 +28,7 @@ export const parseAndReturn = (arr: any[]): any => {
   return [monSlots, tueSlots, wedSlots, thuSlots, friSlots]
 }
 
-const parseText = (arr: any[]): any => {
+const parseSlots = (arr: any[]): any => {
   if (arr.length === 0) return []
   const filledSlots: string[] = []
   arr.forEach((el) => {
