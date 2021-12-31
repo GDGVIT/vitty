@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from './../Context'
-import { uploadDailySlots } from './../utils/firebaseUpload'
+import { uploadDailySlots } from '../utils/firestoreCalls'
 import Course from './Course'
 import Modal from './Modal'
 import './../styles/Review.css'

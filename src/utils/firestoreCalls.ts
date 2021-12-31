@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { doc, setDoc, collection, getDocs, deleteDoc } from 'firebase/firestore/lite'
+import { doc, setDoc, collection, getDocs, deleteDoc, getDoc } from 'firebase/firestore/lite'
 
 interface CourseProps {
   slot: string
@@ -9,6 +9,14 @@ interface CourseProps {
   location: string
   startTime: Date
   endTime: Date
+}
+
+export const isAvailable = async (userId: string, db: any): Promise<boolean> => {
+  const ref = doc(db, 'users', userId)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    return docSnap.data().isTimetableAvailable
+  } else return false
 }
 
 export const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {

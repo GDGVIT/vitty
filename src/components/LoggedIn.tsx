@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AppContext } from './../Context'
 import './../styles/LoggedIn.css'
 import Upload from './Upload'
 import Review from './Review'
+import { isAvailable } from '../utils/firestoreCalls'
 
 const LoggedIn: React.FC<any> = ({ db }) => {
+  const { userState } = useContext(AppContext)
+  const [user] = userState
   const [status, setStatus] = useState('loading')
   const [monSlots, setMonSlots] = useState()
   const [tueSlots, setTueSlots] = useState()
@@ -13,7 +17,10 @@ const LoggedIn: React.FC<any> = ({ db }) => {
 
   useEffect(() => {
     // if (no userdata) setStatus('upload')
-    setStatus('upload')
+    isAvailable(user, db).then((bool) => {
+      if (bool) setStatus('finished')
+      else setStatus('upload')
+    }, () => {})
   }, [])
 
   return (

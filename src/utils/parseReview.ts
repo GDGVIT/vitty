@@ -65,6 +65,5 @@ export const addSlot =
     wedSlots.sort((a, b) => (wedTimings[a.slot] > wedTimings[b.slot] ? 1 : -1))
     thuSlots.sort((a, b) => (thuTimings[a.slot] > thuTimings[b.slot] ? 1 : -1))
     friSlots.sort((a, b) => (friTimings[a.slot] > friTimings[b.slot] ? 1 : -1))
-    console.log([monSlots, tueSlots, wedSlots, thuSlots, friSlots])
     return [monSlots, tueSlots, wedSlots, thuSlots, friSlots]
   }
