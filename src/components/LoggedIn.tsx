@@ -36,6 +36,11 @@ const LoggedIn: React.FC<any> = ({ db }) => {
                 wedSlots={wedSlots}
                 thuSlots={thuSlots}
                 friSlots={friSlots}
+                setMonSlots={setMonSlots}
+                setTueSlots={setTueSlots}
+                setWedSlots={setWedSlots}
+                setThuSlots={setThuSlots}
+                setFriSlots={setFriSlots}
                 db={db}
               />
             : status === 'finished'

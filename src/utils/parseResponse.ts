@@ -69,6 +69,10 @@ const addDetails = (daySlots: any[], timings: {[slot: string]: string}): void =>
   })
 }
 
+function isValidDate (d: Date): boolean {
+  return isNaN(d.getTime())
+}
+
 const parseObject = (daySlots: any[], timings: {[slot: string]: string}): void => {
   daySlots.forEach((el) => {
     // reparsing object properly
@@ -82,4 +86,6 @@ const parseObject = (daySlots: any[], timings: {[slot: string]: string}): void =
     delete el.Venue
   })
   daySlots.sort((a, b) => (timings[a.slot] > timings[b.slot] ? 1 : -1))
+  const newSlots = daySlots.filter((course) => isValidDate(course.startTime))
+  daySlots = newSlots
 }

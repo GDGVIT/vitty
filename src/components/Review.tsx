@@ -1,17 +1,21 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from './../Context'
 import { uploadDailySlots } from './../utils/firebaseUpload'
 import Course from './Course'
 import Modal from './Modal'
 import './../styles/Review.css'
 
-const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlots, friSlots, db }): JSX.Element => {
+const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlots, friSlots, setMonSlots, setTueSlots, setWedSlots, setThuSlots, setFriSlots, db }): JSX.Element => {
   const { userState } = useContext(AppContext)
   const [user] = userState
   const [activeSlots, setActiveSlots] = useState(monSlots)
   const [showModal, setShowModal] = useState(false)
   const [modalSlot, setModalSlot] = useState('')
   const [modalStatus, setModalStatus] = useState('')
+
+  useEffect(() => {
+    console.log(activeSlots)
+  }, [activeSlots])
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault()
@@ -21,6 +25,15 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
     uploadDailySlots(thuSlots, 'thursday', user, db)
     uploadDailySlots(friSlots, 'friday', user, db)
     setStatus('finished')
+  }
+
+  const findActiveDay = (): String => {
+    if (activeSlots === monSlots) return 'm'
+    else if (activeSlots === tueSlots) return 't'
+    else if (activeSlots === wedSlots) return 'w'
+    else if (activeSlots === thuSlots) return 'th'
+    else if (activeSlots === friSlots) return 'f'
+    return 'm'
   }
 
   return (
@@ -72,7 +85,24 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
         <button className='review-add' onClick={() => { setShowModal(true); setModalStatus('add') }}>Add Slot</button>
         <button className='review-confirm' onClick={handleConfirm}>Confirm</button>
       </div>
-      {showModal && <Modal onClose={() => setShowModal(false)} slot={modalSlot} status={modalStatus} />}
+      {showModal &&
+        <Modal
+          onClose={() => setShowModal(false)}
+          getActive={findActiveDay}
+          resetActive={setActiveSlots}
+          slot={modalSlot}
+          status={modalStatus}
+          monSlots={monSlots}
+          tueSlots={tueSlots}
+          wedSlots={wedSlots}
+          thuSlots={thuSlots}
+          friSlots={friSlots}
+          setMonSlots={setMonSlots}
+          setTueSlots={setTueSlots}
+          setWedSlots={setWedSlots}
+          setThuSlots={setThuSlots}
+          setFriSlots={setFriSlots}
+        />}
     </>
   )
 }
