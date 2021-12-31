@@ -4,6 +4,7 @@ import { isAvailable } from '../utils/firestoreCalls'
 import Upload from './Upload'
 import Review from './Review'
 import Finished from './Finished'
+import Loader from './Loader'
 import './../styles/LoggedIn.css'
 
 const LoggedIn: React.FC<any> = ({ db, name }) => {
@@ -58,7 +59,7 @@ const LoggedIn: React.FC<any> = ({ db, name }) => {
                   userId={user}
                   db={db}
                 />
-              : <span>Loading</span>
+              : <Loader />
       }
     </section>
   )

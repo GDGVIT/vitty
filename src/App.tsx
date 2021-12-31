@@ -10,6 +10,7 @@ import Nav from './components/Nav'
 import Auth from './components/Auth'
 import HomeCarousel from './components/HomeCarousel'
 import LoggedIn from './components/LoggedIn'
+import Loader from './components/Loader'
 import './styles/App.css'
 
 const App: React.FC = () => {
@@ -49,7 +50,7 @@ const App: React.FC = () => {
       <main>
         {
           user === 'loading'
-            ? <div>Loading</div>
+            ? <Loader />
             : user === ''
               ? <div className='landing'>
                   <HomeCarousel />
