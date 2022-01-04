@@ -48,12 +48,14 @@ export const addSlot =
     friSlots: CourseProps[]
   ): Promise<CourseProps[][]> => {
     const res = await uploadText(txt)
+    let commonSlot = false
     res.Slots.forEach((courseTBA: any) => {
       if (isFilled([monSlots, tueSlots, wedSlots, thuSlots, friSlots], courseTBA)) {
         alert('Remove all occurences of the slot from the timetable first!')
-        return [monSlots, tueSlots, wedSlots, thuSlots, friSlots]
+        commonSlot = true
       }
     })
+    if (commonSlot) return [monSlots, tueSlots, wedSlots, thuSlots, friSlots]
     const [monDummy, tueDummy, wedDummy, thuDummy, friDummy] = parseAndReturn(res.Slots)
     monSlots.push(...monDummy)
     tueSlots.push(...tueDummy)

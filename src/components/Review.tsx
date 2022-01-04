@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from './../Context'
-import { uploadDailySlots } from '../utils/firestoreCalls'
+import { deleteTimetable, uploadDailySlots } from '../utils/firestoreCalls'
 import Course from './Course'
 import Modal from './Modal'
 import './../styles/Review.css'
@@ -15,6 +15,10 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault()
+    if (monSlots.length === 0 && tueSlots.length === 0 && wedSlots.length === 0 && thuSlots.length === 0 && friSlots.length === 0) {
+      deleteTimetable(user, db)
+      return
+    }
     uploadDailySlots(monSlots, 'monday', user, db)
     uploadDailySlots(tueSlots, 'tuesday', user, db)
     uploadDailySlots(wedSlots, 'wednesday', user, db)
