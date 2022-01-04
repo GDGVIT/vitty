@@ -17,6 +17,7 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
     e.preventDefault()
     if (monSlots.length === 0 && tueSlots.length === 0 && wedSlots.length === 0 && thuSlots.length === 0 && friSlots.length === 0) {
       deleteTimetable(user, db)
+      setStatus('finished')
       return
     }
     uploadDailySlots(monSlots, 'monday', user, db)
