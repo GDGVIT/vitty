@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { AppContext } from './../Context'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import { FaApple } from 'react-icons/fa'
+// import { FaApple } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import '../styles/Auth.css'
 
@@ -32,9 +32,9 @@ const Auth: React.FC = () => {
       <div className='google-sign-in'>
         <button onClick={() => logIn(auth, googleProvider)}> <FcGoogle /> Sign in with Google</button>
       </div>
-      <div className='apple-sign-in'>
+      {/* <div className='apple-sign-in'>
         <button onClick={() => logIn(auth, googleProvider)}> <FaApple /> Sign in with Apple</button>
-      </div>
+      </div> */}
     </div>
   )
 }

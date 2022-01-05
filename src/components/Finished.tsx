@@ -15,7 +15,7 @@ const Finished: React.FC<any> = ({ setStatus, name, userId, db }) => {
 
   return (
     <div className='fin-wrapper'>
-      <h1>You're all set{name !== '' && name !== undefined ? `, ${name}` : ''}!</h1>
+      <h1>You're all set{name !== '' && name !== undefined && name !== null ? `, ${name?.split(' ')[0]}` : ''}!</h1>
       <div className='fin'>
         <div className='fin-hero'>
           <img src={Phone} alt='Download Vitty!' />
