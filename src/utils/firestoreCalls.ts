@@ -19,7 +19,7 @@ export const isAvailable = async (userId: string, db: any): Promise<boolean> => 
   } else return false
 }
 
-export const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {
+const uploadDailySlots = (courses: CourseProps[], day: string, userId: string, db: any): void => {
   deleteDailySlots(day, userId, db).then(() => {
     for (let i = 0; i < courses.length; i++) {
       const course = courses[i]
@@ -38,12 +38,30 @@ export const uploadDailySlots = (courses: CourseProps[], day: string, userId: st
         endTime: course.endTime
       })
     }
+  }, () => {})
+}
+
+const getVersion = async (userId: string, db: any): Promise<number> => {
+  const ref = doc(db, 'users', userId)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    const version = docSnap.data().timetableVersion
+    if (isNaN(version)) return -1
+    else return version
+  } else return -1
+}
+
+export const uploadSlots = (courses: CourseProps[][], userId: string, db: any): void => {
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+  for (let i = 0; i < days.length; i++) uploadDailySlots(courses[i], days[i], userId, db)
+  void getVersion(userId, db).then((ver) => {
     const ref = doc(db, 'users', userId)
     void setDoc(ref, {
       isTimetableAvailable: true,
-      isUpdated: true
+      isUpdated: true,
+      timetableVersion: ver + 1
     })
-  }, () => {})
+  })
 }
 
 const deleteDailySlots = async (day: string, userId: string, db: any): Promise<void> => {
@@ -58,9 +76,12 @@ export const deleteTimetable = (userId: string, db: any): void => {
   days.forEach(day => {
     deleteDailySlots(day, userId, db).then(() => {}, () => {})
   })
-  const ref = doc(db, 'users', userId)
-  void setDoc(ref, {
-    isTimetableAvailable: false,
-    isUpdated: true
+  void getVersion(userId, db).then((ver) => {
+    const ref = doc(db, 'users', userId)
+    void setDoc(ref, {
+      isTimetableAvailable: false,
+      isUpdated: true,
+      timetableVersion: ver + 1
+    })
   })
 }

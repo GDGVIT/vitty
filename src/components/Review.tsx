@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from './../Context'
-import { deleteTimetable, uploadDailySlots } from '../utils/firestoreCalls'
+import { deleteTimetable, uploadSlots } from '../utils/firestoreCalls'
 import Course from './Course'
 import Modal from './Modal'
 import './../styles/Review.css'
@@ -20,11 +20,7 @@ const Review: React.FC<any> = ({ setStatus, monSlots, tueSlots, wedSlots, thuSlo
       setStatus('finished')
       return
     }
-    uploadDailySlots(monSlots, 'monday', user, db)
-    uploadDailySlots(tueSlots, 'tuesday', user, db)
-    uploadDailySlots(wedSlots, 'wednesday', user, db)
-    uploadDailySlots(thuSlots, 'thursday', user, db)
-    uploadDailySlots(friSlots, 'friday', user, db)
+    uploadSlots([monSlots, tueSlots, wedSlots, thuSlots, friSlots], user, db)
     setStatus('finished')
   }
 
