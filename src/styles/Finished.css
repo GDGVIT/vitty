@@ -65,7 +65,7 @@
   margin-bottom: 1rem;
 }
 
-.fin-links a {
+/* .fin-links a {
   color: var(--dark);
   background-color: var(--light);
   width: 15rem;
@@ -81,6 +81,25 @@
   justify-content: center;
   align-items: center;
   text-decoration: none;
+} */
+
+.fin-links a {
+  width: 15rem;
+  margin: 0.75rem 0;
+}
+
+.fin-links a.android {
+  width: 17rem;
+  margin: 0;
+}
+
+.fin-links a.chrome {
+  background-color: var(--light);
+  border-radius: 0.5rem;
+}
+
+.fin-links a img {
+  width: 100%;
 }
 
 .fin-edit:hover,
@@ -89,8 +108,7 @@
   transform: scale(1.02);
 }
 
-.fin-edit svg,
-.fin-links a svg {
+.fin-edit svg {
   font-size: 1.75rem;
   margin-right: 0.75rem;
 }
