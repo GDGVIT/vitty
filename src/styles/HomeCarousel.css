@@ -1,0 +1,61 @@
+.carousel {
+  width: 25rem !important;
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+.carousel-model {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carousel-img {
+  height: 15rem;
+  margin: 1rem 0;
+}
+
+.carousel-model img {
+  max-height: 17.5rem;
+  max-width: 13.5rem;
+}
+
+.carousel-model h3 {
+  margin: 1rem 0;
+}
+
+.carousel-model p {
+  text-align: center;
+  font-size: 0.85rem;
+  width: 17.5rem;
+  color: var(--blue);
+}
+
+.carousel-dots {
+  margin: 2rem 0;
+}
+
+.BrainhubCarousel__dots .BrainhubCarousel__dot:before {
+  background: var(--light) !important;
+}
+
+
+@media screen and (min-width: 1024px) {
+  .carousel-img {
+    height: 17.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .carousel-model img {
+    max-height: 20rem;
+    max-width: 15rem;
+  }
+
+  .carousel-model h3 {
+    font-size: 1.375rem;
+  }
+
+  .carousel-model p {
+    font-size: 1rem;
+  }
+}
