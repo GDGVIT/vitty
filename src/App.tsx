@@ -4,6 +4,7 @@ import { AppContext } from './Context'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore/lite'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+import { getAnalytics } from 'firebase/analytics'
 import EllipseTR from './assets/ellipse_tr.png'
 import EllipseBL from './assets/ellipse_bl.png'
 import Nav from './components/Nav'
@@ -27,6 +28,8 @@ const App: React.FC = () => {
 
   const app = initializeApp(firebaseConfig)
   const db = getFirestore(app)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const analytics = getAnalytics()
 
   const { userState } = useContext(AppContext)
   const [user, setUser] = userState
