@@ -93,11 +93,6 @@
   margin: 0;
 }
 
-.fin-links a.chrome {
-  background-color: var(--light);
-  border-radius: 0.5rem;
-}
-
 .fin-links a img {
   width: 100%;
 }

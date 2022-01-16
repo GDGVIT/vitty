@@ -27,7 +27,7 @@ const Finished: React.FC<any> = ({ setStatus, name, userId, db }) => {
             <p>Make sure you never miss another class!</p>
             <a className='android' href='https://play.google.com/store/apps/details?id=com.dscvit.vitty&utm_source=website&utm_campaign=vitty_website&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' /></a>
             <a className='disabled' href='/'><img alt='Get it on Chrome Web Store' src={Ios} /></a>
-            <a className='chrome' href='https://chrome.google.com/webstore/detail/vitty/eeohmkjefmpmddidkjadpifbfcplkifh'><img alt='Get it on Chrome Web Store' src={Chrome} /></a>
+            <a href='https://chrome.google.com/webstore/detail/vitty/eeohmkjefmpmddidkjadpifbfcplkifh'><img alt='Get it on Chrome Web Store' src={Chrome} /></a>
 
             {/* <a href='https://play.google.com/store/apps/details?id=com.dscvit.vitty'><DiAndroid /> Get it on the Play Store</a>
             <a className='disabled' href='/'><FaAppStoreIos /> Get it on the App Store (coming soon)</a>
