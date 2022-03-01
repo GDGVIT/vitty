@@ -19,7 +19,6 @@ const Auth: React.FC = () => {
         if (result !== null) {
           const user = result.user
           setUser(user.uid)
-          console.log(user)
         }
       }).catch((error) => {
         // Handle Errors here.
