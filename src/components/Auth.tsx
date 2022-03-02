@@ -11,6 +11,8 @@ const Auth: React.FC = () => {
 
   const auth = getAuth()
   const appleProvider = new OAuthProvider('apple.com')
+  appleProvider.addScope('email')
+  appleProvider.addScope('name')
   const googleProvider = new GoogleAuthProvider()
   const logIn = (auth: any, provider: any): void => {
     void signInWithRedirect(auth, provider)
