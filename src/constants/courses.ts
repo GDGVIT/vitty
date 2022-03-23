@@ -2675,5 +2675,15 @@ export const courses: { [course: string]: string } = {
   ENG1911: 'General English - I',
   LFS4001: 'Introduction to Life Skills for Biotechnologists',
   TENG102L: 'Technical English Communication',
-  TENG102P: 'Technical English Communication Lab'
+  TENG102P: 'Technical English Communication Lab',
+  BKT1001: 'Blockchain and Distributed Ledger Technology',
+  BKT2001: 'Cryptography and Information Security',
+  BKT3001: 'Design and Development of Blockchain Applications',
+  BKT3002: 'Public Key Infrastructure and Trust Management',
+  BKT4001: 'Blockchain Ecosystem',
+  BKT4002: 'Bitcoin Mining',
+  BKT4003: 'Smart Contract Essentials',
+  BKT4004: 'Vulnerability Discovery and Exploit Development',
+  BKT4005: 'Blockchain Architecture Design and Use Cases',
+  BKT4006: 'Cryptocurrency Technologies'
 }
