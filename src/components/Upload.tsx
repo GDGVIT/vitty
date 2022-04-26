@@ -55,7 +55,6 @@ const Upload: React.FC<any> = ({ setStatus, setMonSlots, setTueSlots, setWedSlot
       <h1>Upload Timetable</h1>
       <div className='upload'>
         <div className='upload-text'>
-          <h2>As Text</h2>
           <ol className='steps'>
             <li>Go to the Time Table tab on VTOP</li>
             <li>Scroll down to see the table with your schedule</li>
@@ -73,36 +72,7 @@ const Upload: React.FC<any> = ({ setStatus, setMonSlots, setTueSlots, setWedSlot
             <button type='submit' onClick={submitText}>Submit Text</button>
           </ol>
         </div>
-
-        <div className='upload-divider'>
-          <div />
-          <h2>OR</h2>
-          <div />
         </div>
-
-        <div className='upload-pic'>
-          <h2>As Picture</h2>
-          <ol className='steps'>
-            <li>Go to the Time Table tab on VTOP</li>
-            <li>Scroll down to see the table with your schedule</li>
-            <li>Take a single screenshot that includes the entire table and save it</li>
-            <li>It's preferable to take the screenshot yourself and not use one compressed through social media</li>
-            <li>Upload the image below</li>
-            <div className='add-file'>
-              <input
-                type='file'
-                id='input-file'
-                onChange={onUploadPicture}
-                accept='.png, .jpg'
-              />
-              <label className='input-file-label' htmlFor='input-file'>Add Picture</label>
-              <p className='file-details'>{label}</p>
-            </div>
-            <li>Submit to continue! :)</li>
-            <button type='submit' onClick={submitImage}>Submit Picture</button>
-          </ol>
-        </div>
-      </div>
     </div>
   )
 }
