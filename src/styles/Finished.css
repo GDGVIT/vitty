@@ -108,10 +108,8 @@
   margin-right: 0.75rem;
 }
 
-.fin-links a.disabled {
-  pointer-events: none !important;
-  cursor: default !important;
-  opacity: 0.3;
+.fin-links a.ios {
+  cursor: pointer !important;
 }
 
 @media screen and (min-width: 1024px) {
