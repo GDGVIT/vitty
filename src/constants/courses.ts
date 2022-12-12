@@ -2758,5 +2758,8 @@ export const courses: { [course: string]: string } = {
   BHUM108L: 'Urban Community Development',
   BHUM109L: 'Social Work and Sustainability',
   BHUM110E: 'Cognitive Psychology',
-  BITL101L: 'Italian'
+  BITL101L: 'Italian',
+  BCSE304L: 'Theory of Computation',
+  BCSE204L: 'Design and Analysis of Algorithms',
+  BCSE204P: 'Design and Analysis of Algorithms Lab'
 }
