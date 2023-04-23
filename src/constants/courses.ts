@@ -2762,7 +2762,6 @@ export const courses: { [course: string]: string } = {
   BCSE304L: 'Theory of Computation',
   BCSE204L: 'Design and Analysis of Algorithms',
   BCSE204P: 'Design and Analysis of Algorithms Lab',
-  BECE309L: 'Artificial Intelligence and Machine Learning',
   BECE310L: 'Satellite Communications',
   BECE311L: 'Radar Systems',
   BECE312L: 'Robotics and Automation',
@@ -2782,5 +2781,15 @@ export const courses: { [course: string]: string } = {
   BECE351E: 'Internet of Things',
   BECE352E: 'IoT Domain Analyst',
   BSTS301P: 'Advanced Competitive Coding - I',
-  BSTS302P: 'Advanced Competitive Coding - II'
+  BSTS302P: 'Advanced Competitive Coding - II',
+  BCSE302L: 'Database Systems',
+  BCSE302P: 'Database Systems Lab',
+  BCSE303L: 'Operating Systems',
+  BCSE303P: 'Operating Systems Lab',
+  BCSE307L: 'Compiler Design',
+  BCSE307P: 'Compiler Design Lab',
+  BCSE308L: 'Computer Networks',
+  BCSE308P: 'Computer Networks Lab',
+  BCSE353E: 'Information Security Analysis and Audit',
+  
 }
