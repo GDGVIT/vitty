@@ -2791,5 +2791,11 @@ export const courses: { [course: string]: string } = {
   BCSE308L: 'Computer Networks',
   BCSE308P: 'Computer Networks Lab',
   BCSE353E: 'Information Security Analysis and Audit',
+  BITE301L: 'Computer Architecture and Organization',
+  BITE303L: 'Operating Systems',
+  BITE303P: 'Operating Systems Lab',
+  BITE305L: 'Computer Networks',
+  BITE305P: 'Computer Networks Lab',
+  BITE306L: 'Theory of Computation',
   
 }
