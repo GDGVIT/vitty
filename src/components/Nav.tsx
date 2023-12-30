@@ -1,47 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from './../Context'
-import { getAuth, signOut } from 'firebase/auth'
-import VTLogo from './../assets/landing_logo.png'
-import userIcon from './../assets/icon.png'
-import './../styles/Nav.css'
+// import React, { useContext, useEffect, useState } from "react";
+// import { getAuth, signOut } from 'firebase/auth'
+import VTLogo from "./../assets/landing_logo.png";
+import userIcon from "./../assets/icon.png";
+// import "./../styles/Nav.css";
 
-const Nav: React.FC<any> = ({ pic, onShow }) => {
-  const { userState } = useContext(AppContext)
-  const [user, setUser] = userState
-  const [text, setText] = useState('')
-
-  const logOut = (): void => {
-    const auth = getAuth()
-    signOut(auth).then(() => {
-      setText('')
-      setUser('')
-    }).catch((error) => {
-      console.error(error)
-    })
-  }
-
-  useEffect(() => {
-    if (user !== '' && user !== 'loading') setText('Sign Out')
-  }, [user])
-
+const Nav: React.FC = () => {
   return (
-    <header>
-      <div className='logo'>
-        <img src={VTLogo} alt='VITTY' />
-        {/* <img src={Logo} alt='VITTY' /> */}
+    <>
+      <div className="flex h-[48px] border-b-blue-800 border-b flex-row w-full justify-between items-center px-8">
+          <img src={VTLogo} alt="VT Logo" className="max-h-[50%] w-auto" />
+            <img
+              src={userIcon}
+              alt="User Icon"
+              className="h-[32px] w-[32px] rounded-full"
+            />
       </div>
-      {
-        user !== null && user !== '' &&
-          <div className='user-pfp' onClick={onShow}>
-            <img src={(pic !== null && pic !== '') ? pic : userIcon} alt='DP' />
-          </div>
-      }
-      {/* <div className='nav-right'>
-        <div className='sign-out' onClick={() => logOut()}>{text}</div>
-      </div> */}
-    </header>
-  )
-}
+    </>
+  );
+};
 
-export default Nav
+export default Nav;

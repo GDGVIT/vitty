@@ -1,47 +1,68 @@
-import React, { useContext } from 'react'
-import { AppContext } from './../Context'
-import { getAuth, GoogleAuthProvider, OAuthProvider, getRedirectResult, signInWithRedirect } from 'firebase/auth'
-import { FaApple } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
-import '../styles/Auth.css'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  getAuth,
+  getRedirectResult,
+  GoogleAuthProvider,
+  OAuthProvider,
+  onAuthStateChanged,
+  signInWithRedirect,
+} from "firebase/auth";
+import { FaApple } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const Auth: React.FC = () => {
-  const { userState } = useContext(AppContext)
-  const [, setUser] = userState
+const Auth = () => {
+  const auth = getAuth();
+  const googleProvider = new GoogleAuthProvider();
+  const appleProvider = new OAuthProvider("apple.com");
+  // const Navigate = useNavigate();
+  // const [user, setUser] = useState<any>(null);
+  // const { isLoggedIn } = useAuthStore();
+  const logIn = (auth: any, provider: any) => {
+    signInWithRedirect(auth, provider)
+  };
 
-  const auth = getAuth()
-  const appleProvider = new OAuthProvider('apple.com')
-  appleProvider.addScope('email')
-  appleProvider.addScope('name')
-  const googleProvider = new GoogleAuthProvider()
-  const logIn = (auth: any, provider: any): void => {
-    void signInWithRedirect(auth, provider)
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result !== null) {
-          const user = result.user
-          setUser(user.uid)
-        }
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        // The email of the user's account used.
-        const email = error.email
-        console.log(errorCode, errorMessage, email)
-      })
-  }
+  // onAuthStateChanged(auth, (user1) => {
+  //   if (user1 !== null) {
+  //     setUser(user1);
+  //   }
+  // });
+
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     Navigate("/dashboard");
+  //   }
+  // }, [setUser, user]);
+
   return (
-    <div className='auth'>
-      <h1>Welcome to VIT<span>TY</span></h1>
-      <div className='google-sign-in'>
-        <button onClick={() => logIn(auth, googleProvider)}> <FcGoogle /> Sign in with Google</button>
+    <div className="flex flex-col justify-center items-center z-[4]">
+      <h1 className="hidden text-3xl font-semibold md:flex mb-10">
+        Welcome to VITTY
+      </h1>
+      <div className="m-2">
+        <button
+          className="bg-white text-black w-60 rounded-md outline-none my-1 py-3 px-4 font-medium flex justify-center items-center hover:cursor-pointer hover:scale-[1.01]"
+          onClick={() => logIn(auth, googleProvider)}
+        >
+          <FcGoogle className="text-2xl mr-3" />
+          Sign in with Google
+        </button>
       </div>
-      <div className='apple-sign-in'>
-        <button onClick={() => logIn(auth, appleProvider)}> <FaApple /> Sign in with Apple</button>
+      <div className="m-2 z-[5]">
+        <button
+          className="bg-white text-black w-60 rounded-md outline-none my-1 py-3 px-4 font-medium flex justify-center items-center hover:cursor-pointer hover:scale-[1.01]"
+          onClick={() => logIn(auth, appleProvider)}
+        >
+          <FaApple className="text-2xl mr-3" />
+          Sign in with Apple
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Auth
+export default Auth;
