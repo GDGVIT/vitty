@@ -3,30 +3,6 @@ import axios from "axios"
 
 const baseURL = "https://vitty-api.dhruvshah.live"
 
-export const uploadImage = async (raw: any): Promise<any> => {
-  const myHeaders = new Headers()
-  myHeaders.append('Accept', 'application/json')
-
-  const formData = new FormData()
-  formData.append('file', raw)
-
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: formData,
-    redirect: 'follow'
-  }
-
-  try {
-    const response = await fetch(baseURL + 'uploadfile/', requestOptions as any)
-    const data = await response.json()
-    return data
-  } catch (e) {
-    
-    return {}
-  }
-}
-
 export const parseAndReturn = (raw: string): any => {
   const url = `${baseURL}/api/v2/timetable/parse`;
   const myHeaders = {
@@ -38,6 +14,31 @@ export const parseAndReturn = (raw: string): any => {
     return response
   } catch (e) {
     return {}
+  }
+}
+
+export const checkUserExists = async (username: string): Promise<any> => {
+  const myHeaders = {
+    "Content-Type": "application/json"
+  };
+
+  const data = {
+    "username": username
+  };
+
+  try {
+    const response = await axios.post(baseURL + '/api/v2/auth/check-user-exists', data, {
+      headers: myHeaders
+    });
+    return response.data;
+  }
+  catch (e) {
+    if (axios.isAxiosError(e) && e.response?.status === 400) {
+      return e.response?.data ?? { error: e };
+    } else {
+      console.log(e);
+      return {};
+    }
   }
 }
 

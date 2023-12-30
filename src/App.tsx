@@ -9,6 +9,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from "./pages/Dashboard";
 // import Loader from "./components/Loader";
 import { useAuthStore } from "./store/authStore";
+import Timetable from "./pages/TimeTable";
 
 const App: React.FC = () => {
   const firebaseConfig = {
@@ -22,7 +23,8 @@ const App: React.FC = () => {
   };
 
   const app = initializeApp(firebaseConfig);
-  const { initializeFromLocalStorge, login, isLoggedIn } = useAuthStore();
+  const { initializeFromLocalStorge, login, isLoggedIn, username } =
+    useAuthStore();
 
   useEffect(() => {
     const auth = getAuth();
@@ -32,7 +34,7 @@ const App: React.FC = () => {
         localStorage.setItem("uuid", user1.uid);
         localStorage.setItem("profile", user1.photoURL || "");
         localStorage.setItem("username", user1.displayName || "");
-        login(user1.uid, user1.photoURL || "", user1.displayName || "")
+        login(user1.uid, user1.photoURL || "", user1.displayName || "");
       } else {
         // console.log(app);
         // setEmail('')
@@ -59,7 +61,11 @@ const App: React.FC = () => {
   useEffect(() => {
     document.title = "VITTY";
   }, []);
-  return <Template>{isLoggedIn ? <Dashboard /> : <LoginPage />}</Template>;
+  return (
+    <Template>
+      {isLoggedIn ? username ? <Timetable/> : <Dashboard /> : <LoginPage />}
+    </Template>
+  );
 };
 
 export default App;

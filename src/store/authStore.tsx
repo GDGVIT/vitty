@@ -4,11 +4,13 @@ interface AuthStore {
   uuid: string;
   isLoggedIn: boolean;
   profile: string;
-  username: string;
+  username: string | null;
+  name: string;
   email: string;
 
-  login: (uuid: string, profile: string, username: string) => void;
+  login: (uuid: string, profile: string, name: string) => void;
   logout: () => void;
+  updateUsername: (username: string) => void;
   initializeFromLocalStorge: () => void;
 }
 
@@ -16,23 +18,30 @@ export const useAuthStore = create<AuthStore>((set) => ({
   uuid: "",
   isLoggedIn: false,
   profile: "",
-  username: "",
+  username: null,
   email: "",
-  login: (uuid, profile, username) =>
+  name: "",
+  login: (uuid, profile, name) =>
     set(() => ({
       uuid,
       isLoggedIn: true,
       profile,
-      username,
+      name,
     })),
   logout: () => {
     set(() => ({
       uuid: "",
       isLoggedIn: false,
       profile: "",
-      username: "",
+      name: "",
+      username: null,
     }));
     localStorage.clear();
+  },
+  updateUsername: (username: string) => {
+    set(() => ({
+      username,
+    }));
   },
   initializeFromLocalStorge: () => {
     const uuid = localStorage.getItem("uuid");
