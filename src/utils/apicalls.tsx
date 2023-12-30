@@ -23,7 +23,7 @@ export const checkUserExists = async (username: string): Promise<any> => {
   };
 
   const data = {
-    "username": username
+    "uuid": username
   };
 
   try {

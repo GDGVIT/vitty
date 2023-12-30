@@ -7,10 +7,12 @@ interface AuthStore {
   username: string | null;
   name: string;
   email: string;
+  token: string;
 
   login: (uuid: string, profile: string, name: string) => void;
   logout: () => void;
   updateUsername: (username: string) => void;
+  updateToken: (token: string) => void;
   initializeFromLocalStorge: () => void;
 }
 
@@ -21,6 +23,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   username: null,
   email: "",
   name: "",
+  token: "",
   login: (uuid, profile, name) =>
     set(() => ({
       uuid,
@@ -41,6 +44,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
   updateUsername: (username: string) => {
     set(() => ({
       username,
+    }));
+  },
+  updateToken: (token: string) => {
+    set(() => ({
+      token,
     }));
   },
   initializeFromLocalStorge: () => {

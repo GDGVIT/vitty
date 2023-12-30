@@ -63,7 +63,7 @@ const App: React.FC = () => {
   }, []);
   return (
     <Template>
-      {isLoggedIn ? username ? <Timetable/> : <Dashboard /> : <LoginPage />}
+      {isLoggedIn ? <Dashboard /> : <LoginPage />}
     </Template>
   );
 };

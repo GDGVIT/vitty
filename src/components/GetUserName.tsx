@@ -9,15 +9,14 @@ const GetUsername: React.FC = () => {
     const [validUsername, setValidUsername] = useState(false);
     const regexPattern = /^\d{2}[A-Z]{3}\d{4}$/;
     const uuid = localStorage.getItem("uuid") || "";
-    const { updateUsername } = useAuthStore();
+    const { updateUsername, updateToken } = useAuthStore();
 
     const updateUserName = (): void => {
         signIn(uuid, userName, regNo).then((data) => {
             if (data) {
                 console.log(data);
                 updateUsername(userName);
-                // window.location.href = "/timetable";
-                // window.location.reload();
+                updateToken(data.access_token);
             } else {
                 window.alert("Some error occured");
             }
@@ -54,7 +53,7 @@ const GetUsername: React.FC = () => {
     return (
         <div className="overflow-hidden flex flex-col items-center justify-center overflow-y-hidden p-10 mx-auto h-full">
             <h1 className="overflow-visible text-2xl mb-10">Enter your Details</h1>
-            <div className="flex flex-col items-center justify-center w-[20vw] h-90vh">
+            <div className="flex flex-col items-center justify-center w-[50vw] md:w-[20vw] h-90vh">
                 <input
                     autoFocus
                     type="text"
@@ -65,7 +64,6 @@ const GetUsername: React.FC = () => {
                     className="box-border text-lg font-poppins rounded-md text-black p-3 pl-4 border-2 border-blue bg-dark w-full mb-3 text-left"
                 />
                 <input
-                    autoFocus
                     type="text"
                     id="input-text"
                     value={regNo}
