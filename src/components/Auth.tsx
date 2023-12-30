@@ -3,17 +3,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   getAuth,
-  getRedirectResult,
+  // getRedirectResult,
   GoogleAuthProvider,
   OAuthProvider,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   signInWithRedirect,
 } from "firebase/auth";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { useAuthStore } from "../store/authStore";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+// import { useAuthStore } from "../store/authStore";
+// import { useNavigate } from "react-router-dom";
+// import { useEffect, useState } from "react";
 
 const Auth = () => {
   const auth = getAuth();
