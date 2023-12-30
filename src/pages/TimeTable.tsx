@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/authStore";
 import { getTimetable } from "../utils/apicalls";
 import { useEffect, useState } from "react";
 import EditTimeTable from "../components/EditTimeTable";
+import UploadTimeTable from "../components/UploadTimeTable";
 
 interface ClassInfo {
   name: string;
@@ -34,16 +35,8 @@ export default function Timetable() {
       });
   }, [username, token]);
 
-  return timetable === null ? (
-    <div>
-      <h1>Timetable</h1>
-      <p>No timetable available. Please upload your timetable.</p>
-      {/* Add the upload timetable functionality or a button to trigger it */}
-      {/* For example, you can link to a page where users can upload their timetable */}
-      <p>
-        Upload Timetable: <a href="/upload-timetable">Upload</a>
-      </p>
-    </div>
+  return timetable !== null ? (
+    <UploadTimeTable />
   ) : (
     <EditTimeTable />
   );
