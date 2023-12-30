@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   getAuth,
-  // getRedirectResult,
+  getRedirectResult,
   GoogleAuthProvider,
   OAuthProvider,
   // onAuthStateChanged,
@@ -23,7 +23,7 @@ const Auth = () => {
   // const [user, setUser] = useState<any>(null);
   // const { isLoggedIn } = useAuthStore();
   const logIn = (auth: any, provider: any) => {
-    signInWithRedirect(auth, provider)
+    void signInWithRedirect(auth, provider);
   };
 
   // onAuthStateChanged(auth, (user1) => {

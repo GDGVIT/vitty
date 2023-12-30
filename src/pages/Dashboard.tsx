@@ -1,18 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { checkUserExists, getToken } from "../utils/apicalls";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import GetUserName from "../components/GetUserName"
 import Timetable from "./TimeTable";
 import { useAuthStore } from "../store/authStore";
 
 export default function Dashboard() {
-  const { uuid, updateToken, updateUsername } = useAuthStore();
-  const [exists, setExists] = useState(false);
-  const [username, ] = useState("");
+  const { uuid, username, updateToken, updateUsername, token } = useAuthStore();
   useEffect(() => {
     if(uuid === "") return;
     checkUserExists(uuid).then((res) => {
       if (res.detail === "User does not exist") {
-        setExists(false);
         console.log(res.detail);
       } else {
         getToken(uuid).then((data) => {
@@ -24,14 +22,13 @@ export default function Dashboard() {
             }
             }
         );
-        setExists(true);
         console.log(res.detail);
       }
     });
-  }, [username, uuid]);
+  }, [username, token, uuid, updateToken, updateUsername]);
   return (
     <div className="h-full w-full">
-      {exists ? <Timetable/> : <GetUserName />}
+      {username ? <Timetable/> : <GetUserName />}
     </div>
   );
 }

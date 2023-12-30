@@ -36,11 +36,7 @@ const App: React.FC = () => {
         localStorage.setItem("username", user1.displayName || "");
         login(user1.uid, user1.photoURL || "", user1.displayName || "");
       } else {
-        // console.log(app);
-        // setEmail('')
-        // setPic('')
-        // setUser('')
-        // setName('')
+        console.log("user is null");
       }
     });
   }, [isLoggedIn, login]);
