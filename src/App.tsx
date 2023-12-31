@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const { initializeFromLocalStorge, login, isLoggedIn, name } = useAuthStore();
   const { showProfile } = useShowProfileStore();
   const { isLoading } = useLoadingStore();
-
+  const uuid = localStorage.getItem("uuid") || "";
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user1) => {
@@ -65,7 +65,7 @@ const App: React.FC = () => {
       {
         isLoading
           ? <Loader />
-          : !isLoggedIn
+          : uuid === ""
             ?<LoginPage />
             :name === ''
               ? <Loader />

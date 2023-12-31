@@ -1,29 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  getAuth,
-  getRedirectResult,
-  GoogleAuthProvider,
-  OAuthProvider,
-  // onAuthStateChanged,
-  signInWithRedirect,
-} from "firebase/auth";
+import { getAuth, getRedirectResult, GoogleAuthProvider, OAuthProvider, signInWithRedirect } from "firebase/auth";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { useLoadingStore } from "../store/useLoadingStore";
 
 const Auth = () => {
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
   const appleProvider = new OAuthProvider("apple.com");
-  const { setLoading } = useLoadingStore();
-
+  appleProvider.addScope("email");
+  appleProvider.addScope("name");
   const logIn = (auth: any, provider: any) => {
-    void signInWithRedirect(auth, provider).then(() => {
-    setLoading(true);
-    });
-    setLoading(true);
+    void signInWithRedirect(auth, provider)
+    localStorage.setItem("uuid", "something");
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result !== null) {
+          localStorage.setItem("uuid", result.user.uid);
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        console.log(errorCode, errorMessage, email);
+      });
   };
 
   return (
