@@ -19,24 +19,10 @@ const Auth = () => {
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
   const appleProvider = new OAuthProvider("apple.com");
-  // const Navigate = useNavigate();
-  // const [user, setUser] = useState<any>(null);
-  // const { isLoggedIn } = useAuthStore();
+
   const logIn = (auth: any, provider: any) => {
     void signInWithRedirect(auth, provider);
   };
-
-  // onAuthStateChanged(auth, (user1) => {
-  //   if (user1 !== null) {
-  //     setUser(user1);
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     Navigate("/dashboard");
-  //   }
-  // }, [setUser, user]);
 
   return (
     <div className="flex flex-col justify-center items-center z-[4]">

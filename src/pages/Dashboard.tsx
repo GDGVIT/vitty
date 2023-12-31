@@ -18,6 +18,7 @@ export default function Dashboard() {
                 console.log(data);
                 updateUsername(data.username);
                 updateToken(data.token);
+                localStorage.setItem("email", data.email);
             } else {
                 window.alert("Some error occured");
             }

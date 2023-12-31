@@ -9,7 +9,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Dashboard from "./pages/Dashboard";
 // import Loader from "./components/Loader";
 import { useAuthStore } from "./store/authStore";
-import Timetable from "./pages/TimeTable";
+import Profile from "./components/Profile";
+// import Timetable from "./pages/TimeTable";
+import { useShowProfileStore } from "./store/profileStore";
 
 const App: React.FC = () => {
   const firebaseConfig = {
@@ -25,19 +27,21 @@ const App: React.FC = () => {
   const app = initializeApp(firebaseConfig);
   const { initializeFromLocalStorge, login, isLoggedIn } =
     useAuthStore();
+  const { showProfile } = useShowProfileStore()
 
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user1) => {
+      console.log(user1, 'user1');
       if (user1 !== null) {
         console.log(user1);
         localStorage.setItem("uuid", user1.uid);
         localStorage.setItem("profile", user1.photoURL || "");
-        localStorage.setItem("username", user1.displayName || "");
+        localStorage.setItem("name", user1.displayName || "");
         localStorage.setItem("email", user1.email || "");
         login(user1.uid, user1.photoURL || "", user1.displayName || "");
       } else {
-        console.log("user is null");
+        console.log("user is null from app.tsx");
       }
     });
   }, [isLoggedIn, login]);
@@ -46,21 +50,14 @@ const App: React.FC = () => {
     initializeFromLocalStorge();
   }, [initializeFromLocalStorge]);
 
-  // const logOut = (): void => {
-  //   const auth = getAuth()
-  //   signOut(auth).then(() => {
-  //     console.log(auth.currentUser)
-  //     logout
-  //   }).catch((error) => {
-  //     console.error(error)
-  //   })
-  // }
   useEffect(() => {
     document.title = "VITTY";
   }, []);
   return (
     <Template>
       {isLoggedIn ? <Dashboard /> : <LoginPage />}
+      {showProfile &&
+          <Profile/>}
     </Template>
   );
 };

@@ -70,8 +70,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
       uuid: "",
       isLoggedIn: false,
       profile: "",
-      name: "",
       username: null,
+      email: "",
+      name: "",
+      token: "",
+      timetable: {},
+      regNo: "",
     }));
     localStorage.clear();
   },

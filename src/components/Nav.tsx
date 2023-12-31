@@ -5,13 +5,13 @@ import VTLogo from './../assets/landing_logo.png'
 import userIcon from './../assets/icon.png'
 import './../styles/Nav.css'
 import { useAuthStore } from '../store/authStore'
+import { useShowProfileStore } from '../store/profileStore'
 
 const Nav: React.FC = () => {
 
   const [text, setText] = useState('Sign In');
-  const [onShow, setShow] = useState(false);
-
   const { name, profile, email, logout } = useAuthStore()
+  const { toggleProfile, showProfile } = useShowProfileStore()
   const user = name;
   const pic = profile;
   const logOut = (): void => {
@@ -21,6 +21,11 @@ const Nav: React.FC = () => {
     }).catch((error) => {
       console.error(error)
     })
+  }
+
+  const toggle = (): void => {
+    toggleProfile()
+    console.log(showProfile, "profile");
   }
 
   useEffect(() => {
@@ -35,7 +40,7 @@ const Nav: React.FC = () => {
       </div>
       {
         user !== null && user !== '' &&
-          <div className='user-pfp' >
+          <div className='user-pfp' onClick={toggle} >
             <img src={(pic !== null && pic !== '') ? pic : userIcon} alt='DP' />
           </div>
       }
