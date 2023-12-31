@@ -15,6 +15,7 @@ export default function Dashboard() {
       } else {
         getToken(uuid).then((data) => {
             if (data) {
+                console.log(data);
                 updateUsername(data.username);
                 updateToken(data.token);
             } else {

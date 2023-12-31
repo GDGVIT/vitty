@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { parseAndReturn } from "../utils/apicalls";
+import { parseAndReturn, uploadText } from "../utils/apicalls";
 import "./../styles/logedin.css";
+import { useAuthStore } from "../store/authStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-
-  const onParse = (res: any): void => {
-    console.log(res.data.timetable);
-  };
+  const { username, token, uploadTimetable } = useAuthStore();
 
   const submitText = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault();
@@ -16,10 +15,32 @@ const Upload: React.FC = () => {
       alert("Please paste the text first!");
       return;
     }
-    parseAndReturn(text).then(
-      (res: unknown) => onParse(res),
-      () => alert("Some error occured")
-    );
+    parseAndReturn(text, token)
+      .then((res: any) => {
+        console.log(res.data);
+        if (res.data.timetable === null) {
+          alert("upload failed");
+          return;
+        } else {
+          uploadText(res.data.timetable, token, username||'')
+            .then((res: any) => {
+              console.log(res);
+              if (res.data.detail !== null) {
+                uploadTimetable(res.data.timetable);
+              } else {
+                alert("upload failed");
+              }
+            })
+            .catch((error: Error) => {
+              console.error("Error uploading timetable:", error);
+            });
+        }
+        // uploadTimetable(res.data);
+        // console.log(res.data);
+      })
+      .catch((error: Error) => {
+        console.error("Error fetching timetable:", error);
+      });
   };
 
   return (
@@ -36,9 +57,9 @@ const Upload: React.FC = () => {
             </li>
             <li>Copy all of the selected text</li>
             <li>Paste it below </li>
-            <input
+            <textarea
               autoFocus
-              type="text"
+              //   type="text"
               id="input-text"
               value={text}
               onChange={(e) => setText(e.target.value)}

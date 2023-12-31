@@ -1,5 +1,17 @@
 import { create } from "zustand";
 
+type Timetable = {
+  [day: string]: {
+    name: string;
+    code: string;
+    venue: string;
+    slot: string;
+    type: string;
+    start_time: string;
+    end_time: string;
+  }[];
+};
+
 interface AuthStore {
   uuid: string;
   isLoggedIn: boolean;
@@ -8,11 +20,16 @@ interface AuthStore {
   name: string;
   email: string;
   token: string;
+  timetable: Timetable | null;
+  regNo: string;
+  uploadTimetable: (timetable: Timetable) => void;
+  deleteTimetable: () => void;
 
   login: (uuid: string, profile: string, name: string) => void;
   logout: () => void;
   updateUsername: (username: string) => void;
   updateToken: (token: string) => void;
+  updateRegNo: (regNo: string) => void;
   initializeFromLocalStorge: () => void;
 }
 
@@ -24,6 +41,23 @@ export const useAuthStore = create<AuthStore>((set) => ({
   email: "",
   name: "",
   token: "",
+  timetable: {},
+  regNo: "", // Initialize timetable as an empty object
+  uploadTimetable: (timetable) => {
+    set(() => ({
+      timetable,
+    }));
+  },
+  deleteTimetable: () => {
+    set(() => ({
+      timetable: null,
+    }));
+  },
+  updateRegNo: (regNo) => {
+    set(() => ({
+      regNo,
+    }));
+  },
   login: (uuid, profile, name) =>
     set(() => ({
       uuid,

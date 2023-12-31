@@ -11,12 +11,9 @@ import { useAuthStore } from '../store/authStore'
 import './../styles/fin.css'
 
 const EditTimeTable: React.FC = () => {
-    const { name } = useAuthStore();
+    const { name, deleteTimetable } = useAuthStore();
     const handleClick = () => {
-        // deleteTimetable().then(() => {
-        //     window.location.reload()
-        // })
-        window.location.reload()
+        deleteTimetable();
     }
 
   return (
