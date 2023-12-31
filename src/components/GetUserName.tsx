@@ -27,7 +27,7 @@ const GetUsername: React.FC = () => {
         updateUsername(userName);
         updateToken(data.access_token);
       } else {
-        window.alert("Some error occured");
+        window.alert(data.detail);
       }
     });
   };

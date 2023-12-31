@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import GetUserName from "../components/GetUserName"
 import Timetable from "./TimeTable";
 import { useAuthStore } from "../store/authStore";
+import Loader from "../components/Loader";
 
 export default function Dashboard() {
   const { uuid, username, updateToken, updateUsername, token } = useAuthStore();
@@ -30,7 +31,13 @@ export default function Dashboard() {
   }, [username, token, uuid, updateToken, updateUsername]);
   return (
     <div className="h-full w-full">
-      {username ? <Timetable/> : <GetUserName />}
+      {
+        username === null
+          ? <Loader />
+          : username === ""
+            ? <GetUserName />
+            : <Timetable />
+      }
     </div>
   );
 }

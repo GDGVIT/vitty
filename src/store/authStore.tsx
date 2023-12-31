@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   profile: "",
   username: null,
   email: "",
-  name: "isloading39084*+/46848/*/",
+  name: "loading",
   token: "",
   timetable: {},
   regNo: "", // Initialize timetable as an empty object

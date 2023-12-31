@@ -44,9 +44,12 @@ const App: React.FC = () => {
           user1.email || ""
         );
       } else {
+        localStorage.setItem("name", "");
+        initializeFromLocalStorge();
         console.log("user is null from app.tsx");
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, login]);
 
   useEffect(() => {
@@ -59,8 +62,19 @@ const App: React.FC = () => {
 
   return (
     <Template>
-      {(isLoading || name==="isloading39084*+/46848/*/") ? <Loader /> : isLoggedIn ? <Dashboard /> : <LoginPage />}
-      {showProfile && <Profile />}
+      {
+        isLoading
+          ? <Loader />
+          : !isLoggedIn
+            ?<LoginPage />
+            :name === ''
+              ? <Loader />
+              : <Dashboard />
+      }
+      {
+        showProfile &&
+        <Profile />
+      }
     </Template>
   );
 };

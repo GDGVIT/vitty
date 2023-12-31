@@ -39,7 +39,7 @@ const Nav: React.FC = () => {
         {/* <img src={Logo} alt='VITTY' /> */}
       </div>
       {
-        user !== null && user !== '' &&
+        user !== null && user !== '' && user !== 'loading' &&
           <div className='user-pfp' onClick={toggle} >
             <img src={(pic !== null && pic !== '') ? pic : userIcon} alt='DP' />
           </div>
