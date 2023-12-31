@@ -4,9 +4,9 @@ import axios from "axios";
 const baseURL = "https://vitty-api.dhruvshah.live";
 
 export const parseAndReturn = (raw: string, apiKey: string): any => {
-  const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
+  // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/parse`;
-  const url = `${corsProxyUrl}${remoteApiUrl}`;
+  // const url = `${corsProxyUrl}${remoteApiUrl}`;
   const myHeaders = {
     contentType: "application/json",
     Authorization: `Bearer ${apiKey}`
@@ -17,7 +17,7 @@ export const parseAndReturn = (raw: string, apiKey: string): any => {
   };
 
   try {
-    const response = axios.post(url, data, { headers: myHeaders });
+    const response = axios.post(remoteApiUrl, data, { headers: myHeaders });
     return response;
   } catch (e) {
     return {};
@@ -57,9 +57,9 @@ export const uploadText = async (
   apiKey: string,
   username: string
 ): Promise<any> => {
-  const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
+  // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/${username.toLowerCase()}`;
-  const url = `${corsProxyUrl}${remoteApiUrl}`;
+  // const url = `${corsProxyUrl}${remoteApiUrl}`;
 
   const myHeaders = {
     Authorization: `Bearer ${apiKey}`,
@@ -70,7 +70,7 @@ export const uploadText = async (
   };
 
   try {
-    const response = await axios.post(url, data, {
+    const response = await axios.post(remoteApiUrl, data, {
       headers: myHeaders,
     });
     return response.data;
@@ -111,16 +111,16 @@ export const getTimetable = async (
   username: string,
   apiKey: string
 ): Promise<any> => {
-  const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
+  // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/${username.toLowerCase()}`;
-  const url = `${corsProxyUrl}${remoteApiUrl}`;
+  // const url = `${corsProxyUrl}${remoteApiUrl}`;
   console.log(apiKey);
   const headers = {
     Authorization: `Bearer ${apiKey}`,
   };
 
   try {
-    const response = await axios.get(url, { headers });
+    const response = await axios.get(remoteApiUrl, { headers });
     const data = response.data;
     console.log("gettimetable data");
     console.log(data);

@@ -9,7 +9,7 @@ const Template: React.FC<TemplateProps> = ({ children }) => {
   return (
     <>
     <Navbar/>
-    <div className="h-auto w-auto">
+    <div className="h-auto w-auto mt-[64px]">
       {children}
     </div>
     </>

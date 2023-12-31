@@ -89,12 +89,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const uuid = localStorage.getItem("uuid");
     const profile = localStorage.getItem("profile");
     const username = localStorage.getItem("username");
-    if (uuid && profile && username) {
+    const email = localStorage.getItem("email");
+    if (uuid && profile && username && email) {
       set(() => ({
         uuid,
         isLoggedIn: true,
         profile,
         username,
+        email,
       }));
     }
   },

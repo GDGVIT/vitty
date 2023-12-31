@@ -1,28 +1,49 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import React, { useContext, useEffect, useState } from "react";
-// import { getAuth, signOut } from 'firebase/auth'
-import VTLogo from "./../assets/landing_logo.png";
-import userIcon from "./../assets/icon.png";
-import { useAuthStore } from "../store/authStore";
-// import "./../styles/Nav.css";
+import React, { useContext, useEffect, useState } from 'react'
+import { getAuth, signOut } from 'firebase/auth'
+import VTLogo from './../assets/landing_logo.png'
+import userIcon from './../assets/icon.png'
+import './../styles/Nav.css'
+import { useAuthStore } from '../store/authStore'
 
 const Nav: React.FC = () => {
-  const { profile, name, logout } = useAuthStore();
-  return (
-    <>
-      <div className="flex h-[48px] border-b-blue-800 border-b flex-row w-full justify-between items-center px-8">
-        <img src={VTLogo} alt="VT Logo" className="max-h-[50%] w-auto" />
-        <div className="flex flex-row items-center gap-2">
-          <img
-            src={profile || userIcon}
-            alt="User Icon"
-            className="h-[32px] w-[32px] rounded-full"
-          />
-          <span className="text-white font-semibold">{name}</span>
-        </div>
-      </div>
-    </>
-  );
-};
 
-export default Nav;
+  const [text, setText] = useState('Sign In');
+  const [onShow, setShow] = useState(false);
+
+  const { name, profile, email, logout } = useAuthStore()
+  const user = name;
+  const pic = profile;
+  const logOut = (): void => {
+    const auth = getAuth()
+    signOut(auth).then(() => {
+      logout()
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+  useEffect(() => {
+    if (user !== '' && user !== 'loading') setText('Sign Out')
+  }, [user])
+
+  return (
+    <header>
+      <div className='logo'>
+        <img src={VTLogo} alt='VITTY' />
+        {/* <img src={Logo} alt='VITTY' /> */}
+      </div>
+      {
+        user !== null && user !== '' &&
+          <div className='user-pfp' >
+            <img src={(pic !== null && pic !== '') ? pic : userIcon} alt='DP' />
+          </div>
+      }
+      {/* <div className='nav-right'>
+        <div className='sign-out' onClick={() => logOut()}>{text}</div>
+      </div> */}
+    </header>
+  )
+}
+
+export default Nav

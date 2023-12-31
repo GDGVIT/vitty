@@ -23,7 +23,7 @@ const App: React.FC = () => {
   };
 
   const app = initializeApp(firebaseConfig);
-  const { initializeFromLocalStorge, login, isLoggedIn, username } =
+  const { initializeFromLocalStorge, login, isLoggedIn } =
     useAuthStore();
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const App: React.FC = () => {
         localStorage.setItem("uuid", user1.uid);
         localStorage.setItem("profile", user1.photoURL || "");
         localStorage.setItem("username", user1.displayName || "");
+        localStorage.setItem("email", user1.email || "");
         login(user1.uid, user1.photoURL || "", user1.displayName || "");
       } else {
         console.log("user is null");
