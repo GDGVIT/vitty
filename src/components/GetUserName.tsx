@@ -21,12 +21,14 @@ const GetUsername: React.FC = () => {
 
   const updateUserName = (): void => {
     console.log("in update username");
-    signIn(uuid, userName, regNo).then((data) => {
-      if (data) {
+    signIn(uuid, regNo, userName).then((data) => {
+      if (data.access_token) {
         console.log(data);
         updateUsername(userName);
         updateToken(data.access_token);
       } else {
+        setValidUsername(false);
+        setValidRegNo(false);
         window.alert(data.detail);
       }
     });

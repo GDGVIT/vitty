@@ -12,7 +12,7 @@ export default function Dashboard() {
     if(uuid === "") return;
     checkUserExists(uuid).then((res) => {
       if (res.detail === "User does not exist") {
-        console.log(res.detail);
+        updateUsername("");
       } else {
         getToken(uuid).then((data) => {
             if (data) {

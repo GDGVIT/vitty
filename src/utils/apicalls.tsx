@@ -9,11 +9,11 @@ export const parseAndReturn = (raw: string, apiKey: string): any => {
   // const url = `${corsProxyUrl}${remoteApiUrl}`;
   const myHeaders = {
     contentType: "application/json",
-    Authorization: `Bearer ${apiKey}`
+    Authorization: `Bearer ${apiKey}`,
   };
 
   const data = {
-    "timetable": raw,
+    timetable: raw,
   };
 
   try {
@@ -42,9 +42,9 @@ export const checkUserExists = async (username: string): Promise<any> => {
       }
     );
     return response.data;
-  } catch (e) {
-    if (axios.isAxiosError(e) && e.response?.status === 400) {
-      return e.response?.data ?? { error: e };
+  } catch (e: Error | any) {
+    if (e.response?.status === 400) {
+      return e.response?.data;
     } else {
       console.log(e);
       return {};
@@ -169,28 +169,23 @@ export const signIn = async (
   regNo: string,
   username: string
 ): Promise<any> => {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const raw = JSON.stringify({
+  const data = {
     uuid: uuid,
     regNo: regNo,
     username: username,
-  });
+  };
 
-  const requestOptions = {
-    method: "POST",
-    body: raw,
-    headers: myHeaders,
-    redirect: "follow",
+  const myHeaders = {
+    "Content-Type": "application/json",
   };
 
   try {
-    const response = await fetch(
+    const response = await axios.post(
       baseURL + "/api/v2/auth/firebase/",
-      requestOptions as any
+      data,
+      { headers: myHeaders }
     );
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (e) {
     console.log(e);
     return { e };
