@@ -23,7 +23,7 @@ const App: React.FC = () => {
   };
 
   initializeApp(firebaseConfig);
-  const { initializeFromLocalStorge, login, isLoggedIn } = useAuthStore();
+  const { initializeFromLocalStorge, login, isLoggedIn, name } = useAuthStore();
   const { showProfile } = useShowProfileStore();
   const { isLoading } = useLoadingStore();
 
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
   return (
     <Template>
-      {isLoading ? <Loader /> : isLoggedIn ? <Dashboard /> : <LoginPage />}
+      {(isLoading || name==="isloading39084*+/46848/*/") ? <Loader /> : isLoggedIn ? <Dashboard /> : <LoginPage />}
       {showProfile && <Profile />}
     </Template>
   );
