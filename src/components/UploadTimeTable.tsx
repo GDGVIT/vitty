@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { parseAndReturn, uploadText } from "../utils/apicalls";
 import "./../styles/logedin.css";
 import { useAuthStore } from "../store/authStore";
+import { useLoadingStore } from "../store/useLoadingStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
   const { username, token, uploadTimetable } = useAuthStore();
+
+  const { setLoading } = useLoadingStore();
+
+  useEffect(() => {
+    document.title = "VITTY | Upload";
+    setLoading(false);
+  }, [setLoading]);
 
   const submitText = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault();

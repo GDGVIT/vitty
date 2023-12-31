@@ -11,17 +11,19 @@ import {
 } from "firebase/auth";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-// import { useAuthStore } from "../store/authStore";
-// import { useNavigate } from "react-router-dom";
-// import { useEffect, useState } from "react";
+import { useLoadingStore } from "../store/useLoadingStore";
 
 const Auth = () => {
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
   const appleProvider = new OAuthProvider("apple.com");
+  const { setLoading } = useLoadingStore();
 
   const logIn = (auth: any, provider: any) => {
-    void signInWithRedirect(auth, provider);
+    void signInWithRedirect(auth, provider).then(() => {
+    setLoading(true);
+    });
+    setLoading(true);
   };
 
   return (

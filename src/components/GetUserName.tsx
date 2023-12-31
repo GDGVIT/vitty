@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { isAvailable, signIn } from "../utils/apicalls";
 import { useAuthStore } from "../store/authStore";
+import { useLoadingStore } from "../store/useLoadingStore";
 
 const GetUsername: React.FC = () => {
   const [userName, setuserName] = useState("");
@@ -11,6 +12,12 @@ const GetUsername: React.FC = () => {
   const regexPattern = /^\d{2}[A-Z]{3}\d{4}$/;
   const uuid = localStorage.getItem("uuid") || "";
   const { updateUsername, updateToken } = useAuthStore();
+  const { setLoading } = useLoadingStore();
+
+  useEffect(() => {
+    document.title = "VITTY | Get Username";
+    setLoading(false);
+  }, [setLoading]);
 
   const updateUserName = (): void => {
     console.log("in update username");
