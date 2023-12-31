@@ -39,7 +39,7 @@ const App: React.FC = () => {
         localStorage.setItem("profile", user1.photoURL || "");
         localStorage.setItem("name", user1.displayName || "");
         localStorage.setItem("email", user1.email || "");
-        login(user1.uid, user1.photoURL || "", user1.displayName || "");
+        login(user1.uid, user1.photoURL || "", user1.displayName || "", user1.email || "");
       } else {
         console.log("user is null from app.tsx");
       }

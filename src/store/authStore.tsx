@@ -25,7 +25,7 @@ interface AuthStore {
   uploadTimetable: (timetable: Timetable) => void;
   deleteTimetable: () => void;
 
-  login: (uuid: string, profile: string, name: string) => void;
+  login: (uuid: string, profile: string, name: string, email: string) => void;
   logout: () => void;
   updateUsername: (username: string) => void;
   updateToken: (token: string) => void;
@@ -58,12 +58,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
       regNo,
     }));
   },
-  login: (uuid, profile, name) =>
+  login: (uuid, profile, name, email) =>
     set(() => ({
       uuid,
       isLoggedIn: true,
       profile,
       name,
+      email,
     })),
   logout: () => {
     set(() => ({
