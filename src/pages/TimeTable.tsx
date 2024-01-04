@@ -16,26 +16,29 @@ interface ClassInfo {
 }
 
 interface Timetable {
-  [day: string]: ClassInfo[];
+  [day: string]: ClassInfo[] | null;
 }
 
 export default function Timetable() {
-  const { username, token, timetable, uploadTimetable } = useAuthStore();
+  const { username, token, timetable, uploadTimetable, deleteTimetable } = useAuthStore();
 
   useEffect(() => {
     getTimetable(username || "", token)
       .then((res) => {
-        uploadTimetable(res.data);
-        console.log(res.data);
+        if (res.data.Monday === undefined) {
+          deleteTimetable();
+          console.log(res, "upload timetable from timetable page");
+        }
+        else {
+          console.log(res.length, "res length")
+          uploadTimetable(res.data);
+          console.log(res.data, "upload timetable from timetable page");
+        }
       })
       .catch((error) => {
         console.error("Error fetching timetable:", error);
       });
   }, [username, token]);
 
-  return timetable === null ? (
-    <UploadTimeTable />
-  ) : (
-    <EditTimeTable />
-  );
+  return (timetable === null) ? <UploadTimeTable /> : <EditTimeTable />;
 }

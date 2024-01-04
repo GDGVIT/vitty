@@ -73,6 +73,7 @@ export const uploadText = async (
     const response = await axios.post(remoteApiUrl, data, {
       headers: myHeaders,
     });
+    console.log(response.data, "from uploadText");
     return response.data;
   } catch (e) {
     return { error: e };
@@ -111,20 +112,18 @@ export const getTimetable = async (
   username: string,
   apiKey: string
 ): Promise<any> => {
-  // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const remoteApiUrl = `${baseURL}/api/v2/timetable/${username.toLowerCase()}`;
-  // const url = `${corsProxyUrl}${remoteApiUrl}`;
+  const remoteApiUrl = `${baseURL}/api/v2/timetable/${username}`;
   console.log(apiKey);
   const headers = {
-    Authorization: `Bearer ${apiKey}`,
+    Authorization: `Token ${apiKey}`,
   };
 
   try {
-    const response = await axios.get(remoteApiUrl, { headers });
+    const response = await axios.get(remoteApiUrl, { headers: headers });
     const data = response.data;
     console.log("gettimetable data");
     console.log(data);
-    if (data.detail === "User not found") {
+    if (data === null) {
       return "empty timetable";
     } else {
       return data;
@@ -171,7 +170,7 @@ export const signIn = async (
 ): Promise<any> => {
   const data = {
     uuid: uuid,
-    regNo: regNo,
+    reg_no: regNo,
     username: username,
   };
 

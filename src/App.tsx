@@ -33,7 +33,7 @@ const App: React.FC = () => {
       console.log(user1, "user1");
       if (user1 !== null) {
         console.log(user1);
-        localStorage.setItem("uuid", user1.uid);
+        localStorage.setItem("uuid", user1.uid || "");
         localStorage.setItem("profile", user1.photoURL || "");
         localStorage.setItem("name", user1.displayName || "");
         localStorage.setItem("email", user1.email || "");

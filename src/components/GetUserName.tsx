@@ -82,8 +82,7 @@ const GetUsername: React.FC = () => {
           id="input-text"
           value={regNo}
           placeholder="Reg. Number"
-          autoCapitalize="true"
-          onChange={(e) => setRegNo(e.target.value)}
+          onChange={(e) => setRegNo((e.target.value).toUpperCase())}
           className="box-border text-lg font-poppins rounded-md text-black p-3 pl-4 border-2 border-blue bg-dark w-full mb-3 text-left"
         />
         <div

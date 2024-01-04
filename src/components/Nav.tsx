@@ -17,6 +17,7 @@ const Nav: React.FC = () => {
   const logOut = (): void => {
     const auth = getAuth()
     signOut(auth).then(() => {
+      localStorage.clear()
       logout()
     }).catch((error) => {
       console.error(error)

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAuth, getRedirectResult, GoogleAuthProvider, OAuthProvider, signInWithRedirect } from "firebase/auth";
+import { getAuth, getRedirectResult, GoogleAuthProvider, OAuthProvider, signInWithPopup } from "firebase/auth";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -10,7 +10,7 @@ const Auth = () => {
   appleProvider.addScope("email");
   appleProvider.addScope("name");
   const logIn = (auth: any, provider: any) => {
-    void signInWithRedirect(auth, provider)
+    void signInWithPopup(auth, provider)
     localStorage.setItem("uuid", "something");
     getRedirectResult(auth)
       .then((result) => {

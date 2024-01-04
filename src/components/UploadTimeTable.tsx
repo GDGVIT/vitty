@@ -8,7 +8,7 @@ import { useLoadingStore } from "../store/useLoadingStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-  const { username, token, uploadTimetable } = useAuthStore();
+  const { username, token, uploadTimetable, timetable } = useAuthStore();
 
   const { setLoading } = useLoadingStore();
 
@@ -32,9 +32,12 @@ const Upload: React.FC = () => {
         } else {
           uploadText(res.data.timetable, token, username||'')
             .then((res: any) => {
-              console.log(res);
+              console.log(res, "upload text");
               if (res.data.detail !== null) {
-                uploadTimetable(res.data.timetable);
+                alert("upload successful");
+
+                uploadTimetable(res.data);
+                console.log(typeof(timetable), "timetable length")
               } else {
                 alert("upload failed");
               }
