@@ -49,7 +49,7 @@ export const addSlot =
   ): Promise<CourseProps[][]> => {
     const res = await uploadText(txt)
     let commonSlot = false
-    res.Slots.forEach((courseTBA: any) => {
+    res.slots.forEach((courseTBA: any) => {
       if (isFilled([monSlots, tueSlots, wedSlots, thuSlots, friSlots], courseTBA)) {
         alert('Remove all occurences of the slot from the timetable first!')
         commonSlot = true
