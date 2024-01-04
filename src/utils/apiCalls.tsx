@@ -27,7 +27,7 @@ export const uploadText = async (raw: string): Promise<any> => {
   myHeaders.append('Content-Type', 'application/x-www-form-urlencoded')
 
   const urlEncoded = new URLSearchParams()
-  urlEncoded.append('request', raw)
+  urlEncoded.append('data', raw)
 
   const requestOptions = {
     method: 'POST',
