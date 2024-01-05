@@ -21,7 +21,7 @@ const Upload: React.FC<any> = ({ setStatus, setMonSlots, setTueSlots, setWedSlot
   }
 
   const onParse = (res: any): void => {
-    const [monSlots, tueSlots, wedSlots, thuSlots, friSlots] = parseAndReturn(res.Slots)
+    const [monSlots, tueSlots, wedSlots, thuSlots, friSlots] = parseAndReturn(res.slots)
     setMonSlots(monSlots)
     setTueSlots(tueSlots)
     setWedSlots(wedSlots)
