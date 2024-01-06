@@ -5,10 +5,11 @@ import { parseAndReturn, uploadText } from "../utils/apicalls";
 import "./../styles/logedin.css";
 import { useAuthStore } from "../store/authStore";
 import { useLoadingStore } from "../store/useLoadingStore";
+import { TimeTable } from "../store/authStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-  const { username, token, uploadTimetable, timetable } = useAuthStore();
+  const { username, token, uploadTimetable, setReview } = useAuthStore();
 
   const { setLoading } = useLoadingStore();
 
@@ -24,27 +25,29 @@ const Upload: React.FC = () => {
       return;
     }
     parseAndReturn(text, token)
-      .then((res: any) => {
-        console.log(res.data);
-        if (res.data.timetable === null) {
+      .then((res: TimeTable) => {
+        console.log(res);
+        if (res.timetable === null) {
           alert("upload failed");
           return;
         } else {
-          uploadText(res.data.timetable, token, username||'')
-            .then((res: any) => {
-              console.log(res, "upload text");
-              if (res.data.detail !== null) {
-                alert("upload successful");
+          // uploadText(res.data.timetable, token, username||'')
+          //   .then((res: any) => {
+          //     console.log(res, "upload text");
+          //     if (res.data.detail !== null) {
+          //       alert("upload successful");
 
-                uploadTimetable(res.data);
-                console.log(typeof(timetable), "timetable length")
-              } else {
-                alert("upload failed");
-              }
-            })
-            .catch((error: Error) => {
-              console.error("Error uploading timetable:", error);
-            });
+          //       uploadTimetable(res.data);
+          //       console.log(typeof(timetable), "timetable length")
+          //     } else {
+          //       alert("upload failed");
+          //     }
+          //   })
+          //   .catch((error: Error) => {
+          //     console.error("Error uploading timetable:", error);
+          //   });
+          uploadTimetable(res);
+          setReview(true);
         }
         // uploadTimetable(res.data);
         // console.log(res.data);

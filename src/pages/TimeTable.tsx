@@ -4,6 +4,7 @@ import { getTimetable } from "../utils/apicalls";
 import { useEffect } from "react";
 import EditTimeTable from "../components/EditTimeTable";
 import UploadTimeTable from "../components/UploadTimeTable";
+import ReviewTimeTable from "../components/ReviewTimeTable";
 
 interface ClassInfo {
   name: string;
@@ -20,7 +21,7 @@ interface Timetable {
 }
 
 export default function Timetable() {
-  const { username, token, timetable, uploadTimetable, deleteTimetable } = useAuthStore();
+  const { username, token, timetable, uploadTimetable, deleteTimetable, review } = useAuthStore();
 
   useEffect(() => {
     getTimetable(username || "", token)
@@ -40,5 +41,5 @@ export default function Timetable() {
       });
   }, [username, token]);
 
-  return (timetable === null) ? <UploadTimeTable /> : <EditTimeTable />;
+  return (review === false) ? ((timetable === null) ? <UploadTimeTable /> : <EditTimeTable />): <ReviewTimeTable />;
 }

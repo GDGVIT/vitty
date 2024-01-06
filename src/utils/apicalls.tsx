@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
+import { TimeTable } from "../store/authStore";
 
 const baseURL = "https://vitty-api.dhruvshah.live";
 
-export const parseAndReturn = (raw: string, apiKey: string): any => {
+export const parseAndReturn = async (raw: string, apiKey: string): Promise<TimeTable> => {
   // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/parse`;
   // const url = `${corsProxyUrl}${remoteApiUrl}`;
@@ -17,10 +18,10 @@ export const parseAndReturn = (raw: string, apiKey: string): any => {
   };
 
   try {
-    const response = axios.post(remoteApiUrl, data, { headers: myHeaders });
-    return response;
+    const response = await axios.post(remoteApiUrl, data, { headers: myHeaders });
+    return response.data;
   } catch (e) {
-    return {};
+    return { timetable: null };
   }
 };
 

@@ -1,16 +1,18 @@
 import { create } from "zustand";
 
-type Timetable = {
-  [day: string]: {
-    name: string;
-    code: string;
-    venue: string;
-    slot: string;
-    type: string;
-    start_time: string;
-    end_time: string;
-  }[];
-};
+interface Course {
+  name: string;
+  code: string;
+  venue: string;
+  slot: string;
+  type: string;
+  start_time: string;
+  end_time: string;
+}
+
+export interface TimeTable {
+  timetable: Course[] | null;
+}
 
 interface AuthStore {
   uuid: string;
@@ -20,11 +22,12 @@ interface AuthStore {
   name: string;
   email: string;
   token: string;
-  timetable: Timetable | null;
+  review: boolean;
+  timetable: TimeTable | null;
   regNo: string;
-  uploadTimetable: (timetable: Timetable) => void;
+  uploadTimetable: (timetable: TimeTable) => void;
   deleteTimetable: () => void;
-
+  setReview: (data: boolean) => void;
   login: (uuid: string, profile: string, name: string, email: string) => void;
   logout: () => void;
   updateUsername: (username: string) => void;
@@ -39,13 +42,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
   profile: "",
   username: null,
   email: "",
+  review: false,
   name: "",
   token: "",
-  timetable: {},
-  regNo: "", // Initialize timetable as an empty object
-  uploadTimetable: (timetable) => {
+  timetable: null,
+  regNo: "",
+  uploadTimetable: (data) => {
     set(() => ({
-      timetable,
+      timetable: data
     }));
   },
   deleteTimetable: () => {
@@ -75,10 +79,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
       email: "",
       name: "",
       token: "",
-      timetable: {},
+      timetable: null,
       regNo: "",
     }));
     localStorage.clear();
+  },
+  setReview: (review: boolean) => {
+    set(() => ({
+      review: review,
+    }));
   },
   updateUsername: (username: string) => {
     set(() => ({
