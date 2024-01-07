@@ -2766,6 +2766,8 @@ export const courses: { [course: string]: string } = {
   BCSE103E: 'Computer Programming: Java',
   BCSE202L: 'Data Structures and Algorithms',
   BCSE202P: 'Data Structures and Algorithms Lab',
+  BCSE203E: 'Web Programming',
+  BCSE205L: 'Computer Architecture and Organization',
   CBS1011: 'Programming in Python',
   CSI2001: 'Digital logic and Computer Design',
   TCSE101L: 'Computer Programming : C',
