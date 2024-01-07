@@ -14,13 +14,6 @@ export default function CourseCard({
 }) {
   const slots: Course[] = Courses || [];
 
-  // Sort all courses
-  // const sortedSlots = [...slots].sort((a: Course, b: Course) => {
-  //   const startTimeA = new Date(`1970-01-01T${a.start_time}`);
-  //   const startTimeB = new Date(`1970-01-01T${b.start_time}`);
-  //   return startTimeA.getTime() - startTimeB.getTime();
-  // });
-
   const onClickEdit = (slot: string): void => {
     setModalSlot(slot);
     setShowModal(true);

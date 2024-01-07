@@ -62,7 +62,7 @@
 
 .modal-input {
   font-size: 0.8rem;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   border-radius: 0.5rem;
   color: var(--light);
   padding: 0.5rem 1rem;
@@ -73,7 +73,7 @@
   margin-top: 0.75rem;
 }
 
-.modal-input:focus {
+.modal-input:focus{
   outline: none;
 }
 
@@ -86,7 +86,7 @@
 
 .modal-buttons button {
   font-size: 0.9rem;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   border-radius: 0.5rem;
   margin: 0.5rem;
   margin-top: 1.5rem;

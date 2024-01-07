@@ -5,11 +5,13 @@ import CourseCard from "./Course";
 import "../styles/review.css";
 import { useTimeTableStore } from "../store/TimeTableStore";
 import { uploadText } from "../utils/apicalls";
+import Modal from "./Modal";
+import "./../styles/Modal.css";
 
 export default function ReviewTimeTable() {
   const { setReview, token, username, uploadTimetable } = useAuthStore();
   const { timetable } = useTimeTableStore();
-  const [classes, setClasses] = useState<Course[] | null>(null); // [classes, setClasses
+  const [classes, setClasses] = useState<Course[] | null>(null);
   const [day, setDay] = useState<string>("Monday");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalSlot, setModalSlot] = useState<string>("");
@@ -35,8 +37,8 @@ export default function ReviewTimeTable() {
       alert("Please upload the timetable first!");
       return;
     } else {
-        // console.log(timetable.timetable, "timetable from upload section");
-        uploadText(timetable.timetable, token, username || "")
+      // console.log(timetable.timetable, "timetable from upload section");
+      uploadText(timetable.timetable, token, username || "")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
           console.log(res, "upload text");
@@ -57,88 +59,98 @@ export default function ReviewTimeTable() {
   };
 
   return (
-    <div className="review-wrapper">
-      <h1>Review Timetable</h1>
-      <div className="review">
-        <div className="review-block">
-          <div className="days">
-            <div
-              className={`day ${day === "Monday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Monday");
-              }}
-            >
-              Mon
+    <>
+      <div className="review-wrapper">
+        <h1>Review Timetable</h1>
+        <div className="review">
+          <div className="review-block">
+            <div className="days">
+              <div
+                className={`day ${day === "Monday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Monday");
+                }}
+              >
+                Mon
+              </div>
+              <div
+                className={`day ${day === "Tuesday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Tuesday");
+                }}
+              >
+                Tue
+              </div>
+              <div
+                className={`day ${day === "Wednesday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Wednesday");
+                }}
+              >
+                Wed
+              </div>
+              <div
+                className={`day ${day === "Thursday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Thursday");
+                }}
+              >
+                Thu
+              </div>
+              <div
+                className={`day ${day === "Friday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Friday");
+                }}
+              >
+                Fri
+              </div>
+              <div
+                className={`day ${day === "Saturday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Saturday");
+                }}
+              >
+                Sat
+              </div>
+              <div
+                className={`day ${day === "Sunday" ? "active" : ""}`}
+                onClick={() => {
+                  setDay("Sunday");
+                }}
+              >
+                Sun
+              </div>
             </div>
-            <div
-              className={`day ${day === "Tuesday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Tuesday");
-              }}
-            >
-              Tue
-            </div>
-            <div
-              className={`day ${day === "Wednesday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Wednesday");
-              }}
-            >
-              Wed
-            </div>
-            <div
-              className={`day ${day === "Thursday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Thursday");
-              }}
-            >
-              Thu
-            </div>
-            <div
-              className={`day ${day === "Friday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Friday");
-              }}
-            >
-              Fri
-            </div>
-            <div
-              className={`day ${day === "Saturday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Saturday");
-              }}
-            >
-              Sat
-            </div>
-            <div
-              className={`day ${day === "Sunday" ? "active" : ""}`}
-              onClick={() => {
-                setDay("Sunday");
-              }}
-            >
-              Sun
-            </div>
+            <CourseCard
+              Courses={classes}
+              setShowModal={setShowModal}
+              setModalSlot={setModalSlot}
+              setModalStatus={setModalStatus}
+            />
           </div>
-          <CourseCard
-            Courses={classes}
-            setShowModal={setShowModal}
-            setModalSlot={setModalSlot}
-            setModalStatus={setModalStatus}
-          />
         </div>
+        <button
+          className="review-add"
+          onClick={() => {
+            setShowModal(true);
+            setModalStatus("add");
+          }}
+        >
+          Add Slot
+        </button>
+        <button className="review-confirm" onClick={handleConfirm}>
+          Confirm
+        </button>
       </div>
-      <button
-        className="review-add"
-        onClick={() => {
-          setShowModal(true);
-          setModalStatus("add");
-        }}
-      >
-        Add Slot
-      </button>
-      <button className="review-confirm" onClick={handleConfirm}>
-        Confirm
-      </button>
-    </div>
+      {showModal &&
+        <Modal
+          onClose={() => setShowModal(false)}
+          // getActive={day}
+          // resetActive={setDay}
+          slot={modalSlot}
+          status={modalStatus}
+        />}
+    </>
   );
 }
