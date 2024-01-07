@@ -10,6 +10,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+  padding: 2rem;
 }
 
 .upload-wrapper h1 {
@@ -53,7 +55,7 @@
 .upload-text,
 .upload-pic {
   z-index: 1;
-  width: 100%;
+  width: 95%;
 }
 
 .steps {

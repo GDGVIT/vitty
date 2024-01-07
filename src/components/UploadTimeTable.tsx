@@ -29,7 +29,7 @@ const Upload: React.FC = () => {
       .then((res: TimeTable) => {
         console.log(res);
         if (res.timetable === null) {
-          alert("upload failed");
+          alert("upload failed, Copy the course list details and try again !!!");
           return;
         } else {
           uploadTimetable(res);
@@ -51,10 +51,10 @@ const Upload: React.FC = () => {
         <div className="upload-text">
           <ol className="steps">
             <li>Go to the Time Table tab on VTOP</li>
-            <li>Scroll down to see the table with your schedule</li>
+            <li>Scroll to see the course list with your faculty details</li>
             <li>
-              Select the text from <span>Theory</span> in the top left to{" "}
-              <span>L94</span> in the bottom right
+              Select the text from <span>Sl.No</span> in the top left to{" "}
+              <span>Registered and Approved</span> in the bottom right
             </li>
             <li>Copy all of the selected text</li>
             <li>Paste it below </li>

@@ -25,7 +25,7 @@ const Template: React.FC<TemplateProps> = ({ children }) => {
         />
       </div>
       <Navbar />
-      <div className="h-auto w-auto mt-[64px]">{children}</div>
+      <div className="h-auto w-auto mt-[64px] bg-[#041727]">{children}</div>
     </>
   );
 };
