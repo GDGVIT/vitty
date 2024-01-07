@@ -6,11 +6,12 @@ import "./../styles/logedin.css";
 import { useAuthStore } from "../store/authStore";
 import { useLoadingStore } from "../store/useLoadingStore";
 import { TimeTable } from "../store/authStore";
+import { useTimeTableStore } from "../store/TimeTableStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-  const { username, token, uploadTimetable, setReview } = useAuthStore();
-
+  const { username, token, setReview } = useAuthStore();
+  const { uploadTimetable } = useTimeTableStore();
   const { setLoading } = useLoadingStore();
 
   useEffect(() => {
@@ -31,22 +32,8 @@ const Upload: React.FC = () => {
           alert("upload failed");
           return;
         } else {
-          // uploadText(res.data.timetable, token, username||'')
-          //   .then((res: any) => {
-          //     console.log(res, "upload text");
-          //     if (res.data.detail !== null) {
-          //       alert("upload successful");
-
-          //       uploadTimetable(res.data);
-          //       console.log(typeof(timetable), "timetable length")
-          //     } else {
-          //       alert("upload failed");
-          //     }
-          //   })
-          //   .catch((error: Error) => {
-          //     console.error("Error uploading timetable:", error);
-          //   });
           uploadTimetable(res);
+          console.log(res, "timetable from upload section");
           setReview(true);
         }
         // uploadTimetable(res.data);

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Course {
+export interface Course {
   name: string;
   code: string;
   venue: string;

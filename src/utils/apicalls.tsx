@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { TimeTable } from "../store/authStore";
+import { Course } from "../store/authStore";
 
 const baseURL = "https://vitty-api.dhruvshah.live";
 
@@ -54,7 +55,7 @@ export const checkUserExists = async (username: string): Promise<any> => {
 };
 
 export const uploadText = async (
-  raw: string,
+  raw: Course[] | null,
   apiKey: string,
   username: string
 ): Promise<any> => {
