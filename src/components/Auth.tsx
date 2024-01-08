@@ -28,7 +28,7 @@ const Auth = () => {
 
   return (
     <div className="flex flex-col justify-center items-center z-[4]">
-      <h1 className="hidden text-3xl font-semibold md:flex mb-10">
+      <h1 className="hidden text-[2rem] font-semibold md:flex mb-10">
         Welcome to VITTY
       </h1>
       <div className="m-2">

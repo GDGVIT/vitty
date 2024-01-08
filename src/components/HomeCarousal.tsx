@@ -30,7 +30,7 @@ export default function HomeCarousal() {
             />
           </div>
           <h3 className="my-4 text-xl md:text-[1.375rem]">Never miss a class</h3>
-          <p className="text-center text-blue-500 text-sm w-[17.5rem]">
+          <p className="text-center text-blue-500 text-sm w-[17.5rem] mb-12">
             Notifications to remind you about your upcoming classes
           </p>
         </div>
@@ -55,13 +55,14 @@ export default function HomeCarousal() {
               className="max-h-[17.5rem] max-w-[13.5rem] md:max-h-[20rem] md:max-w-[15rem]"
             />
           </div>
-          <h3 className="my-4 text-xl md:text-[1.375rem]">Upload once, view anywhere</h3>
+          <h3 className="my-4 text-xl md:text-[1.375rem]">
+            Upload once, view anywhere
+          </h3>
           <p className="text-center text-blue-500 text-sm w-[17.5rem]">
             Instant sync across all your devices via the app and extension
           </p>
         </div>
       </Carousel>
-      
     </div>
   );
 }

@@ -33,12 +33,27 @@
 .days {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex-wrap: nowrap;
+  justify-content:left;
   align-items: center;
   border-radius: 0.5rem;
   background-color: var(--dimmer);
   border: 1px solid var(--dim);
+  overflow: visible;
+  overflow-x: auto;
+}
+
+.days::-webkit-scrollbar {
+  height: 0.1rem;
+}
+
+.days::-webkit-scrollbar-track {
+  background-color: #0d0e17;
+  background-color: var(--dimmer);
+}
+
+.days::-webkit-scrollbar-thumb {
+  background-color: var(--midblue);
 }
 
 .day {
@@ -48,6 +63,7 @@
   padding: 1rem 0.5rem;
   text-align: center;
   cursor: pointer;
+  min-width: 3.5rem;
 }
 
 @media screen and (min-width: 500px) {
