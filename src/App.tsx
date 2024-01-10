@@ -13,13 +13,13 @@ import { useLoadingStore } from "./store/useLoadingStore";
 
 const App: React.FC = () => {
   const firebaseConfig = {
-    apiKey: "AIzaSyAGsvEIEPrNKNj_0Z5IzoXBCQQAqEQXG48",
-    authDomain: "vitty-dev.firebaseapp.com",
-    projectId: "vitty-dev",
-    storageBucket: "vitty-dev.appspot.com",
-    messagingSenderId: "266303676876",
-    appId: "1:266303676876:web:6f8926372803145d457d69",
-    measurementId: "G-FC84DREEWX",
+    apiKey: "AIzaSyCm61E2xdQgQJGaOupsnEiARFhk2FNmub4",
+    authDomain: "vitty-dscvit.firebaseapp.com",
+    projectId: "vitty-dscvit",
+    storageBucket: "vitty-dscvit.appspot.com",
+    messagingSenderId: "272763363329",
+    appId: "1:272763363329:web:03c63b25f47d2414e2e000",
+    measurementId: "G-8KRDV5SK87",
   };
 
   initializeApp(firebaseConfig);
@@ -49,7 +49,7 @@ const App: React.FC = () => {
         console.log("user is null from app.tsx");
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, login]);
 
   useEffect(() => {
@@ -62,19 +62,16 @@ const App: React.FC = () => {
 
   return (
     <Template>
-      {
-        isLoading
-          ? <Loader />
-          : uuid === ""
-            ?<LoginPage />
-            :name === ''
-              ? <Loader />
-              : <Dashboard />
-      }
-      {
-        showProfile &&
-        <Profile />
-      }
+      {isLoading ? (
+        <Loader />
+      ) : uuid === "" ? (
+        <LoginPage />
+      ) : name === "" ? (
+        <Loader />
+      ) : (
+        <Dashboard />
+      )}
+      {showProfile && <Profile />}
     </Template>
   );
 };
