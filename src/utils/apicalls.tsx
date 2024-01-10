@@ -3,7 +3,7 @@ import axios from "axios";
 import { TimeTable } from "../store/authStore";
 import { Course } from "../store/authStore";
 
-const baseURL = "http://vitty-api.dscvit.com";
+const baseURL = "https://vitty-api.dscvit.com";
 
 export const parseAndReturn = async (raw: string, apiKey: string): Promise<TimeTable> => {
   // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
