@@ -40,7 +40,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
   }, [status, slot]);
 
   const onAddCourse = (): void => {
-    const [name, code, type, venue, slot, start_time, end_time] =
+    const [name, code, type, venue, slot] =
       slotAdd.split("-");
     const course: Course = {
       name,
@@ -48,8 +48,8 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       type,
       venue,
       slot,
-      start_time,
-      end_time,
+      start_time: "",
+      end_time: "",
     };
     addCourse(course);
     onClose();
@@ -73,7 +73,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
             </div>
           ) : (
             <div className="modal-message">
-              Enter course details (<span></span>)
+              Enter course details (<span>Web programming-BCSE203E-Theory-SJT210-TAA1</span>)
             </div>
           )}
           {status === "add" && (
