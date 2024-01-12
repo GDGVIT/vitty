@@ -65,9 +65,13 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       setTip("Tip: Please enter a slot!");
       return false;
     }
+    if (slotAdd.includes(",") || slotAdd.includes("+")) {
+      setTip("Tip: Please enter a valid slot!, Add multiple slots separately!");
+      return false;
+    }
     if (type !== "Theory" && type !== "Lab") {
       setTip(
-        "Tip: Please enter a valid course type! (Theory/Lab), for embedded courses add Lab and Theory components separately"
+        "Tip: Please enter a valid course type! (Theory/Lab), for embedded courses, add Lab and Theory components separately!"
       );
       return false;
     }
