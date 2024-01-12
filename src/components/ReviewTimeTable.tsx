@@ -12,6 +12,7 @@ export default function ReviewTimeTable() {
   const { setReview, token, username, uploadTimetable } = useAuthStore();
   const { timetable } = useTimeTableStore();
   const [classes, setClasses] = useState<Course[] | null>(null);
+  const [sortedClasses, setSortedClasses] = useState<Course[] | null>(null);
   const [day, setDay] = useState<string>("Monday");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalSlot, setModalSlot] = useState<string>("");
@@ -28,6 +29,12 @@ export default function ReviewTimeTable() {
     fetchData();
     console.log(day, "day");
     console.log(timetable, "timetable");
+    const sortedClasses = classes?.sort((a, b) => {
+      const aTime = a.start_time;
+      const bTime = b.start_time;
+      return aTime.localeCompare(bTime);
+    });
+    setSortedClasses(sortedClasses || null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timetable, day]);
 
@@ -57,12 +64,6 @@ export default function ReviewTimeTable() {
       setReview(false);
     }
   };
-
-  const sortedClasses = classes?.sort((a, b) => {
-    const aTime = a.start_time;
-    const bTime = b.start_time;
-    return aTime.localeCompare(bTime);
-  });
 
   return (
     <>
