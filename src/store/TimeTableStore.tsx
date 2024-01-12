@@ -19,7 +19,6 @@ interface TimeTableStore {
   uploadTimetable: (timetable: TimeTable) => void;
   deleteTimetable: () => void;
   deleteSlot: (slot: string) => void;
-  addCourse: (course: Course) => void;
 }
 
 export const useTimeTableStore = create<TimeTableStore>((set) => ({
@@ -38,13 +37,6 @@ export const useTimeTableStore = create<TimeTableStore>((set) => ({
     set((state) => ({
       timetable: {
         timetable: state.timetable?.timetable?.filter((course) => course.slot !== slot) || null
-      }
-    }));
-  },
-  addCourse: (course: Course) => {
-    set((state) => ({
-      timetable: {
-        timetable: [...state.timetable?.timetable || [], course]
       }
     }));
   }
