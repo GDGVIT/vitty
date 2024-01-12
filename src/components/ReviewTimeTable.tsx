@@ -12,7 +12,7 @@ export default function ReviewTimeTable() {
   const { setReview, token, username, uploadTimetable } = useAuthStore();
   const { timetable } = useTimeTableStore();
   const [classes, setClasses] = useState<Course[] | null>(null);
-  const [sortedClasses, setSortedClasses] = useState<Course[] | null>(null);
+  // const [sortedClasses, setSortedClasses] = useState<Course[] | null>(null);
   const [day, setDay] = useState<string>("Monday");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalSlot, setModalSlot] = useState<string>("");
@@ -20,37 +20,36 @@ export default function ReviewTimeTable() {
 
   const fetchData = async () => {
     const classes: Course[] = ParseAndReturn(timetable, day);
-    setClasses(classes);
-    console.log(classes, "classes");
+    const sortedClasses = classes.sort((a, b) => {
+      const aTime = convertTo24HourFormat(a.start_time);
+      const bTime = convertTo24HourFormat(b.start_time);
+      return aTime.localeCompare(bTime);
+    });
+    setClasses(sortedClasses);
   };
-
+  
   useEffect(() => {
     document.title = "VITTY | Review";
     fetchData();
     console.log(day, "day");
     console.log(timetable, "timetable");
-    const sortedClasses = classes?.sort((a, b) => {
-      const aTime = convertTo24HourFormat(a.start_time);
-      const bTime = convertTo24HourFormat(b.start_time);
-      return aTime.localeCompare(bTime);
-    });
-
-    setSortedClasses(sortedClasses || null);
-
-    function convertTo24HourFormat(time: string): string {
-      const [hour, minute, period] = time.split(/:| /);
-      let hour24 = parseInt(hour, 10);
-
-      if (period === "PM" && hour24 < 12) {
-        hour24 += 12;
-      } else if (period === "AM" && hour24 === 12) {
-        hour24 = 0;
-      }
-
-      return `${hour24.toString().padStart(2, "0")}:${minute}`;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // ...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timetable, day]);
+  
+  function convertTo24HourFormat(time: string): string {
+    const [hour, minute, period] = time.split(/:| /);
+    let hour24 = parseInt(hour, 10);
+
+    if (period === "PM" && hour24 < 12) {
+      hour24 += 12;
+    } else if (period === "AM" && hour24 === 12) {
+      hour24 = 0;
+    }
+
+    return `${hour24.toString().padStart(2, "0")}:${minute}`;
+  }
+
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault();
@@ -144,7 +143,7 @@ export default function ReviewTimeTable() {
               </div>
             </div>
             <CourseCard
-              Courses={sortedClasses || null}
+              Courses={classes}
               setShowModal={setShowModal}
               setModalSlot={setModalSlot}
               setModalStatus={setModalStatus}
