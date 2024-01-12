@@ -259,8 +259,8 @@ export default function ParseAndReturn(
       venue: timetable[i].venue,
       slot: timetable[i].slot,
       type: timetable[i].type,
-      start_time: "",
-      end_time: "",
+      start_time: null,
+      end_time: null,
     }
     const slots = table.slot;
     const type = table.type;

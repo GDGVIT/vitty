@@ -21,8 +21,8 @@ export default function ReviewTimeTable() {
   const fetchData = async () => {
     const classes: Course[] = ParseAndReturn(timetable, day);
     const sortedClasses = classes.sort((a, b) => {
-      const aTime = convertTo24HourFormat(a.start_time);
-      const bTime = convertTo24HourFormat(b.start_time);
+      const aTime = convertTo24HourFormat(a.start_time || "00:00");
+      const bTime = convertTo24HourFormat(b.start_time || "00:00");
       return aTime.localeCompare(bTime);
     });
     setClasses(sortedClasses);

@@ -14,8 +14,8 @@ interface Course {
   venue: string;
   slot: string;
   type: string;
-  start_time: string;
-  end_time: string;
+  start_time: string | null;
+  end_time: string | null;
 }
 
 export default function Modal({ slot, status, onClose }: ModalProps) {
@@ -48,8 +48,8 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       type,
       venue,
       slot,
-      start_time: "",
-      end_time: "",
+      start_time: null,
+      end_time: null,
     };
     addCourse(course);
     onClose();

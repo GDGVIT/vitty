@@ -6,8 +6,8 @@ export interface Course {
   venue: string;
   slot: string;
   type: string;
-  start_time: string;
-  end_time: string;
+  start_time: string | null;
+  end_time: string | null;
 }
 
 export interface TimeTable {
