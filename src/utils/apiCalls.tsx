@@ -37,7 +37,7 @@ export const uploadText = async (raw: string): Promise<any> => {
   }
 
   try {
-    const response = await fetch('https://vitty-api.dhruvshah.live/api/v1/timetable/', requestOptions as any)
+    const response = await fetch('https://vitty-api.dscvit.com/api/v1/timetable/', requestOptions as any)
     const data = await response.json()
     return data
   } catch (e) {
