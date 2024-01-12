@@ -66,12 +66,13 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       return false;
     }
     if (type !== "Theory" && type !== "Lab") {
-      setTip("Tip: Please enter a valid course type! (Theory/Lab), for embedded courses add Lab and Theory components separately");
+      setTip(
+        "Tip: Please enter a valid course type! (Theory/Lab), for embedded courses add Lab and Theory components separately"
+      );
       return false;
     }
     return true;
   };
-
 
   const onAddCourse = (): void => {
     if (validInput()) {
@@ -113,6 +114,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
           )}
           {status === "add" && (
             <>
+              <br />
               <label className="modal-message">Course Name</label>
               <input
                 className="modal-input"
@@ -122,7 +124,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
                 placeholder="Web programming"
                 required
               />
-
+              <br />
               <label className="modal-message">Course Code</label>
               <input
                 className="modal-input"
@@ -132,7 +134,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
                 placeholder="BCSE203E"
                 required
               />
-
+              <br />
               <label className="modal-message">Slot</label>
               <input
                 className="modal-input"
@@ -142,7 +144,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
                 placeholder="TAA1"
                 required
               />
-
+              <br />
               <label className="modal-message">Course Type</label>
               <input
                 className="modal-input"
@@ -152,7 +154,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
                 placeholder="Theory"
                 required
               />
-
+              <br />
               <label className="modal-message">Venue</label>
               <input
                 className="modal-input"
