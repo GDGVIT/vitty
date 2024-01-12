@@ -150,7 +150,7 @@ export default function ReviewTimeTable() {
             />
           </div>
         </div>
-        <button
+        {/* <button
           className="review-add"
           onClick={() => {
             setShowModal(true);
@@ -158,7 +158,7 @@ export default function ReviewTimeTable() {
           }}
         >
           Add Slot
-        </button>
+        </button> */}
         <button className="review-confirm" onClick={handleConfirm}>
           Confirm
         </button>
