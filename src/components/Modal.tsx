@@ -21,6 +21,11 @@ interface Course {
 export default function Modal({ slot, status, onClose }: ModalProps) {
   //   const [course, setCourse] = useState<Course | null>(null);
   const [slotAdd, setSlotAdd] = useState("");
+  const [courseName, setCourseName] = useState("");
+  const [type, setType] = useState("");
+  const [code, setCode] = useState("");
+  const [venue, setVenue] = useState("");
+
   const [tip, setTip] = useState<string | undefined>("");
   const { deleteSlot, addCourse } = useTimeTableStore();
 
@@ -39,20 +44,64 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
     //   );
   }, [status, slot]);
 
+  const validInput = (): boolean => {
+    if (courseName === "") {
+      setTip("Tip: Please enter a course name!");
+      return false;
+    }
+    if (code === "") {
+      setTip("Tip: Please enter a course code!");
+      return false;
+    }
+    if (type === "") {
+      setTip("Tip: Please enter a course type!");
+      return false;
+    }
+    if (venue === "") {
+      setTip("Tip: Please enter a venue!");
+      return false;
+    }
+    if (slotAdd === "") {
+      setTip("Tip: Please enter a slot!");
+      return false;
+    }
+    if (slotAdd.match(/[A-G]/) === null) {
+      setTip("Tip: Please enter a valid slot!");
+      return false;
+    }
+    if (slotAdd.match(/[A-G]/) !== null) {
+      if (slotAdd.includes("T")) {
+        if (slotAdd.length !== 2) {
+          setTip("Tip: Please enter a valid slot!");
+          return false;
+        }
+      } else if (slotAdd.length !== 1) {
+        setTip("Tip: Please enter a valid slot!");
+        return false;
+      }
+    }
+    if (type !== "Theory" && type !== "Lab") {
+      setTip("Tip: Please enter a valid course type! (Theory/Lab), for embedded courses add Lab and Theory components separately");
+      return false;
+    }
+    return true;
+  };
+
+
   const onAddCourse = (): void => {
-    const [name, code, type, venue, slot] =
-      slotAdd.split("-");
-    const course: Course = {
-      name,
-      code,
-      type,
-      venue,
-      slot,
-      start_time: null,
-      end_time: null,
-    };
-    addCourse(course);
-    onClose();
+    if (validInput()) {
+      const course: Course = {
+        name: courseName,
+        code: code,
+        type: type,
+        venue: venue,
+        slot: slotAdd,
+        start_time: null,
+        end_time: null,
+      };
+      addCourse(course);
+      onClose();
+    }
   };
 
   const onRemove = (): void => {
@@ -73,17 +122,64 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
             </div>
           ) : (
             <div className="modal-message">
-              Enter course details (<span>Web programming-BCSE203E-Theory-SJT210-TAA1</span>)
+              Enter course details (
+              <span>Web programming-BCSE203E-Theory-SJT210-TAA1</span>)
             </div>
           )}
           {status === "add" && (
-            <input
-              className="modal-input"
-              type="text"
-              value={slotAdd}
-              onChange={(e) => setSlotAdd(e.target.value)}
-            />
+            <>
+              <label className="modal-message">Course Name</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={courseName}
+                onChange={(e) => setCourseName(e.target.value)}
+                placeholder="Web programming"
+                required
+              />
+
+              <label className="modal-message">Course Code</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="BCSE203E"
+                required
+              />
+
+              <label className="modal-message">Slot</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={slotAdd}
+                onChange={(e) => setSlotAdd(e.target.value)}
+                placeholder="TAA1"
+                required
+              />
+
+              <label className="modal-message">Course Type</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                placeholder="Theory"
+                required
+              />
+
+              <label className="modal-message">Venue</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={venue}
+                onChange={(e) => setVenue(e.target.value)}
+                placeholder="SJT323"
+                required
+              />
+            </>
           )}
+
           <div className="modal-buttons">
             {
               <>
