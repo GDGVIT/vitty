@@ -58,6 +58,12 @@ export default function ReviewTimeTable() {
     }
   };
 
+  const sortedClasses = classes?.sort((a, b) => {
+    const aTime = a.start_time;
+    const bTime = b.start_time;
+    return aTime.localeCompare(bTime);
+  });
+
   return (
     <>
       <div className="review-wrapper">
@@ -123,7 +129,7 @@ export default function ReviewTimeTable() {
               </div>
             </div>
             <CourseCard
-              Courses={classes}
+              Courses={sortedClasses || null}
               setShowModal={setShowModal}
               setModalSlot={setModalSlot}
               setModalStatus={setModalStatus}
