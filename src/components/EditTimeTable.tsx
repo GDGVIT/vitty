@@ -22,9 +22,9 @@ const EditTimeTable: React.FC = () => {
 
   useEffect(() => {
     if (timetableUploadedThisSession) {
-      window.addEventListener("load", () => {
+      setTimeout(() => {
         window.alert("Timetable uploaded successfully!");
-      });
+      }, 1000);
       setTimetableUploadedThisSession(false);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
