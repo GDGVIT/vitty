@@ -15,7 +15,6 @@ const Upload: React.FC = () => {
   const { setLoading } = useLoadingStore();
   const regexPattern = /Registered and Approved$/;
 
-
   useEffect(() => {
     document.title = "VITTY | Upload";
     setLoading(false);
@@ -28,7 +27,9 @@ const Upload: React.FC = () => {
       return;
     }
     if (regexPattern.test(text) === false) {
-      const proceed = window.confirm("Please paste the text in the correct format. Do you want to proceed?");
+      const proceed = window.confirm(
+        "Kindly note that this format is outdated. To ensure the accurate transfer of all timetable details, please refer to the GIF and upload the text copied from the first table you see on VTOP->Timetable. Do you want to proceed anyway?"
+      );
       if (!proceed) {
         return;
       }
@@ -37,7 +38,9 @@ const Upload: React.FC = () => {
       .then((res: TimeTable) => {
         console.log(res);
         if (res.timetable === null) {
-          alert("upload failed, Copy the course list details and try again !!!");
+          alert(
+            "upload failed, Copy the course list details and try again !!!"
+          );
           return;
         } else {
           uploadTimetable(res);
@@ -66,6 +69,8 @@ const Upload: React.FC = () => {
             </li>
             <li>Copy all of the selected text</li>
             <li>Paste it below </li>
+            <li>Refer to the GIF below</li>
+            <img src="/copying_timetable.gif" alt="gif" />
             <textarea
               autoFocus
               //   type="text"
