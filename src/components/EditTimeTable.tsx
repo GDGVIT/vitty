@@ -10,7 +10,7 @@ import { useLoadingStore } from "../store/useLoadingStore";
 
 const EditTimeTable: React.FC = () => {
   const { name, deleteTimetable } = useAuthStore();
-  const { setLoading } = useLoadingStore();
+  const { setLoading, timetableUploadedThisSession, setTimetableUploadedThisSession } = useLoadingStore();
   const handleClick = () => {
     deleteTimetable();
   };
@@ -19,6 +19,13 @@ const EditTimeTable: React.FC = () => {
     setLoading(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLoading]);
+
+  useEffect(() => {
+    if (timetableUploadedThisSession) {
+      window.alert("Timetable uploaded successfully!");
+      setTimetableUploadedThisSession(false);
+    }
+  });
 
   return (
     <div className="fin-wrapper">

@@ -61,6 +61,11 @@ const Upload: React.FC = () => {
       <div className="upload">
         <div className="upload-text">
           <ol className="steps">
+            <img
+              src="/copying_timetable.gif"
+              className="w-fit max-w-[400px] md:max-w-[700px] m-4"
+              alt="gif"
+            />
             <li>Go to the Time Table tab on VTOP</li>
             <li>Scroll to see the course list with your faculty details</li>
             <li>
@@ -69,8 +74,7 @@ const Upload: React.FC = () => {
             </li>
             <li>Copy all of the selected text</li>
             <li>Paste it below </li>
-            <li>Refer to the GIF below</li>
-            <img src="/copying_timetable.gif" className="w-fit max-w-[400px] md:max-w-[700px] mx-4 m-2" alt="gif" />
+            {/* <li>Refer to the GIF below</li> */}
             <textarea
               autoFocus
               //   type="text"
@@ -78,7 +82,6 @@ const Upload: React.FC = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <li>Submit to continue! :)</li>
             <button type="submit" onClick={submitText}>
               Submit Text
             </button>
