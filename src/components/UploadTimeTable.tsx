@@ -13,6 +13,8 @@ const Upload: React.FC = () => {
   const { username, token, setReview } = useAuthStore();
   const { uploadTimetable } = useTimeTableStore();
   const { setLoading } = useLoadingStore();
+  const regexPattern = /Registered and Approved$/;
+
 
   useEffect(() => {
     document.title = "VITTY | Upload";
@@ -24,6 +26,12 @@ const Upload: React.FC = () => {
     if (text === "") {
       alert("Please paste the text first!");
       return;
+    }
+    if (regexPattern.test(text) === false) {
+      const proceed = window.confirm("Please paste the text in the correct format. Do you want to proceed?");
+      if (!proceed) {
+        return;
+      }
     }
     parseAndReturn(text, token)
       .then((res: TimeTable) => {
