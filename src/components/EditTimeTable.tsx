@@ -22,7 +22,7 @@ const EditTimeTable: React.FC = () => {
 
   useEffect(() => {
     if (timetableUploadedThisSession) {
-      window.addEventListener("DOMContentLoaded", () => {
+      window.addEventListener("load", () => {
         window.alert("Timetable uploaded successfully!");
       });
       setTimetableUploadedThisSession(false);
