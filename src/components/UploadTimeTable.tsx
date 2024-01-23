@@ -70,7 +70,7 @@ const Upload: React.FC = () => {
             <li>Copy all of the selected text</li>
             <li>Paste it below </li>
             <li>Refer to the GIF below</li>
-            <img src="/copying_timetable.gif" className="max-w-[700px] w-auto mx-4 m-2" alt="gif" />
+            <img src="/copying_timetable.gif" className="w-fit max-w-[400px] md:max-w-[700px] mx-4 m-2" alt="gif" />
             <textarea
               autoFocus
               //   type="text"
