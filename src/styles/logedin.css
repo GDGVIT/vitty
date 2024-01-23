@@ -50,6 +50,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.upload-pic{
   margin: 1rem;
 }
 
