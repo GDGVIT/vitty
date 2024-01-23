@@ -22,10 +22,12 @@ const EditTimeTable: React.FC = () => {
 
   useEffect(() => {
     if (timetableUploadedThisSession) {
-      window.alert("Timetable uploaded successfully!");
+      window.addEventListener("DOMContentLoaded", () => {
+        window.alert("Timetable uploaded successfully!");
+      });
       setTimetableUploadedThisSession(false);
     }
-  }, []); // Add an empty dependency array to run the effect only once on initial render
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="fin-wrapper">
