@@ -63,7 +63,7 @@ const Upload: React.FC = () => {
           <ol className="steps">
             <img
               src="/copying_timetable.gif"
-              className="w-fit max-w-[400px] md:max-w-[700px] m-4"
+              className="w-fit max-w-[400px] md:max-w-[700px] mb-8"
               alt="gif"
             />
             <li>Go to the Time Table tab on VTOP</li>
