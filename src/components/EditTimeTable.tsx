@@ -25,7 +25,7 @@ const EditTimeTable: React.FC = () => {
       window.alert("Timetable uploaded successfully!");
       setTimetableUploadedThisSession(false);
     }
-  });
+  }, []); // Add an empty dependency array to run the effect only once on initial render
 
   return (
     <div className="fin-wrapper">
