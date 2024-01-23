@@ -17,7 +17,8 @@ const EditTimeTable: React.FC = () => {
 
   useEffect(() => {
     setLoading(false);
-  }, [setLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="fin-wrapper">
