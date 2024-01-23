@@ -7,6 +7,7 @@ import { useTimeTableStore } from "../store/TimeTableStore";
 import { uploadText } from "../utils/apicalls";
 import Modal from "./Modal";
 import "./../styles/Modal.css";
+import { useLoadingStore } from "../store/useLoadingStore";
 
 export default function ReviewTimeTable() {
   const { setReview, token, username, uploadTimetable } = useAuthStore();
@@ -63,10 +64,9 @@ export default function ReviewTimeTable() {
         .then((res: any) => {
           console.log(res, "upload text");
           if (res.data.detail !== null) {
-            alert("upload successful");
-
             uploadTimetable(res.data);
-            console.log(typeof timetable, "timetable length");
+            useLoadingStore.getState().setLoading(true);
+            alert("upload successful");
           } else {
             alert("upload failed");
           }
