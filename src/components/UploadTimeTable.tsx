@@ -13,7 +13,7 @@ const Upload: React.FC = () => {
   const { username, token, setReview } = useAuthStore();
   const { uploadTimetable } = useTimeTableStore();
   const { setLoading } = useLoadingStore();
-  const regexPattern = /Registered and Approved$/;
+  // const regexPattern = /Registered and Approved$/;
 
   useEffect(() => {
     document.title = "VITTY | Upload";
@@ -26,21 +26,21 @@ const Upload: React.FC = () => {
       alert("Please paste the text first!");
       return;
     }
-    if (regexPattern.test(text) === false) {
-      const proceed = window.confirm(
-        "Kindly note that this format is outdated. To ensure the accurate transfer of all timetable details, please refer to the GIF and upload the text copied from the first table you see on VTOP->Timetable. Do you want to proceed anyway?"
-      );
-      if (!proceed) {
-        return;
-      }
-    }
+    // if (regexPattern.test(text) === false) {
+    //   const proceed = window.confirm(
+    //     "Kindly note that this format is outdated. To ensure the accurate transfer of all timetable details, please refer to the GIF and upload the text copied from the first table you see on VTOP->Timetable. Do you want to proceed anyway?"
+    //   );
+      // if (!proceed) {
+      //   return;
+      // }
+    // }
     parseAndReturn(text, token)
       .then((res: TimeTable) => {
         console.log(res);
         if (res.timetable === null) {
-          // alert(
-          //   "upload failed," + res.error
-          // );
+          alert(
+            "upload failed, no slots detected. Please check the format of the text you pasted. "
+          );
           return;
         } else {
           uploadTimetable(res);
