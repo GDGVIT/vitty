@@ -38,9 +38,9 @@ const Upload: React.FC = () => {
       .then((res: TimeTable) => {
         console.log(res);
         if (res.timetable === null) {
-          alert(
-            "upload failed," + res
-          );
+          // alert(
+          //   "upload failed," + res.error
+          // );
           return;
         } else {
           uploadTimetable(res);
