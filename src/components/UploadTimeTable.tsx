@@ -39,18 +39,18 @@ const Upload: React.FC = () => {
         console.log(res);
         if (res.timetable === null) {
           alert(
-            "upload failed, Copy the course list details and try again !!!"
+            "upload failed," + res
           );
           return;
         } else {
           uploadTimetable(res);
-          console.log(res, "timetable from upload section");
           setReview(true);
         }
         // uploadTimetable(res.data);
         // console.log(res.data);
       })
       .catch((error: Error) => {
+        alert("Error fetching timetable: "+error);
         console.error("Error fetching timetable:", error);
       });
   };
