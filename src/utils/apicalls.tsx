@@ -22,7 +22,6 @@ export const parseAndReturn = async (raw: string, apiKey: string): Promise<TimeT
     const response = await axios.post(remoteApiUrl, data, { headers: myHeaders });
     return response.data;
   } catch (e) {
-    alert("Error fetching timetable: "+e);
     return { timetable: null };
   }
 };

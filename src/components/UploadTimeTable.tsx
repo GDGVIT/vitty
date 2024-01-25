@@ -30,9 +30,9 @@ const Upload: React.FC = () => {
     //   const proceed = window.confirm(
     //     "Kindly note that this format is outdated. To ensure the accurate transfer of all timetable details, please refer to the GIF and upload the text copied from the first table you see on VTOP->Timetable. Do you want to proceed anyway?"
     //   );
-      // if (!proceed) {
-      //   return;
-      // }
+    // if (!proceed) {
+    //   return;
+    // }
     // }
     parseAndReturn(text, token)
       .then((res: TimeTable) => {
@@ -50,7 +50,7 @@ const Upload: React.FC = () => {
         // console.log(res.data);
       })
       .catch((error: Error) => {
-        alert("Error fetching timetable: "+error);
+        alert("Error fetching timetable: " + error);
         console.error("Error fetching timetable:", error);
       });
   };
