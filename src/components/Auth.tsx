@@ -1,21 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAuth, getRedirectResult, GoogleAuthProvider, OAuthProvider, signInWithPopup } from "firebase/auth";
-import { FaApple } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import {
+  getAuth,
+  getRedirectResult,
+  GoogleAuthProvider,
+  OAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
+import { FaApple } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 const Auth = () => {
   const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
-  const appleProvider = new OAuthProvider("apple.com");
-  appleProvider.addScope("email");
-  appleProvider.addScope("name");
+  const appleProvider = new OAuthProvider('apple.com');
+  appleProvider.addScope('email');
+  appleProvider.addScope('name');
   const logIn = (auth: any, provider: any) => {
-    void signInWithPopup(auth, provider)
-    localStorage.setItem("uuid", "something");
+    void signInWithPopup(auth, provider);
     getRedirectResult(auth)
       .then((result) => {
         if (result !== null) {
-          localStorage.setItem("uuid", result.user.uid);
+          localStorage.setItem('uuid', result.user.uid);
         }
       })
       .catch((error) => {
