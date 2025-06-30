@@ -67,13 +67,12 @@ const GetUsername: React.FC = () => {
       <h1 className="overflow-visible text-2xl mb-10">Enter your Details</h1>
       <div className="flex flex-col items-center justify-center w-[50vw] md:w-[20vw] h-90vh">
         <input
-          autoFocus
           type="text"
           id="input-text"
           value={userName}
           placeholder="Username"
           onChange={(e) => setuserName(e.target.value)}
-          className="box-border text-lg font-poppins rounded-md text-black p-3 pl-4 border-2 border-blue bg-dark w-full mb-3 text-left"
+          className="box-border z-[4] text-lg font-poppins rounded-md text-black p-3 pl-4 border-2 border-blue bg-dark w-full mb-3 text-left"
         />
         <input
           type="text"
