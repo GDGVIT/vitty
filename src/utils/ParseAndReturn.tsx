@@ -252,8 +252,11 @@ export default function ParseAndReturn(
 
   const timetable = timeTable?.timetable || [];
   const finalTimetable: Course[] = [];
+  
+  const courseMap = new Map<string, Course>();
+  
   for (let i = 0; i < timetable.length; i++) {
-    const table:Course = {
+    const table: Course = {
       name: timetable[i].name,
       code: timetable[i].code,
       venue: timetable[i].venue,
@@ -262,23 +265,30 @@ export default function ParseAndReturn(
       start_time: null,
       end_time: null,
     }
+    
     const slots = table.slot;
     const type = table.type;
     const slot = TimeTableSlots[day][type];
-    console.log(table, "table");
+    
+    const courseId = `${table.code}-${table.slot}-${table.type}`;
+ 
     if (slot.includes(slots)) {
-      if(type === "Theory"){
-        console.log(slot.indexOf(slots), "start time")
-        table.start_time = TheoryTimings[slot.indexOf(slots)].StartTime;
-        table.end_time = TheoryTimings[slot.indexOf(slots)].EndTime;
+      const existingCourse = courseMap.get(courseId);
+      if (!existingCourse || (existingCourse.venue === "NIL" && table.venue !== "NIL")) {
+        if(type === "Theory"){
+          table.start_time = TheoryTimings[slot.indexOf(slots)].StartTime;
+          table.end_time = TheoryTimings[slot.indexOf(slots)].EndTime;
+        } else {
+          table.start_time = LabTimings[slot.indexOf(slots)].StartTime;
+          table.end_time = LabTimings[slot.indexOf(slots)].EndTime;
+        }
+        
+        courseMap.set(courseId, table);
       }
-      else{
-        table.start_time = LabTimings[slot.indexOf(slots)].StartTime;
-        table.end_time = LabTimings[slot.indexOf(slots)].EndTime;
-      }
-      finalTimetable.push(table);
     }
   }
+  
+  finalTimetable.push(...courseMap.values());
 
   return finalTimetable;
 }
