@@ -31,7 +31,6 @@ export default function Timetable() {
           console.log(res, "upload timetable from timetable page");
         }
         else {
-          console.log(res.length, "res length")
           uploadTimetable(res.data);
           console.log(res.data, "upload timetable from timetable page");
         }

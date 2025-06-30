@@ -4,7 +4,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const GuardedRoute = () => {
   const uuid = localStorage.getItem('uuid') || null;
-  console.log('in gaurded route', uuid);
   return  uuid ? <Outlet /> : <Navigate to="/login" />;
 };
 

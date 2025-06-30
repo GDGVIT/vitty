@@ -26,7 +26,6 @@ const Nav: React.FC = () => {
 
   const toggle = (): void => {
     toggleProfile()
-    console.log(showProfile, "profile");
   }
 
   useEffect(() => {

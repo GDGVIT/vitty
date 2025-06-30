@@ -20,10 +20,8 @@ const GetUsername: React.FC = () => {
   }, [setLoading]);
 
   const updateUserName = (): void => {
-    console.log("in update username");
     signIn(uuid, regNo, userName).then((data) => {
       if (data.token) {
-        console.log(data);
         updateUsername(userName);
         updateToken(data.access_token);
       } else {

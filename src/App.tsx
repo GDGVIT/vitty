@@ -30,9 +30,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user1) => {
-      console.log(user1, "user1");
       if (user1 !== null) {
-        console.log(user1);
         localStorage.setItem("uuid", user1.uid || "");
         localStorage.setItem("profile", user1.photoURL || "");
         localStorage.setItem("name", user1.displayName || "");
@@ -46,7 +44,6 @@ const App: React.FC = () => {
       } else {
         localStorage.setItem("name", "");
         initializeFromLocalStorge();
-        console.log("user is null from app.tsx");
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

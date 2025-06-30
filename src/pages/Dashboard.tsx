@@ -16,7 +16,6 @@ export default function Dashboard() {
       } else {
         getToken(uuid).then((data) => {
             if (data) {
-                console.log(data);
                 updateUsername(data.username);
                 updateToken(data.token);
                 localStorage.setItem("email", data.email);
@@ -25,7 +24,6 @@ export default function Dashboard() {
             }
             }
         );
-        console.log(res.detail);
       }
     });
   }, [username, token, uuid, updateToken, updateUsername]);

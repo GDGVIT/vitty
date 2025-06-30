@@ -36,7 +36,6 @@ const Upload: React.FC = () => {
     // }
     parseAndReturn(text, token)
       .then((res: TimeTable) => {
-        console.log(res);
         if (res.timetable === null) {
           alert(
             "upload failed, no slots detected. Please check the format of the text you pasted. "
@@ -47,7 +46,6 @@ const Upload: React.FC = () => {
           setReview(true);
         }
         // uploadTimetable(res.data);
-        // console.log(res.data);
       })
       .catch((error: Error) => {
         alert("Error fetching timetable: " + error);

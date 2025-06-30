@@ -34,8 +34,6 @@ export default function ReviewTimeTable() {
   useEffect(() => {
     document.title = "VITTY | Review";
     fetchData();
-    console.log(day, "day");
-    console.log(timetable, "timetable");
     // ...
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timetable, day]);
@@ -60,11 +58,9 @@ export default function ReviewTimeTable() {
       alert("Please upload the timetable first!");
       return;
     } else {
-      // console.log(timetable.timetable, "timetable from upload section");
       uploadText(timetable.timetable, token, username || "")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
-          console.log(res, "upload text");
           if (res.data.detail !== null) {
             uploadTimetable(res.data);
             // useLoadingStore.getState().setLoading(true);

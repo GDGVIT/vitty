@@ -75,7 +75,6 @@ export const uploadText = async (
     const response = await axios.post(remoteApiUrl, data, {
       headers: myHeaders,
     });
-    console.log(response.data, "from uploadText");
     return response.data;
   } catch (e) {
     return { error: e };
@@ -115,7 +114,6 @@ export const getTimetable = async (
   apiKey: string
 ): Promise<any> => {
   const remoteApiUrl = `${baseURL}/api/v2/timetable/${username}`;
-  console.log(apiKey);
   const headers = {
     Authorization: `Token ${apiKey}`,
   };
@@ -123,8 +121,6 @@ export const getTimetable = async (
   try {
     const response = await axios.get(remoteApiUrl, { headers: headers });
     const data = response.data;
-    console.log("gettimetable data");
-    console.log(data);
     if (data === null) {
       return "empty timetable";
     } else {
