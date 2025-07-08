@@ -15,13 +15,13 @@ const App: React.FC = () => {
   const isDev = import.meta.env.NODE_ENV === 'development';
   
   const firebaseConfig = {
-    apiKey: isDev ? import.meta.env.VITE_FIREBASE_API_KEY : import.meta.env.VITE_FIREBASE_API_KEY_PROD,
-    authDomain: isDev ? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN : import.meta.env.VITE_FIREBASE_AUTH_DOMAIN_PROD,
-    projectId: isDev ? import.meta.env.VITE_FIREBASE_PROJECT_ID : import.meta.env.VITE_FIREBASE_PROJECT_ID_PROD,
-    storageBucket: isDev ? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET : import.meta.env.VITE_FIREBASE_STORAGE_BUCKET_PROD,
-    messagingSenderId: isDev ? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID : import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID_PROD,
-    appId: isDev ? import.meta.env.VITE_FIREBASE_APP_ID : import.meta.env.VITE_FIREBASE_APP_ID_PROD,
-    measurementId: isDev ? import.meta.env.VITE_FIREBASE_MEASUREMENT_ID : import.meta.env.VITE_FIREBASE_MEASUREMENT_ID_PROD,
+    apiKey: isDev ? import.meta.env.FIREBASE_API_KEY : import.meta.env.FIREBASE_API_KEY_PROD,
+    authDomain: isDev ? import.meta.env.FIREBASE_AUTH_DOMAIN : import.meta.env.FIREBASE_AUTH_DOMAIN_PROD,
+    projectId: isDev ? import.meta.env.FIREBASE_PROJECT_ID : import.meta.env.FIREBASE_PROJECT_ID_PROD,
+    storageBucket: isDev ? import.meta.env.FIREBASE_STORAGE_BUCKET : import.meta.env.FIREBASE_STORAGE_BUCKET_PROD,
+    messagingSenderId: isDev ? import.meta.env.FIREBASE_MESSAGING_SENDER_ID : import.meta.env.FIREBASE_MESSAGING_SENDER_ID_PROD,
+    appId: isDev ? import.meta.env.FIREBASE_APP_ID : import.meta.env.FIREBASE_APP_ID_PROD,
+    measurementId: isDev ? import.meta.env.FIREBASE_MEASUREMENT_ID : import.meta.env.FIREBASE_MEASUREMENT_ID_PROD,
   };
 
   initializeApp(firebaseConfig);
