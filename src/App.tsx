@@ -12,14 +12,16 @@ import { useShowProfileStore } from "./store/profileStore";
 import { useLoadingStore } from "./store/useLoadingStore";
 
 const App: React.FC = () => {
+  const isDev = import.meta.env.NODE_ENV === 'development';
+  
   const firebaseConfig = {
-    apiKey: "AIzaSyCm61E2xdQgQJGaOupsnEiARFhk2FNmub4",
-    authDomain: "vitty-dscvit.firebaseapp.com",
-    projectId: "vitty-dscvit",
-    storageBucket: "vitty-dscvit.appspot.com",
-    messagingSenderId: "272763363329",
-    appId: "1:272763363329:web:03c63b25f47d2414e2e000",
-    measurementId: "G-8KRDV5SK87",
+    apiKey: isDev ? import.meta.env.VITE_FIREBASE_API_KEY : import.meta.env.VITE_FIREBASE_API_KEY_PROD,
+    authDomain: isDev ? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN : import.meta.env.VITE_FIREBASE_AUTH_DOMAIN_PROD,
+    projectId: isDev ? import.meta.env.VITE_FIREBASE_PROJECT_ID : import.meta.env.VITE_FIREBASE_PROJECT_ID_PROD,
+    storageBucket: isDev ? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET : import.meta.env.VITE_FIREBASE_STORAGE_BUCKET_PROD,
+    messagingSenderId: isDev ? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID : import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID_PROD,
+    appId: isDev ? import.meta.env.VITE_FIREBASE_APP_ID : import.meta.env.VITE_FIREBASE_APP_ID_PROD,
+    measurementId: isDev ? import.meta.env.VITE_FIREBASE_MEASUREMENT_ID : import.meta.env.VITE_FIREBASE_MEASUREMENT_ID_PROD,
   };
 
   initializeApp(firebaseConfig);
