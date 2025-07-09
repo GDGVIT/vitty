@@ -8,6 +8,7 @@ import { uploadText } from "../utils/apicalls";
 import Modal from "./Modal";
 import "./../styles/Modal.css";
 import { useLoadingStore } from "../store/useLoadingStore";
+import { deduplicateTimetable } from "../utils/deduplicateTimetable";
 // import { useLoadingStore } from "../store/useLoadingStore";
 
 export default function ReviewTimeTable() {
@@ -58,7 +59,9 @@ export default function ReviewTimeTable() {
       alert("Please upload the timetable first!");
       return;
     } else {
-      uploadText(timetable.timetable, token, username || "")
+        const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
+            
+        uploadText(deduplicatedTimetable, token, username || "")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
           if (res.data.detail !== null) {

@@ -252,7 +252,7 @@ export default function ParseAndReturn(
 
   const timetable = timeTable?.timetable || [];
   const finalTimetable: Course[] = [];
-  
+   
   const courseMap = new Map<string, Course>();
   
   for (let i = 0; i < timetable.length; i++) {
@@ -266,24 +266,110 @@ export default function ParseAndReturn(
       end_time: null,
     }
     
+
+    if (timetable[i].slot.includes('+')) {
+      console.log(`Found combined slot: ${timetable[i].slot} for ${timetable[i].code} on ${day}`);
+    }
+    
     const slots = table.slot;
-    const type = table.type;
+    let type = table.type;
+    
+    if (slots.startsWith('L')) {
+      if (type !== 'Lab') {
+        console.log(`Correcting slot type: ${slots} from ${type} to Lab`);
+        type = 'Lab';
+      }
+    }
+    
     const slot = TimeTableSlots[day][type];
     
-    const courseId = `${table.code}-${table.slot}-${table.type}`;
+    let courseId = `${table.code}-${table.slot}-${type}`;
+    let isConsecutiveLabSlot = false;
+    
+    if (type === 'Lab' && slots.match(/^L\d+$/)) {
+      const slotNumber = parseInt(slots.substring(1));
+      const consecutiveSlot = `L${slotNumber + 1}`;
+      
+      const hasConsecutiveSlot = timetable.some(course => 
+        course.code === table.code && 
+        course.slot === consecutiveSlot &&
+        course.venue === table.venue
+      );
+      
+      if (hasConsecutiveSlot) {
+        const baseSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
+        courseId = `${table.code}-${baseSlot}-${type}`;
+        isConsecutiveLabSlot = true;
+      }
+    }
  
+    let slotExists = false;
+    let startTime = "";
+    let endTime = "";
+    
     if (slot.includes(slots)) {
+      slotExists = true;
+      const slotIndex = slot.indexOf(slots);
+      if(type === "Theory"){
+        startTime = TheoryTimings[slotIndex].StartTime;
+        endTime = TheoryTimings[slotIndex].EndTime;
+      } else {
+        startTime = LabTimings[slotIndex].StartTime;
+        endTime = LabTimings[slotIndex].EndTime;
+      }
+    } else if (slots.includes('+')) {
+      const slotParts = slots.split('+');
+      const firstSlot = slotParts[0];
+      const lastSlot = slotParts[slotParts.length - 1];
+      
+      const firstSlotIndex = slot.indexOf(firstSlot);
+      const lastSlotIndex = slot.indexOf(lastSlot);
+      
+      if (firstSlotIndex !== -1 && lastSlotIndex !== -1) {
+        slotExists = true;
+        if(type === "Theory"){
+          startTime = TheoryTimings[firstSlotIndex].StartTime;
+          endTime = TheoryTimings[lastSlotIndex].EndTime;
+        } else {
+          startTime = LabTimings[firstSlotIndex].StartTime;
+          endTime = LabTimings[lastSlotIndex].EndTime;
+        }
+      }
+    } else if (isConsecutiveLabSlot && type === 'Lab') {
+      const slotNumber = parseInt(slots.substring(1));
+      const firstSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
+      const secondSlot = slotNumber % 2 === 1 ? `L${slotNumber + 1}` : slots;
+      
+      const firstSlotIndex = slot.indexOf(firstSlot);
+      const secondSlotIndex = slot.indexOf(secondSlot);
+      
+      
+      if (firstSlotIndex !== -1 && secondSlotIndex !== -1) {
+        slotExists = true;
+        startTime = LabTimings[firstSlotIndex].StartTime;
+        endTime = LabTimings[secondSlotIndex].EndTime;
+      }
+    }
+ 
+    if (slotExists) {
       const existingCourse = courseMap.get(courseId);
       if (!existingCourse || (existingCourse.venue === "NIL" && table.venue !== "NIL")) {
-        if(type === "Theory"){
-          table.start_time = TheoryTimings[slot.indexOf(slots)].StartTime;
-          table.end_time = TheoryTimings[slot.indexOf(slots)].EndTime;
-        } else {
-          table.start_time = LabTimings[slot.indexOf(slots)].StartTime;
-          table.end_time = LabTimings[slot.indexOf(slots)].EndTime;
+        if (isConsecutiveLabSlot && type === 'Lab') {
+          const slotNumber = parseInt(slots.substring(1));
+          const firstSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
+          const secondSlot = slotNumber % 2 === 1 ? `L${slotNumber + 1}` : slots;
+          table.slot = `${firstSlot}+${secondSlot}`;
         }
         
+        table.start_time = startTime;
+        table.end_time = endTime;
+        
         courseMap.set(courseId, table);
+      }
+    } else {
+      console.log(`Slot not found: ${slots} (type: ${type}) on ${day}`);
+      if (slots.includes('+')) {
+        const slotParts = slots.split('+');
       }
     }
   }

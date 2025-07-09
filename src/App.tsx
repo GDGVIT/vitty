@@ -12,16 +12,15 @@ import { useShowProfileStore } from "./store/profileStore";
 import { useLoadingStore } from "./store/useLoadingStore";
 
 const App: React.FC = () => {
-  const isDev = import.meta.env.NODE_ENV === 'development';
   
   const firebaseConfig = {
-    apiKey: isDev ? import.meta.env.VITE_FIREBASE_API_KEY : import.meta.env.VITE_FIREBASE_API_KEY_PROD,
-    authDomain: isDev ? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN : import.meta.env.VITE_FIREBASE_AUTH_DOMAIN_PROD,
-    projectId: isDev ? import.meta.env.VITE_FIREBASE_PROJECT_ID : import.meta.env.VITE_FIREBASE_PROJECT_ID_PROD,
-    storageBucket: isDev ? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET : import.meta.env.VITE_FIREBASE_STORAGE_BUCKET_PROD,
-    messagingSenderId: isDev ? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID : import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID_PROD,
-    appId: isDev ? import.meta.env.VITE_FIREBASE_APP_ID : import.meta.env.VITE_FIREBASE_APP_ID_PROD,
-    measurementId: isDev ? import.meta.env.VITE_FIREBASE_MEASUREMENT_ID : import.meta.env.VITE_FIREBASE_MEASUREMENT_ID_PROD,
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
   };
 
   initializeApp(firebaseConfig);
