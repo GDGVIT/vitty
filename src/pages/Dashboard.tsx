@@ -7,7 +7,8 @@ import { useAuthStore } from "../store/authStore";
 import Loader from "../components/Loader";
 
 export default function Dashboard() {
-  const { uuid, username, updateToken, updateUsername, token } = useAuthStore();
+  const { uuid, username, updateToken, updateUsername, token, campus, updateCampus } = useAuthStore();
+  var userExists = false;
   useEffect(() => {
     if(uuid === "") return;
     checkUserExists(uuid).then((res) => {
@@ -18,6 +19,10 @@ export default function Dashboard() {
             if (data) {
                 updateUsername(data.username);
                 updateToken(data.token);
+                if(data.campus) {
+                    updateCampus(data.campus);
+                }
+                userExists = true;
                 localStorage.setItem("email", data.email);
             } else {
                 window.alert("Some error occured");
@@ -32,8 +37,8 @@ export default function Dashboard() {
       {
         username === null
           ? <Loader />
-          : username === ""
-            ? <GetUserName />
+          : username === "" || campus == null
+            ? <GetUserName userExists={userExists}/>
             : <Timetable />
       }
     </div>
