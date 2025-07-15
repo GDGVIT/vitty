@@ -5,7 +5,7 @@ export interface Course {
   code: string;
   venue: string;
   slot: string;
-  type: string;
+  type: "Lab" | "Theory";
   start_time: string | null;
   end_time: string | null;
 }

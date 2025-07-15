@@ -12,7 +12,7 @@ import { deduplicateTimetable } from "../utils/deduplicateTimetable";
 // import { useLoadingStore } from "../store/useLoadingStore";
 
 export default function ReviewTimeTable() {
-  const { setReview, token, username, uploadTimetable } = useAuthStore();
+  const { setReview, token, username, uploadTimetable, campus } = useAuthStore();
   const { timetable } = useTimeTableStore();
   const { setTimetableUploadedThisSession } = useLoadingStore();
   const [classes, setClasses] = useState<Course[] | null>(null);
@@ -25,7 +25,7 @@ export default function ReviewTimeTable() {
   const fetchData = async () => {
 
     //ParseAndReturn function will return the classes for the selected day
-    const classes: Course[] = ParseAndReturn(timetable, day);
+    const classes: Course[] = ParseAndReturn(timetable, day, campus ?? "vellore");
     const sortedClasses = classes.sort((a, b) => {
       const aTime = convertTo24HourFormat(a.start_time || "00:00");
       const bTime = convertTo24HourFormat(b.start_time || "00:00");
