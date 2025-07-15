@@ -251,9 +251,7 @@ export default function ParseAndReturn(
   ];
 
   const timetable = timeTable?.timetable || [];
-  const finalTimetable: Course[] = [];
-   
-  const courseMap = new Map<string, Course>();
+  const processedTimetable: Course[] = [];
   
   for (let i = 0; i < timetable.length; i++) {
     const table: Course = {
@@ -264,117 +262,95 @@ export default function ParseAndReturn(
       type: timetable[i].type,
       start_time: null,
       end_time: null,
-    }
-    
-
-    if (timetable[i].slot.includes('+')) {
-      console.log(`Found combined slot: ${timetable[i].slot} for ${timetable[i].code} on ${day}`);
-    }
+    };
     
     const slots = table.slot;
-    let type = table.type;
-    
-    if (slots.startsWith('L')) {
-      if (type !== 'Lab') {
-        console.log(`Correcting slot type: ${slots} from ${type} to Lab`);
-        type = 'Lab';
-      }
-    }
-    
+    const type = table.type;
     const slot = TimeTableSlots[day][type];
-    
-    let courseId = `${table.code}-${table.slot}-${type}`;
-    let isConsecutiveLabSlot = false;
-    
-    if (type === 'Lab' && slots.match(/^L\d+$/)) {
-      const slotNumber = parseInt(slots.substring(1));
-      const consecutiveSlot = `L${slotNumber + 1}`;
-      
-      const hasConsecutiveSlot = timetable.some(course => 
-        course.code === table.code && 
-        course.slot === consecutiveSlot &&
-        course.venue === table.venue
-      );
-      
-      if (hasConsecutiveSlot) {
-        const baseSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
-        courseId = `${table.code}-${baseSlot}-${type}`;
-        isConsecutiveLabSlot = true;
-      }
-    }
- 
-    let slotExists = false;
-    let startTime = "";
-    let endTime = "";
-    
+    console.log(table, "table");
+
     if (slot.includes(slots)) {
-      slotExists = true;
-      const slotIndex = slot.indexOf(slots);
-      if(type === "Theory"){
-        startTime = TheoryTimings[slotIndex].StartTime;
-        endTime = TheoryTimings[slotIndex].EndTime;
+      if (type === "Theory") {
+        console.log(slot.indexOf(slots), "start time");
+        table.start_time = TheoryTimings[slot.indexOf(slots)].StartTime;
+        table.end_time = TheoryTimings[slot.indexOf(slots)].EndTime;
       } else {
-        startTime = LabTimings[slotIndex].StartTime;
-        endTime = LabTimings[slotIndex].EndTime;
+        table.start_time = LabTimings[slot.indexOf(slots)].StartTime;
+        table.end_time = LabTimings[slot.indexOf(slots)].EndTime;
       }
-    } else if (slots.includes('+')) {
-      const slotParts = slots.split('+');
-      const firstSlot = slotParts[0];
-      const lastSlot = slotParts[slotParts.length - 1];
-      
-      const firstSlotIndex = slot.indexOf(firstSlot);
-      const lastSlotIndex = slot.indexOf(lastSlot);
-      
-      if (firstSlotIndex !== -1 && lastSlotIndex !== -1) {
-        slotExists = true;
-        if(type === "Theory"){
-          startTime = TheoryTimings[firstSlotIndex].StartTime;
-          endTime = TheoryTimings[lastSlotIndex].EndTime;
-        } else {
-          startTime = LabTimings[firstSlotIndex].StartTime;
-          endTime = LabTimings[lastSlotIndex].EndTime;
-        }
-      }
-    } else if (isConsecutiveLabSlot && type === 'Lab') {
-      const slotNumber = parseInt(slots.substring(1));
-      const firstSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
-      const secondSlot = slotNumber % 2 === 1 ? `L${slotNumber + 1}` : slots;
-      
-      const firstSlotIndex = slot.indexOf(firstSlot);
-      const secondSlotIndex = slot.indexOf(secondSlot);
-      
-      
-      if (firstSlotIndex !== -1 && secondSlotIndex !== -1) {
-        slotExists = true;
-        startTime = LabTimings[firstSlotIndex].StartTime;
-        endTime = LabTimings[secondSlotIndex].EndTime;
-      }
-    }
- 
-    if (slotExists) {
-      const existingCourse = courseMap.get(courseId);
-      if (!existingCourse || (existingCourse.venue === "NIL" && table.venue !== "NIL")) {
-        if (isConsecutiveLabSlot && type === 'Lab') {
-          const slotNumber = parseInt(slots.substring(1));
-          const firstSlot = slotNumber % 2 === 1 ? slots : `L${slotNumber - 1}`;
-          const secondSlot = slotNumber % 2 === 1 ? `L${slotNumber + 1}` : slots;
-          table.slot = `${firstSlot}+${secondSlot}`;
-        }
-        
-        table.start_time = startTime;
-        table.end_time = endTime;
-        
-        courseMap.set(courseId, table);
-      }
-    } else {
-      console.log(`Slot not found: ${slots} (type: ${type}) on ${day}`);
-      if (slots.includes('+')) {
-        const slotParts = slots.split('+');
-      }
+      processedTimetable.push(table);
     }
   }
-  
-  finalTimetable.push(...courseMap.values());
+
+  // Combine consecutive lab courses with the same course code
+  const finalTimetable: Course[] = [];
+  const labGroups: { [key: string]: Course[] } = {};
+
+  // Group lab courses by course code
+  for (const course of processedTimetable) {
+    if (course.type === "Lab") {
+      if (!labGroups[course.code]) {
+        labGroups[course.code] = [];
+      }
+      labGroups[course.code].push(course);
+    } else {
+      // Theory courses are added directly
+      finalTimetable.push(course);
+    }
+  }
+
+  // Process lab groups to combine consecutive slots
+  for (const courseCode in labGroups) {
+    const labs = labGroups[courseCode];
+    
+    // Sort labs by slot index to ensure proper ordering
+    const daySlots = TimeTableSlots[day].Lab;
+    labs.sort((a, b) => daySlots.indexOf(a.slot) - daySlots.indexOf(b.slot));
+    
+    let i = 0;
+    while (i < labs.length) {
+      const currentLab = labs[i];
+      const combinedSlots = [currentLab.slot];
+      let j = i + 1;
+      
+      // Find consecutive slots for the same course
+      while (j < labs.length) {
+        const nextLab = labs[j];
+        const currentSlotIndex = daySlots.indexOf(labs[j - 1].slot);
+        const nextSlotIndex = daySlots.indexOf(nextLab.slot);
+        
+        // Check if the next slot is consecutive and has the same venue
+        if (nextSlotIndex === currentSlotIndex + 1 && nextLab.venue === currentLab.venue) {
+          combinedSlots.push(nextLab.slot);
+          j++;
+        } else {
+          break;
+        }
+      }
+      
+      // Create the combined lab entry
+      const combinedLab: Course = {
+        name: currentLab.name,
+        code: currentLab.code,
+        venue: currentLab.venue,
+        slot: combinedSlots.join(" + "),
+        type: currentLab.type,
+        start_time: currentLab.start_time,
+        end_time: labs[j - 1].end_time, // End time of the last consecutive slot
+      };
+      
+      finalTimetable.push(combinedLab);
+      i = j;
+    }
+  }
+
+  // Sort the final timetable by start time
+  finalTimetable.sort((a, b) => {
+    if (a.start_time && b.start_time) {
+      return a.start_time.localeCompare(b.start_time);
+    }
+    return 0;
+  });
 
   return finalTimetable;
 }

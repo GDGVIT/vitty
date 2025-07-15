@@ -23,6 +23,8 @@ export default function ReviewTimeTable() {
   const [modalStatus, setModalStatus] = useState<string>("");
 
   const fetchData = async () => {
+
+    //ParseAndReturn function will return the classes for the selected day
     const classes: Course[] = ParseAndReturn(timetable, day);
     const sortedClasses = classes.sort((a, b) => {
       const aTime = convertTo24HourFormat(a.start_time || "00:00");
@@ -59,9 +61,9 @@ export default function ReviewTimeTable() {
       alert("Please upload the timetable first!");
       return;
     } else {
-        const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
+        // const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
             
-        uploadText(deduplicatedTimetable, token, username || "")
+        uploadText(timetable.timetable, token, username || "")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
           if (res.data.detail !== null) {
