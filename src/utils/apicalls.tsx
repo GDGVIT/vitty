@@ -7,7 +7,8 @@ const baseURL = "https://vitty-api.dscvit.com";
 
 export const parseAndReturn = async (
   raw: string,
-  apiKey: string
+  apiKey: string,
+  campus: NonNullable<campusType>
 ): Promise<TimeTable> => {
   // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/parse`;
@@ -19,6 +20,7 @@ export const parseAndReturn = async (
 
   const data = {
     timetable: raw,
+    campus: campus,
   };
 
   try {

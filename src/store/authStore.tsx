@@ -58,7 +58,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
   deleteTimetable: () => {
     set(() => ({
-      timetable: null,
+      timetable: { timetable: null},
     }));
   },
   updateRegNo: (regNo) => {

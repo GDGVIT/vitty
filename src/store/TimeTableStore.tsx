@@ -26,7 +26,7 @@ export const useTimeTableStore = create<TimeTableStore>((set) => ({
   timetable: null,
   uploadTimetable: (data) => {
     set(() => ({
-      timetable: data
+      timetable: data,
     }));
   },
   deleteTimetable: () => {
@@ -37,15 +37,18 @@ export const useTimeTableStore = create<TimeTableStore>((set) => ({
   deleteSlot: (slot) => {
     set((state) => ({
       timetable: {
-        timetable: state.timetable?.timetable?.filter((course) => course.slot !== slot) || null
-      }
+        timetable:
+          state.timetable?.timetable?.filter(
+            (course) => course.slot !== slot
+          ) || null,
+      },
     }));
   },
   addCourse: (course: Course) => {
     set((state) => ({
       timetable: {
-        timetable: [...state.timetable?.timetable || [], course]
-      }
+        timetable: [...(state.timetable?.timetable || []), course],
+      },
     }));
-  }
+  },
 }));
