@@ -12,7 +12,7 @@ import { deduplicateTimetable } from "../utils/deduplicateTimetable";
 // import { useLoadingStore } from "../store/useLoadingStore";
 
 export default function ReviewTimeTable() {
-  const { setReview, token, username, uploadTimetable } = useAuthStore();
+  const { setReview, token, username, uploadTimetable, campus } = useAuthStore();
   const { timetable } = useTimeTableStore();
   const { setTimetableUploadedThisSession } = useLoadingStore();
   const [classes, setClasses] = useState<Course[] | null>(null);
@@ -23,7 +23,9 @@ export default function ReviewTimeTable() {
   const [modalStatus, setModalStatus] = useState<string>("");
 
   const fetchData = async () => {
-    const classes: Course[] = ParseAndReturn(timetable, day);
+
+    //ParseAndReturn function will return the classes for the selected day
+    const classes: Course[] = ParseAndReturn(timetable, day, campus ?? "vellore");
     const sortedClasses = classes.sort((a, b) => {
       const aTime = convertTo24HourFormat(a.start_time || "00:00");
       const bTime = convertTo24HourFormat(b.start_time || "00:00");
@@ -59,9 +61,9 @@ export default function ReviewTimeTable() {
       alert("Please upload the timetable first!");
       return;
     } else {
-        const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
+        // const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
             
-        uploadText(deduplicatedTimetable, token, username || "")
+        uploadText(timetable.timetable, token, username || "")
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
           if (res.data.detail !== null) {

@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
-import { TimeTable } from "../store/authStore";
+import axios, { AxiosError } from "axios";
+import { campusType, TimeTable } from "../store/authStore";
 import { Course } from "../store/authStore";
 
 const baseURL = "https://vitty-api.dscvit.com";
 
-export const parseAndReturn = async (raw: string, apiKey: string): Promise<TimeTable> => {
+export const parseAndReturn = async (
+  raw: string,
+  apiKey: string,
+  campus: NonNullable<campusType>
+): Promise<TimeTable> => {
   // const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
   const remoteApiUrl = `${baseURL}/api/v2/timetable/parse`;
   // const url = `${corsProxyUrl}${remoteApiUrl}`;
@@ -16,10 +20,13 @@ export const parseAndReturn = async (raw: string, apiKey: string): Promise<TimeT
 
   const data = {
     timetable: raw,
+    campus: campus,
   };
 
   try {
-    const response = await axios.post(remoteApiUrl, data, { headers: myHeaders });
+    const response = await axios.post(remoteApiUrl, data, {
+      headers: myHeaders,
+    });
     return response.data;
   } catch (e) {
     return { timetable: null };
@@ -164,14 +171,17 @@ export const getToken = async (uuid: string): Promise<any> => {
 export const signIn = async (
   uuid: string,
   regNo: string,
-  username: string
+  username: string,
+  campus: campusType
 ): Promise<any> => {
-  const data = {
+  const data: { uuid: string; username: string; campus: campusType; regNo?: string } = {
     uuid: uuid,
-    reg_no: regNo,
     username: username,
+    campus: campus,
   };
-
+  if (regNo != "") {
+    data.regNo = regNo;
+  }
   const myHeaders = {
     "Content-Type": "application/json",
   };
@@ -183,8 +193,8 @@ export const signIn = async (
       { headers: myHeaders }
     );
     return response.data;
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
-    return { e };
+    return { detail: e.response?.data?.detail };
   }
 };

@@ -13,7 +13,7 @@ interface Course {
   code: string;
   venue: string;
   slot: string;
-  type: string;
+  type: "Lab" | "Theory";
   start_time: string | null;
   end_time: string | null;
 }
@@ -22,7 +22,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
   //   const [course, setCourse] = useState<Course | null>(null);
   const [slotAdd, setSlotAdd] = useState("");
   const [courseName, setCourseName] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState<"Lab" | "Theory" | null>(null);
   const [code, setCode] = useState("");
   const [venue, setVenue] = useState("");
 
@@ -53,7 +53,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       setTip("Tip: Please enter a course code!");
       return false;
     }
-    if (type === "") {
+    if (!type) {
       setTip("Tip: Please enter a course type!");
       return false;
     }
@@ -83,7 +83,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
       const course: Course = {
         name: courseName,
         code: code,
-        type: type,
+        type: type || "Theory",
         venue: venue,
         slot: slotAdd,
         start_time: null,
@@ -150,14 +150,17 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
               />
               <br />
               <label className="modal-message">Course Type</label>
-              <input
+              <select
                 className="modal-input"
-                type="text"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                placeholder="Theory"
-                required
-              />
+                value={type || ""}
+                onChange={(e) => setType(e.target.value as "Lab" | "Theory")}
+              >
+                <option value="" disabled>
+                  Select Type
+                </option>
+                <option value="Theory">Theory</option>
+                <option value="Lab">Lab</option>
+              </select>
               <br />
               <label className="modal-message">Venue</label>
               <input

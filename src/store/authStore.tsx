@@ -5,7 +5,7 @@ export interface Course {
   code: string;
   venue: string;
   slot: string;
-  type: string;
+  type: "Lab" | "Theory";
   start_time: string | null;
   end_time: string | null;
 }
@@ -14,11 +14,13 @@ export interface TimeTable {
   timetable: Course[] | null;
 }
 
+export type campusType = "vellore" | "chennai" | "bhopal" | null;
 interface AuthStore {
   uuid: string;
   isLoggedIn: boolean;
   profile: string;
   username: string | null;
+  campus: campusType;
   name: string;
   email: string;
   token: string;
@@ -32,6 +34,7 @@ interface AuthStore {
   logout: () => void;
   updateUsername: (username: string) => void;
   updateToken: (token: string) => void;
+  updateCampus: (campus: campusType) => void;
   updateRegNo: (regNo: string) => void;
   initializeFromLocalStorge: () => void;
 }
@@ -41,6 +44,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isLoggedIn: false,
   profile: "",
   username: null,
+  campus: null,
   email: "",
   review: false,
   name: "",
@@ -54,7 +58,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
   deleteTimetable: () => {
     set(() => ({
-      timetable: null,
+      timetable: { timetable: null},
     }));
   },
   updateRegNo: (regNo) => {
@@ -76,6 +80,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       isLoggedIn: false,
       profile: "",
       username: null,
+      campus: null,
       email: "",
       name: "",
       token: "",
@@ -99,16 +104,23 @@ export const useAuthStore = create<AuthStore>((set) => ({
       token,
     }));
   },
+  updateCampus: (campus: campusType) => {
+    set(() => ({
+      campus,
+    }));
+  },
   initializeFromLocalStorge: () => {
     const uuid = localStorage.getItem("uuid");
     const profile = localStorage.getItem("profile");
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
-    if (uuid && profile && username && email) {
+    const campus = localStorage.getItem("campus");
+    if (uuid && profile && username && email && campus) {
       set(() => ({
         uuid,
         isLoggedIn: true,
         profile,
+        campus: campus as campusType,
         username,
         email,
       }));

@@ -10,7 +10,7 @@ import { useTimeTableStore } from "../store/TimeTableStore";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-  const { username, token, setReview } = useAuthStore();
+  const { token, setReview, campus } = useAuthStore();
   const { uploadTimetable } = useTimeTableStore();
   const { setLoading } = useLoadingStore();
   // const regexPattern = /Registered and Approved$/;
@@ -34,7 +34,7 @@ const Upload: React.FC = () => {
     //   return;
     // }
     // }
-    parseAndReturn(text, token)
+    parseAndReturn(text, token, campus ?? "vellore")
       .then((res: TimeTable) => {
         if (res.timetable === null) {
           alert(

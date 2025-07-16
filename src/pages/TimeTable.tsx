@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import EditTimeTable from "../components/EditTimeTable";
 import UploadTimeTable from "../components/UploadTimeTable";
 import ReviewTimeTable from "../components/ReviewTimeTable";
+import Loader from "../components/Loader";
 
 interface ClassInfo {
   name: string;
@@ -21,18 +22,22 @@ interface Timetable {
 }
 
 export default function Timetable() {
-  const { username, token, timetable, uploadTimetable, deleteTimetable, review } = useAuthStore();
+  const {
+    username,
+    token,
+    timetable,
+    uploadTimetable,
+    deleteTimetable,
+    review,
+  } = useAuthStore();
 
   useEffect(() => {
     getTimetable(username || "", token)
       .then((res) => {
         if (res.data.Monday === undefined) {
           deleteTimetable();
-          console.log(res, "upload timetable from timetable page");
-        }
-        else {
+        } else {
           uploadTimetable(res.data);
-          console.log(res.data, "upload timetable from timetable page");
         }
       })
       .catch((error) => {
@@ -40,5 +45,15 @@ export default function Timetable() {
       });
   }, [username, token]);
 
-  return (review === false) ? ((timetable === null) ? <UploadTimeTable /> : <EditTimeTable />): <ReviewTimeTable />;
+  return review === false ? (
+    timetable === null ? (
+      <Loader />
+    ) : timetable.timetable === null ? (
+      <UploadTimeTable />
+    ) : (
+      <EditTimeTable />
+    )
+  ) : (
+    <ReviewTimeTable />
+  );
 }

@@ -25,7 +25,7 @@ export default function CourseCard({
       {
         slots.map((course: Course) => {
           return (
-            <div key={course.slot} className='course'>
+            <div key={`${course.slot}-${course.name}-${course.start_time}`} className='course'>
               <div className='course-deets'>
                 <div className='course-name'>{course.name}</div>
                 <div className='course-time'>
