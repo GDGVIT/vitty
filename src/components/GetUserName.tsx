@@ -36,7 +36,11 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
         setValidUsername(false);
         setValidRegNo(false);
         console.log(data);
-        window.alert(data.detail);
+        if(data.detail === "duplicated key not allowed") {
+          window.alert("Registration Number already exists.");
+        } else {
+          window.alert(data.detail);
+        }
       }
     });
   };

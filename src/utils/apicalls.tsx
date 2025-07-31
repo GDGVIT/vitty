@@ -170,17 +170,17 @@ export const getToken = async (uuid: string): Promise<any> => {
 
 export const signIn = async (
   uuid: string,
-  regNo: string,
+  reg_no: string,
   username: string,
   campus: campusType
 ): Promise<any> => {
-  const data: { uuid: string; username: string; campus: campusType; regNo?: string } = {
+  const data: { uuid: string; username: string; campus: campusType; reg_no?: string } = {
     uuid: uuid,
     username: username,
     campus: campus,
   };
-  if (regNo != "") {
-    data.regNo = regNo;
+  if (reg_no != "") {
+    data.reg_no = reg_no;
   }
   const myHeaders = {
     "Content-Type": "application/json",
@@ -206,7 +206,7 @@ export const deleteUserAccount = async (username: string, token: string): Promis
       {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Token ${token}`,
         },
       }
     );

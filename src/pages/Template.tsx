@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "../components/Nav";
 import EllipseTR from "../assets/ellipse_tr.png";
 import EllipseBL from "../assets/ellipse_bl.png";
-import SupportFab from "../components/SupportFab";
 
 interface TemplateProps {
   children: React.ReactNode;
@@ -27,7 +26,6 @@ const Template: React.FC<TemplateProps> = ({ children }) => {
       </div>
       <Navbar />
       <div className="h-auto w-auto mt-[96px] bg-[#041727]">{children}</div>
-      <SupportFab />
     </>
   );
 };

@@ -9,7 +9,7 @@ export default function HomeCarousal() {
     <div>
       <Carousel
         autoPlay
-        width="25rem"
+        width="20rem"
         infiniteLoop
         showIndicators={true}
         showStatus={false}

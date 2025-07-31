@@ -6,7 +6,7 @@ import AccountDelete from "./pages/AccountDelete";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<App />} />
-    <Route path="/account/delete" element={<AccountDelete />} />
+    {/* <Route path="/account/delete" element={<AccountDelete />} /> */}
   </Routes>
 );
 

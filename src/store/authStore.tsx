@@ -96,12 +96,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
   updateUsername: (username: string) => {
     set(() => ({
-      username,
+      username: username,
     }));
   },
   updateToken: (token: string) => {
     set(() => ({
-      token,
+      token: token,
     }));
   },
   updateCampus: (campus: campusType) => {
@@ -115,7 +115,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
     const campus = localStorage.getItem("campus");
-    if (uuid && profile && username && email && campus) {
+    const token = localStorage.getItem("token");
+    if (uuid && profile && username && email && campus && token) {
       set(() => ({
         uuid,
         isLoggedIn: true,
@@ -123,6 +124,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         campus: campus as campusType,
         username,
         email,
+        token,
       }));
     }
   },

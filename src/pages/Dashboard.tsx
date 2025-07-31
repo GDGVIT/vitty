@@ -24,6 +24,8 @@ export default function Dashboard() {
                 }
                 userExists = true;
                 localStorage.setItem("email", data.email);
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("token", data.token);
             } else {
                 window.alert("Some error occured");
             }

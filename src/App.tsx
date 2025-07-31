@@ -10,9 +10,12 @@ import { useAuthStore } from "./store/authStore";
 import Profile from "./components/Profile";
 import { useShowProfileStore } from "./store/profileStore";
 import { useLoadingStore } from "./store/useLoadingStore";
+import AccountDelete from "./pages/AccountDelete";
 
 const App: React.FC = () => {
-  
+  const urlParams = new URLSearchParams(window.location.search);
+  const deleteParam = urlParams.get("delete");
+
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -51,16 +54,14 @@ const App: React.FC = () => {
   }, [isLoggedIn, login]);
 
   useEffect(() => {
-    initializeFromLocalStorge();
-  }, [initializeFromLocalStorge]);
-
-  useEffect(() => {
     document.title = "VITTY";
   }, []);
 
   return (
     <Template>
-      {isLoading ? (
+      {deleteParam == "true" ? (
+        <AccountDelete />
+      ) : isLoading ? (
         <Loader />
       ) : uuid === "" ? (
         <LoginPage />
@@ -69,6 +70,7 @@ const App: React.FC = () => {
       ) : (
         <Dashboard />
       )}
+
       {showProfile && <Profile />}
     </Template>
   );
