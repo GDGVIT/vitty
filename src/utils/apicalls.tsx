@@ -198,3 +198,20 @@ export const signIn = async (
     return { detail: e.response?.data?.detail };
   }
 };
+
+export const deleteUserAccount = async (username: string, token: string): Promise<any> => {
+  try {
+    const response = await fetch(
+      `${baseURL}/api/v2/users/${username}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    return await response.json();
+  } catch (e) {
+    return { detail: `Error deleting user: ${e}` };
+  }
+};
