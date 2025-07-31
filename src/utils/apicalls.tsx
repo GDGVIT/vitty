@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { campusType, TimeTable } from "../store/authStore";
 import { Course } from "../store/authStore";
 
-const baseURL = "https://api.vitty.dscvit.com"; 
+const baseURL = "https://api-vitty.dscvit.com"; 
 
 export const parseAndReturn = async (
   raw: string,
