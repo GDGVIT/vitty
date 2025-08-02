@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { isAvailable, signIn } from "../utils/apicalls";
+import { isAvailable, signIn, patchCampus } from "../utils/apicalls";
 import { useAuthStore, campusType } from "../store/authStore";
 import { useLoadingStore } from "../store/useLoadingStore";
 
@@ -9,8 +9,15 @@ interface GetUsernameProps {
 }
 
 const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
-  const { updateUsername, updateToken, username, regNo, campus, updateCampus } =
-    useAuthStore();
+  const {
+    updateUsername,
+    updateToken,
+    username,
+    regNo,
+    campus,
+    updateCampus,
+    token,
+  } = useAuthStore();
 
   const [userName, setuserName] = useState(username ?? "");
   const [regNumber, setRegNumber] = useState(regNo ?? "");
@@ -36,7 +43,7 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
         setValidUsername(false);
         setValidRegNo(false);
         console.log(data);
-        if(data.detail === "duplicated key not allowed") {
+        if (data.detail === "duplicated key not allowed") {
           window.alert("Registration Number already exists.");
         } else {
           window.alert(data.detail);
@@ -66,18 +73,31 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
         }
       });
     } else {
-        setValidUsername(true);
-        setValidRegNo(true);
+      setValidUsername(true);
+      setValidRegNo(true);
     }
-    if(cam == null) {
+    if (cam == null) {
       window.alert("Please select a campus");
       return;
     }
   };
 
+  const handlePatchCampus = (): void => {
+    patchCampus(cam!, token).then((data) => {
+      if (data.detail === "Campus updated successfully") {
+        updateCampus(cam);
+      } else {
+        console.log(data);
+        window.alert(data.detail || "Error updating campus");
+      }
+    });
+  };
+
   useEffect(() => {
-    if (validUsername && validregNo) {
+    if (validUsername && validregNo && !userExists) {
       updateUserName();
+    } else if (validUsername && validregNo && userExists) {
+      handlePatchCampus();
     }
   }, [validUsername, validregNo]);
 

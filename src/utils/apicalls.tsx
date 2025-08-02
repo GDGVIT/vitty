@@ -200,6 +200,29 @@ export const signIn = async (
   }
 };
 
+export const patchCampus = async(campus: string, apiKey: string): Promise<any> => {
+  const myHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Token ${apiKey}`,
+  };
+
+  const data = {
+    campus: campus,
+  };
+
+  try {
+    const response = await axios.patch(
+      `${baseURL}/api/v2/users/campus/`,
+      data,
+      { headers: myHeaders }
+    );
+    return response.data;
+  } catch (e: any) {
+    console.log(e);
+    return { detail: e.response?.data?.detail || "Error updating campus" };
+  }
+};
+
 export const deleteUserAccount = async (username: string, token: string): Promise<any> => {
   try {
     const response = await fetch(
