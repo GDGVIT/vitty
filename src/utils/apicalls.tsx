@@ -5,6 +5,7 @@ import { Course } from "../store/authStore";
 
 const baseURL = "https://visiting-eba-vitty-d61856bb.koyeb.app"; 
 
+
 export const parseAndReturn = async (
   raw: string,
   apiKey: string,
