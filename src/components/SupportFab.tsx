@@ -52,7 +52,7 @@ const SupportFab: React.FC = () => {
               </a>
               {username && (
                 <a
-                  href="/account/delete"
+                  href="/?delete=true"
                   // className="flex items-center gap-2 px-3 py-2 rounded-lg  text-white font-medium transition-colors duration-150"
                   className="border-red-600 border rounded-md flex flex-row items-center justify-center gap-3 p-2 w-full"
                   onClick={() => setOpen(false)}

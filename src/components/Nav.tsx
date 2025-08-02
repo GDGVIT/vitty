@@ -37,7 +37,9 @@ const Nav: React.FC = () => {
   return (
     <header className="z-50 flex flex-row justify-between items-center">
       <div className="logo">
-        <img src={VTLogo} alt="VITTY" />
+        <a href="/">
+          <img src={VTLogo} alt="VITTY" />
+        </a>
         {/* <img src={Logo} alt='VITTY' /> */}
       </div>
       <div className="flex flex-row gap-4 items-center justify-between">

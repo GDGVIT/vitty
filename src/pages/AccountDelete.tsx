@@ -28,6 +28,7 @@ export default function AccountDelete() {
       setTimeout(() => {
         logout();
         navigate("/");
+        localStorage.clear();
       }, 2000);
     } else {
       setError(response.detail || "Unknown error");

@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { campusType, TimeTable } from "../store/authStore";
 import { Course } from "../store/authStore";
 
-const baseURL = "https://visiting-eba-vitty-d61856bb.koyeb.app"; 
+const baseURL = import.meta.env.VITE_BASE_URL; 
 
 
 export const parseAndReturn = async (
