@@ -1,10 +1,27 @@
-import { Navigate, Outlet } from 'react-router-dom';
-// import { getAuth } from 'firebase/auth';
-// import { useAuthStore } from '../store/authStore';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
+import Loader from './Loader';
 
-const GuardedRoute = () => {
-  const uuid = localStorage.getItem('uuid') || null;
-  return  uuid ? <Outlet /> : <Navigate to="/login" />;
+export const GuardedRoute = () => {
+  const { isLoggedIn, authReady } = useAuthStore();
+  const location = useLocation();
+  if (!authReady) return <Loader />;
+  return isLoggedIn ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" replace state={{ from: location }} />
+  );
+};
+
+export const UnauthGuard = () => {
+  const { isLoggedIn, authReady } = useAuthStore();
+  const location = useLocation();
+  if (!authReady) return <Loader />;
+  return !isLoggedIn ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/dashboard" replace state={{ from: location }} />
+  );
 };
 
 export default GuardedRoute;

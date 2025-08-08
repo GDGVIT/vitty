@@ -7,12 +7,15 @@ import Ios from "./../assets/app_store.svg";
 import { useAuthStore } from "../store/authStore";
 import "./../styles/fin.css";
 import { useLoadingStore } from "../store/useLoadingStore";
+import { useTimeTableStore } from "../store/TimeTableStore";
+import toast from "react-hot-toast";
 
 const EditTimeTable: React.FC = () => {
-  const { name, deleteTimetable } = useAuthStore();
+  const { name } = useAuthStore();
+  const { clearTimetable } = useTimeTableStore();
   const { setLoading, timetableUploadedThisSession, setTimetableUploadedThisSession } = useLoadingStore();
   const handleClick = () => {
-    deleteTimetable();
+    clearTimetable();
   };
 
   useEffect(() => {
@@ -23,7 +26,7 @@ const EditTimeTable: React.FC = () => {
   useEffect(() => {
     if (timetableUploadedThisSession) {
       setTimeout(() => {
-        window.alert("Timetable uploaded successfully!");
+        toast.success("Timetable uploaded successfully!");
       }, 1000);
       setTimetableUploadedThisSession(false);
     }
@@ -60,13 +63,6 @@ const EditTimeTable: React.FC = () => {
             >
               <img alt="Get it on Apple App Store" src={Ios} />
             </a>
-            <a href="https://chrome.google.com/webstore/detail/vitty/eeohmkjefmpmddidkjadpifbfcplkifh">
-              <img alt="Get it on Chrome Web Store" src={Chrome} />
-            </a>
-
-            {/* <a href='https://play.google.com/store/apps/details?id=com.dscvit.vitty'><DiAndroid /> Get it on the Play Store</a>
-            <a className='disabled' href='/'><FaAppStoreIos /> Get it on the App Store (coming soon)</a>
-            <a href='https://chrome.google.com/webstore/detail/vitty/eeohmkjefmpmddidkjadpifbfcplkifh'><FaChrome /> Get it on the Chrome Web Store</a> */}
           </div>
           <button className="fin-edit" onClick={handleClick}>
             <AiFillEdit />

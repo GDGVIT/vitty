@@ -6,6 +6,8 @@ import EditTimeTable from "../components/EditTimeTable";
 import UploadTimeTable from "../components/UploadTimeTable";
 import ReviewTimeTable from "../components/ReviewTimeTable";
 import Loader from "../components/Loader";
+import { useTimeTableStore } from "../store/TimeTableStore";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ClassInfo {
   name: string;
@@ -22,38 +24,46 @@ interface Timetable {
 }
 
 export default function Timetable() {
-  const {
-    username,
-    token,
-    timetable,
-    uploadTimetable,
-    deleteTimetable,
-    review,
-  } = useAuthStore();
+  const { username, token } = useAuthStore();
+  const { timetable, setTimetable, clearTimetable, review } = useTimeTableStore();
 
   useEffect(() => {
     getTimetable(username || "", token)
       .then((res) => {
-        if (res.data.Monday === undefined) {
-          deleteTimetable();
+        // API returns an object with day keys when a timetable exists
+        if (!res || res.data.Monday === undefined) {
+          clearTimetable();
         } else {
-          uploadTimetable(res.data);
+          // We only need to know that a timetable exists to show the final screen
+          setTimetable({ timetable: [] });
         }
       })
-      .catch((error) => {
-        console.error("Error fetching timetable:", error);
+      .catch(() => {
       });
   }, [username, token]);
 
-  return review === false ? (
-    timetable === null ? (
-      <Loader />
-    ) : timetable.timetable === null ? (
-      <UploadTimeTable />
-    ) : (
-      <EditTimeTable />
-    )
-  ) : (
-    <ReviewTimeTable />
+  const viewKey = review
+    ? "review"
+    : timetable === null
+    ? "loading"
+    : timetable.timetable === null
+    ? "upload"
+    : "edit";
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={viewKey}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+      >
+        {viewKey === "loading" && <Loader />}
+        {viewKey === "upload" && <UploadTimeTable />}
+        {viewKey === "edit" && <EditTimeTable />}
+        {viewKey === "review" && <ReviewTimeTable />}
+      </motion.div>
+    </AnimatePresence>
   );
 }

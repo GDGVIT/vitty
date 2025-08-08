@@ -15,40 +15,66 @@ export interface TimeTable {
 }
 
 interface TimeTableStore {
+  // canonical timetable as known by backend
   timetable: TimeTable | null;
-  uploadTimetable: (timetable: TimeTable) => void;
-  deleteTimetable: () => void;
-  deleteSlot: (slot: string) => void;
-  addCourse: (course: Course) => void;
+  // draft being edited in the review flow
+  draft: TimeTable | null;
+  // review flow UI flag
+  review: boolean;
+
+  setTimetable: (timetable: TimeTable | null) => void;
+  clearTimetable: () => void;
+
+  setDraft: (timetable: TimeTable | null) => void;
+  clearDraft: () => void;
+  startEditing: () => void;
+  addCourseToDraft: (course: Course) => void;
+  removeSlotFromDraft: (slot: string) => void;
+
+  setReview: (review: boolean) => void;
 }
 
-export const useTimeTableStore = create<TimeTableStore>((set) => ({
+export const useTimeTableStore = create<TimeTableStore>((set, get) => ({
   timetable: null,
-  uploadTimetable: (data) => {
-    set(() => ({
-      timetable: data,
-    }));
+  draft: null,
+  review: false,
+
+  setTimetable: (data) => {
+    set(() => ({ timetable: data }));
   },
-  deleteTimetable: () => {
-    set(() => ({
-      timetable: null,
-    }));
+  clearTimetable: () => {
+    set(() => ({ timetable: { timetable: null } }));
   },
-  deleteSlot: (slot) => {
+
+  setDraft: (data) => {
+    set(() => ({ draft: data }));
+  },
+  clearDraft: () => {
+    set(() => ({ draft: null }));
+  },
+  startEditing: () => {
+    const current = get().timetable;
+    if (current) {
+      set(() => ({ draft: { timetable: current.timetable ? [...current.timetable] : null } }));
+    } else {
+      set(() => ({ draft: { timetable: null } }));
+    }
+  },
+  addCourseToDraft: (course: Course) => {
     set((state) => ({
-      timetable: {
+      draft: {
+        timetable: [...(state.draft?.timetable || []), course],
+      },
+    }));
+  },
+  removeSlotFromDraft: (slot: string) => {
+    set((state) => ({
+      draft: {
         timetable:
-          state.timetable?.timetable?.filter(
-            (course) => course.slot !== slot
-          ) || null,
+          state.draft?.timetable?.filter((course) => course.slot !== slot) || null,
       },
     }));
   },
-  addCourse: (course: Course) => {
-    set((state) => ({
-      timetable: {
-        timetable: [...(state.timetable?.timetable || []), course],
-      },
-    }));
-  },
+
+  setReview: (review) => set(() => ({ review })),
 }));

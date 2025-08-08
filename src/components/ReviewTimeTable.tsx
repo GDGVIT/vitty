@@ -1,31 +1,30 @@
-import { useAuthStore, Course } from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 import ParseAndReturn from "../utils/ParseAndReturn";
 import { useEffect, useState } from "react";
 import CourseCard from "./Course";
 import "../styles/review.css";
-import { useTimeTableStore } from "../store/TimeTableStore";
+import { useTimeTableStore, Course } from "../store/TimeTableStore";
 import { uploadText } from "../utils/apicalls";
 import Modal from "./Modal";
 import "./../styles/Modal.css";
 import { useLoadingStore } from "../store/useLoadingStore";
-import { deduplicateTimetable } from "../utils/deduplicateTimetable";
-// import { useLoadingStore } from "../store/useLoadingStore";
+import toast from "react-hot-toast";
 
 export default function ReviewTimeTable() {
-  const { setReview, token, username, uploadTimetable, campus } = useAuthStore();
-  const { timetable } = useTimeTableStore();
+  const { token, username, campus } = useAuthStore();
+  const { draft, setTimetable, setReview } = useTimeTableStore();
   const { setTimetableUploadedThisSession } = useLoadingStore();
   const [classes, setClasses] = useState<Course[] | null>(null);
-  // const [sortedClasses, setSortedClasses] = useState<Course[] | null>(null);
   const [day, setDay] = useState<string>("Monday");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalSlot, setModalSlot] = useState<string>("");
   const [modalStatus, setModalStatus] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const fetchData = async () => {
 
-    //ParseAndReturn function will return the classes for the selected day
-    const classes: Course[] = ParseAndReturn(timetable, day, campus ?? "vellore");
+    // ParseAndReturn function will return the classes for the selected day from the draft
+    const classes: Course[] = ParseAndReturn(draft, day, campus ?? "vellore");
     const sortedClasses = classes.sort((a, b) => {
       const aTime = convertTo24HourFormat(a.start_time || "00:00");
       const bTime = convertTo24HourFormat(b.start_time || "00:00");
@@ -37,9 +36,7 @@ export default function ReviewTimeTable() {
   useEffect(() => {
     document.title = "VITTY | Review";
     fetchData();
-    // ...
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timetable, day]);
+  }, [draft, day]);
   
   function convertTo24HourFormat(time: string): string {
     const [hour, minute, period] = time.split(/:| /);
@@ -57,27 +54,27 @@ export default function ReviewTimeTable() {
 
   const handleConfirm = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault();
-    if (timetable === null) {
-      alert("Please upload the timetable first!");
+    if (draft === null) {
+      toast.error("Please upload the timetable first!");
       return;
     } else {
-        // const deduplicatedTimetable = deduplicateTimetable(timetable.timetable || []);
+        setIsSubmitting(true);
             
-        uploadText(timetable.timetable, token, username || "")
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        uploadText(draft.timetable, token, username || "")
         .then((res: any) => {
-          if (res.data.detail !== null) {
-            uploadTimetable(res.data);
-            // useLoadingStore.getState().setLoading(true);
+          if (res?.data?.detail !== null) {
+            setTimetable(res.data);
             setTimetableUploadedThisSession(true);
+            // leave review mode only after we have updated canonical timetable
+            setReview(false);
           } else {
-            alert("upload failed");
+            toast.error("Upload failed");
           }
         })
-        .catch((error: Error) => {
-          console.error("Error uploading timetable:", error);
-        });
-      setReview(false);
+        .catch(() => {
+          toast.error("Error uploading timetable");
+        })
+        .finally(() => setIsSubmitting(false));
     }
   };
 
@@ -162,15 +159,13 @@ export default function ReviewTimeTable() {
         >
           Add Slot
         </button>
-        <button className="review-confirm" onClick={handleConfirm}>
-          Confirm
+        <button className="review-confirm" onClick={handleConfirm} disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Confirm"}
         </button>
       </div>
       {showModal &&
         <Modal
           onClose={() => setShowModal(false)}
-          // getActive={day}
-          // resetActive={setDay}
           slot={modalSlot}
           status={modalStatus}
         />}

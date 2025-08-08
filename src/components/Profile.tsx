@@ -17,11 +17,9 @@ const Profile: React.FC = () => {
     const logOut = (): void => {
         const auth = getAuth()
         signOut(auth).then(() => {
-            console.log(auth.currentUser)
             logout();
             toggleProfile();
-        }).catch((error) => {
-            console.error(error)
+        }).catch(() => {
         })
     }
 

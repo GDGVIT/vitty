@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError } from "axios";
-import { campusType, TimeTable } from "../store/authStore";
-import { Course } from "../store/authStore";
+import { campusType } from "../store/authStore";
+import { Course, TimeTable } from "../store/TimeTableStore";
 
 const baseURL = import.meta.env.VITE_BASE_URL; 
 
@@ -56,7 +56,6 @@ export const checkUserExists = async (username: string): Promise<any> => {
     if (e.response?.status === 400) {
       return e.response?.data;
     } else {
-      console.log(e);
       return {};
     }
   }
@@ -111,7 +110,6 @@ export const isAvailable = async (username: string): Promise<any> => {
     if (axios.isAxiosError(e) && e.response?.status === 400) {
       return e.response?.data ?? { error: e };
     } else {
-      console.log(e);
       return {};
     }
   }
@@ -135,7 +133,6 @@ export const getTimetable = async (
       return data;
     }
   } catch (e) {
-    console.log(e);
     return { error: e };
   }
 };
@@ -164,7 +161,6 @@ export const getToken = async (uuid: string): Promise<any> => {
     const data = await response.json();
     return data;
   } catch (e) {
-    console.log(e);
     return { e };
   }
 };
@@ -195,7 +191,6 @@ export const signIn = async (
     );
     return response.data;
   } catch (e: any) {
-    console.log(e);
     return { detail: e.response?.data?.detail };
   }
 };
@@ -218,7 +213,6 @@ export const patchCampus = async(campus: string, apiKey: string): Promise<any> =
     );
     return response.data;
   } catch (e: any) {
-    console.log(e);
     return { detail: e.response?.data?.detail || "Error updating campus" };
   }
 };

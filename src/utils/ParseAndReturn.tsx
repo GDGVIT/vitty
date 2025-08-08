@@ -1,10 +1,15 @@
-import { TimeTable, Course, campusType } from "../store/authStore";
+import type { TimeTable, Course } from "../store/TimeTableStore";
+import type { campusType } from "../store/authStore";
+
+// Simple memoization cache keyed by timetable object reference and campus/day
+const NULL_TIMETABLE_KEY: Record<string, never> = {};
+const cache = new WeakMap<object, Map<string, Course[]>>();
 
 export default function ParseAndReturn(
   timeTable: TimeTable | null,
   day: string,
   campus: NonNullable<campusType>
-) {
+): Course[] {
 
   interface Timings {
     StartTime: string;
@@ -189,7 +194,18 @@ const CAMPUS_CONFIGS: Record<NonNullable<campusType> , CampusConfig> = {
   },
 };
 
+  // Guards
+  if (!campus || !(campus in CAMPUS_CONFIGS)) return [];
+  if (!day || !(day in CAMPUS_CONFIGS[campus].timeTableSlots)) return [];
   const timetable = timeTable?.timetable || [];
+  if (timetable.length === 0) return [];
+
+  // Memoization lookup
+  const refKey = (timeTable as unknown as object) || NULL_TIMETABLE_KEY;
+  const subKey = `${campus}:${day}`;
+  const existing = cache.get(refKey)?.get(subKey);
+  if (existing) return existing;
+
   const processedTimetable: Course[] = [];
   
   for (let i = 0; i < timetable.length; i++) {
@@ -205,20 +221,24 @@ const CAMPUS_CONFIGS: Record<NonNullable<campusType> , CampusConfig> = {
     
     const slots = table.slot;
     const type = table.type;
-    const slot = CAMPUS_CONFIGS[campus].timeTableSlots[day][type];
-    console.log(table, "table");
+    const slotList = CAMPUS_CONFIGS[campus].timeTableSlots[day]?.[type];
+    if (!Array.isArray(slotList)) continue;
 
-    if (slot.includes(slots)) {
-      if (type === "Theory") {
-        console.log(slot.indexOf(slots), "start time");
-        table.start_time = CAMPUS_CONFIGS[campus].theoryTimings[slot.indexOf(slots)].StartTime;
-        table.end_time = CAMPUS_CONFIGS[campus].theoryTimings[slot.indexOf(slots)].EndTime;
-      } else {
-        table.start_time = CAMPUS_CONFIGS[campus].labTimings[slot.indexOf(slots)].StartTime;
-        table.end_time = CAMPUS_CONFIGS[campus].labTimings[slot.indexOf(slots)].EndTime;
-      }
-      processedTimetable.push(table);
+    const slotIndex = slotList.indexOf(slots);
+    if (slotIndex === -1) continue;
+
+    if (type === "Theory") {
+      const timing = CAMPUS_CONFIGS[campus].theoryTimings[slotIndex];
+      if (!timing) continue;
+      table.start_time = timing.StartTime;
+      table.end_time = timing.EndTime;
+    } else {
+      const timing = CAMPUS_CONFIGS[campus].labTimings[slotIndex];
+      if (!timing) continue;
+      table.start_time = timing.StartTime;
+      table.end_time = timing.EndTime;
     }
+    processedTimetable.push(table);
   }
 
   // Combine consecutive lab courses with the same course code
@@ -290,6 +310,11 @@ const CAMPUS_CONFIGS: Record<NonNullable<campusType> , CampusConfig> = {
     }
     return 0;
   });
+
+  // Store in cache
+  const bySubKey = cache.get(refKey) ?? new Map<string, Course[]>();
+  bySubKey.set(subKey, finalTimetable);
+  cache.set(refKey, bySubKey);
 
   return finalTimetable;
 }

@@ -1,5 +1,5 @@
 import { FaEdit, FaMapMarkerAlt } from "react-icons/fa";
-import { Course } from "../store/authStore";
+import { Course } from "../store/TimeTableStore";
 
 export default function CourseCard({
   Courses,
