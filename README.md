@@ -19,10 +19,27 @@
 - [x]  Review and edit timetable
 - [x]  App download links
 
-<br>
 
 ## Dependencies
  - React.js
+ - axios
+ - firebase
+ - framer-motion
+ - react-hot-toast
+ - react-icons
+ - react-responsive-carousel
+ - tailwindcss
+ - zustand
+
+## Development Setup
+  - Clone this repo
+  - `npm ci` or `npm install` to install all the dependencies (for best results use the node version mentioned in the package.json/.nvmrc)
+  - create a .env file (refer to .env.example for variables)
+  - `npm run dev` to start the react app
+
+## License
+
+This project is licensed under the [LICENSE](LICENSE) file in the repository.
 
 ## Contributors
 
@@ -42,7 +59,22 @@
 				</a>
 			</p>
 		</td>
+		<td>
+		Rupaak Srinivas
+		<p align="center">
+			<img src = "https://avatars.githubusercontent.com/u/64322879?s=400&u=48c1cfedad430aed5ca761c40e12afaad070fa87&v=4" width="150" height="150" alt="Krish Chatterjie">
+		</p>
+			<p align="center">
+				<a href = "https://github.com/rupaaksrinivas">
+					<img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36" alt="GitHub"/>
+				</a>
+				<a href = "https://www.linkedin.com/in/rupaaksrinivas/">
+					<img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36" alt="LinkedIn"/>
+				</a>
+			</p>
+		</td>
 	</tr>
+	
 </table>
 
 <p align="center">
