@@ -5,13 +5,13 @@ import { parseAndReturn, uploadText } from "../utils/apicalls";
 import "./../styles/logedin.css";
 import { useAuthStore } from "../store/authStore";
 import { useLoadingStore } from "../store/useLoadingStore";
-import { TimeTable } from "../store/authStore";
-import { useTimeTableStore } from "../store/TimeTableStore";
+import { useTimeTableStore, TimeTable } from "../store/TimeTableStore";
+import toast from "react-hot-toast";
 
 const Upload: React.FC = () => {
   const [text, setText] = useState("");
-  const { token, setReview, campus } = useAuthStore();
-  const { uploadTimetable } = useTimeTableStore();
+  const { token, campus } = useAuthStore();
+  const { setDraft, setReview } = useTimeTableStore();
   const { setLoading } = useLoadingStore();
   // const regexPattern = /Registered and Approved$/;
 
@@ -23,7 +23,7 @@ const Upload: React.FC = () => {
   const submitText = (e: React.BaseSyntheticEvent): void => {
     e.preventDefault();
     if (text === "") {
-      alert("Please paste the text first!");
+      toast.error("Please paste the text first!");
       return;
     }
     // if (regexPattern.test(text) === false) {
@@ -37,19 +37,15 @@ const Upload: React.FC = () => {
     parseAndReturn(text, token, campus ?? "vellore")
       .then((res: TimeTable) => {
         if (res.timetable === null) {
-          alert(
-            "upload failed, no slots detected. Please check the format of the text you pasted. "
-          );
+          toast.error("Upload failed: no slots detected. Check the pasted format.");
           return;
         } else {
-          uploadTimetable(res);
+          setDraft(res);
           setReview(true);
         }
-        // uploadTimetable(res.data);
       })
-      .catch((error: Error) => {
-        alert("Error fetching timetable: " + error);
-        console.error("Error fetching timetable:", error);
+      .catch(() => {
+        toast.error("Error parsing timetable. Please try again.");
       });
   };
 

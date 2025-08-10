@@ -1,131 +1,92 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-export interface Course {
-  name: string;
-  code: string;
-  venue: string;
-  slot: string;
-  type: "Lab" | "Theory";
-  start_time: string | null;
-  end_time: string | null;
-}
-
-export interface TimeTable {
-  timetable: Course[] | null;
-}
 
 export type campusType = "vellore" | "chennai" | "bhopal" | null;
 interface AuthStore {
   uuid: string;
   isLoggedIn: boolean;
+  authReady: boolean;
   profile: string;
   username: string | null;
   campus: campusType;
   name: string;
   email: string;
   token: string;
-  review: boolean;
-  timetable: TimeTable | null;
   regNo: string;
-  uploadTimetable: (timetable: TimeTable) => void;
-  deleteTimetable: () => void;
-  setReview: (data: boolean) => void;
   login: (uuid: string, profile: string, name: string, email: string) => void;
   logout: () => void;
+  setAuthReady: (ready: boolean) => void;
   updateUsername: (username: string) => void;
   updateToken: (token: string) => void;
   updateCampus: (campus: campusType) => void;
   updateRegNo: (regNo: string) => void;
-  initializeFromLocalStorge: () => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  uuid: "",
-  isLoggedIn: false,
-  profile: "",
-  username: null,
-  campus: null,
-  email: "",
-  review: false,
-  name: "",
-  token: "",
-  timetable: null,
-  regNo: "",
-  uploadTimetable: (data) => {
-    set(() => ({
-      timetable: data
-    }));
-  },
-  deleteTimetable: () => {
-    set(() => ({
-      timetable: { timetable: null},
-    }));
-  },
-  updateRegNo: (regNo) => {
-    set(() => ({
-      regNo,
-    }));
-  },
-  login: (uuid, profile, name, email) =>
-    set(() => ({
-      uuid,
-      isLoggedIn: true,
-      profile,
-      name,
-      email,
-    })),
-  logout: () => {
-    set(() => ({
+export const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
       uuid: "",
       isLoggedIn: false,
+      authReady: false,
       profile: "",
       username: null,
       campus: null,
       email: "",
       name: "",
       token: "",
-      timetable: null,
       regNo: "",
-    }));
-    localStorage.clear();
-  },
-  setReview: (review: boolean) => {
-    set(() => ({
-      review: review,
-    }));
-  },
-  updateUsername: (username: string) => {
-    set(() => ({
-      username: username,
-    }));
-  },
-  updateToken: (token: string) => {
-    set(() => ({
-      token: token,
-    }));
-  },
-  updateCampus: (campus: campusType) => {
-    set(() => ({
-      campus,
-    }));
-  },
-  initializeFromLocalStorge: () => {
-    const uuid = localStorage.getItem("uuid");
-    const profile = localStorage.getItem("profile");
-    const username = localStorage.getItem("username");
-    const email = localStorage.getItem("email");
-    const campus = localStorage.getItem("campus");
-    const token = localStorage.getItem("token");
-    if (uuid && profile && username && email && campus && token) {
-      set(() => ({
-        uuid,
-        isLoggedIn: true,
-        profile,
-        campus: campus as campusType,
-        username,
-        email,
-        token,
-      }));
+      updateRegNo: (regNo) => {
+        set(() => ({ regNo }));
+      },
+      login: (uuid, profile, name, email) =>
+        set(() => ({
+          uuid,
+          isLoggedIn: true,
+          profile,
+          name,
+          email,
+        })),
+      logout: () => {
+        set(() => ({
+          uuid: "",
+          isLoggedIn: false,
+          authReady: true,
+          profile: "",
+          username: null,
+          campus: null,
+          email: "",
+          name: "",
+          token: "",
+          regNo: "",
+        }));
+      },
+      setAuthReady: (ready: boolean) => set(() => ({ authReady: ready })),
+      updateUsername: (username: string) => {
+        set(() => ({ username }));
+      },
+      updateToken: (token: string) => {
+        set(() => ({ token }));
+      },
+      updateCampus: (campus: campusType) => {
+        set(() => ({ campus }));
+      },
+    }),
+    {
+      name: "auth",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        uuid: state.uuid,
+        profile: state.profile,
+        username: state.username,
+        campus: state.campus,
+        name: state.name,
+        email: state.email,
+        token: state.token,
+        regNo: state.regNo,
+        isLoggedIn: state.isLoggedIn,
+      }),
+      version: 1,
     }
-  },
-}));
+  )
+);

@@ -9,7 +9,25 @@ const GITHUB_ISSUES =
 
 const SupportFab: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { username } = useAuthStore();
+  const { username, name, email } = useAuthStore();
+
+    const subject = encodeURIComponent("VITTY Support Request");
+    const body = encodeURIComponent(`Dear VITTY Support Team,
+
+I would like to report an issue
+
+
+USER INFORMATION:
+- Username: ${username || "{yourUsername}"}
+- Name: ${name || "{yourName}"}
+- Email: ${email || "{yourEmail}"}
+
+ISSUE DESCRIPTION:
+
+
+Best regards,
+${name || "VITTY User"}
+VITTY`);
 
   return (
     <>
@@ -31,8 +49,7 @@ const SupportFab: React.FC = () => {
             </div>
             <div className="modal-body flex flex-col gap-2">
               <a
-                href={`mailto:${SUPPORT_EMAIL}`}
-                // className="flex items-center gap-2 px-3 py-2 rounded-lg  text-white font-medium transition-colors duration-150"
+                href={`mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`}
                 className="border-blue-400 border rounded-md flex flex-row items-center justify-center gap-3 p-2 w-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -52,8 +69,7 @@ const SupportFab: React.FC = () => {
               </a>
               {username && (
                 <a
-                  href="/?delete=true"
-                  // className="flex items-center gap-2 px-3 py-2 rounded-lg  text-white font-medium transition-colors duration-150"
+                  href="/account/delete"
                   className="border-red-600 border rounded-md flex flex-row items-center justify-center gap-3 p-2 w-full"
                   onClick={() => setOpen(false)}
                 >

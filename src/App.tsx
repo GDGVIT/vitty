@@ -1,76 +1,62 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from "react";
-import LoginPage from "./pages/login";
+import { Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { Toaster } from "react-hot-toast";
 import Template from "./pages/Template";
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Dashboard from "./pages/Dashboard";
-import Loader from "./components/Loader";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import { useAuthStore } from "./store/authStore";
 import Profile from "./components/Profile";
 import { useShowProfileStore } from "./store/profileStore";
-import { useLoadingStore } from "./store/useLoadingStore";
-import AccountDelete from "./pages/AccountDelete";
 
 const App: React.FC = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const deleteParam = urlParams.get("delete");
-
-  const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-  };
-
-  initializeApp(firebaseConfig);
-  const { initializeFromLocalStorge, login, isLoggedIn, name } = useAuthStore();
+  const { login, setAuthReady } = useAuthStore();
   const { showProfile } = useShowProfileStore();
-  const { isLoading } = useLoadingStore();
-  const uuid = localStorage.getItem("uuid") || "";
   useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user1) => {
+    const unsubscribe = onAuthStateChanged(auth, (user1) => {
       if (user1 !== null) {
-        localStorage.setItem("uuid", user1.uid || "");
-        localStorage.setItem("profile", user1.photoURL || "");
-        localStorage.setItem("name", user1.displayName || "");
-        localStorage.setItem("email", user1.email || "");
         login(
           user1.uid,
           user1.photoURL || "",
           user1.displayName || "",
           user1.email || ""
         );
+        setAuthReady(true);
       } else {
-        localStorage.setItem("name", "");
-        initializeFromLocalStorge();
+        setAuthReady(true);
       }
     });
+    return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, login]);
+  }, []);
 
   useEffect(() => {
     document.title = "VITTY";
   }, []);
 
+  const location = useLocation();
   return (
     <Template>
-      {deleteParam == "true" ? (
-        <AccountDelete />
-      ) : isLoading ? (
-        <Loader />
-      ) : uuid === "" ? (
-        <LoginPage />
-      ) : name === "" ? (
-        <Loader />
-      ) : (
-        <Dashboard />
-      )}
-
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+        >
+          <Outlet />
+        </motion.div>
+      </AnimatePresence>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: { background: "#0f2236", color: "#e5eefb", border: "1px solid #1e3a5f" },
+          success: { iconTheme: { primary: "#22c55e", secondary: "#0f2236" } },
+          error: { iconTheme: { primary: "#ef4444", secondary: "#0f2236" } },
+        }}
+      />
       {showProfile && <Profile />}
     </Template>
   );

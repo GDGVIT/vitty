@@ -5,9 +5,11 @@ import GetUserName from "../components/GetUserName"
 import Timetable from "./TimeTable";
 import { useAuthStore } from "../store/authStore";
 import Loader from "../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const { uuid, username, updateToken, updateUsername, token, campus, updateCampus } = useAuthStore();
+  const navigate = useNavigate();
   const [userExists, setUserExists] = useState<boolean>(false);
   useEffect(() => {
     if(uuid === "") return;
@@ -23,25 +25,25 @@ export default function Dashboard() {
                     updateCampus(data.campus);
                 }
                 setUserExists(true);
-                localStorage.setItem("email", data.email);
-                localStorage.setItem("username", data.username);
-                localStorage.setItem("token", data.token);
             } else {
-                window.alert("Some error occured");
             }
             }
         );
       }
     });
-  }, [username, token, uuid, updateToken, updateUsername]);
+  }, [uuid]);
   return (
     <div className="h-full w-full">
       {
-        username === null
-          ? <Loader />
-          : username === "" || campus == null
-            ? <GetUserName userExists={userExists}/>
-            : <Timetable />
+        username === null ? (
+          <Loader />
+        ) : username === "" ? (
+          <GetUserName userExists={userExists}/>
+        ) : campus == null ? (
+          <GetUserName userExists={true}/>
+        ) : (
+          <Timetable />
+        )
       }
     </div>
   );

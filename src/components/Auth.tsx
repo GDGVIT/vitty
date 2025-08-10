@@ -18,16 +18,11 @@ const Auth = () => {
   const logIn = (auth: any, provider: any) => {
     void signInWithPopup(auth, provider);
     getRedirectResult(auth)
-      .then((result) => {
-        if (result !== null) {
-          localStorage.setItem('uuid', result.user.uid);
-        }
+      .then(() => {
+        // handled by onAuthStateChanged listener
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        console.log(errorCode, errorMessage, email);
+      .catch(() => {
+        // auth error silently ignored; toast UX can be added if desired
       });
   };
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { isAvailable, signIn, patchCampus } from "../utils/apicalls";
 import { useAuthStore, campusType } from "../store/authStore";
 import { useLoadingStore } from "../store/useLoadingStore";
+import toast from "react-hot-toast";
 
 interface GetUsernameProps {
   userExists: boolean;
@@ -25,7 +26,7 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
   const [cam, setCampus] = useState<campusType>("vellore");
   const [validUsername, setValidUsername] = useState(false);
   const regexPattern = /^\d{2}[A-Z]{3}\d{4}$/;
-  const uuid = localStorage.getItem("uuid") || "";
+  const { uuid } = useAuthStore.getState();
   const { setLoading } = useLoadingStore();
 
   useEffect(() => {
@@ -42,11 +43,11 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
       } else {
         setValidUsername(false);
         setValidRegNo(false);
-        console.log(data);
+        
         if (data.detail === "duplicated key not allowed") {
-          window.alert("Registration Number already exists.");
+          toast.error("Registration Number already exists.");
         } else {
-          window.alert(data.detail);
+          toast.error(String(data.detail || "Something went wrong"));
         }
       }
     });
@@ -57,18 +58,18 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
     if (!userExists) {
       if (regexPattern.test(regNumber)) {
         setValidRegNo(true);
-        console.log("valid reg no");
+        
       } else {
-        window.alert("Invalid Reg. No.");
+        toast.error("Invalid Reg. No.");
         return;
       }
 
       isAvailable(userName).then((data) => {
         if (data.detail === "Username is valid") {
           setValidUsername(true);
-          console.log("valid username");
+          
         } else {
-          window.alert(data.detail);
+          toast.error(String(data.detail || "Invalid username"));
           return;
         }
       });
@@ -77,7 +78,7 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
       setValidRegNo(true);
     }
     if (cam == null) {
-      window.alert("Please select a campus");
+      toast.error("Please select a campus");
       return;
     }
   };
@@ -87,8 +88,8 @@ const GetUsername: React.FC<GetUsernameProps> = ({ userExists }) => {
       if (data.detail === "Campus updated successfully") {
         updateCampus(cam);
       } else {
-        console.log(data);
-        window.alert(data.detail || "Error updating campus");
+        
+        toast.error(String(data.detail || "Error updating campus"));
       }
     });
   };

@@ -46,6 +46,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
+  gap: 1rem;
   margin: 0.5rem 0;
 }
 
@@ -124,4 +125,114 @@
     max-width: 25rem;
     padding: 1rem 1.5rem;
   }
+}
+
+/* Campus field styles */
+.campus-edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.campus-select {
+  font-size: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 0.5rem;
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border: solid 1px var(--blue);
+  background-color: var(--dark);
+  width: 100%;
+  cursor: pointer;
+}
+
+.campus-select:focus {
+  outline: none;
+  border-color: var(--bright);
+}
+
+.campus-select.error {
+  border-color: #ff2424;
+  box-shadow: 0 0 0 1px rgba(255, 36, 36, 0.2);
+}
+
+.error-message {
+  color: #ff2424;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(255, 36, 36, 0.1);
+  border-radius: 0.25rem;
+  border-left: 3px solid #ff2424;
+}
+
+.campus-edit-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.campus-save-btn,
+.campus-cancel-btn {
+  font-size: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  font-weight: bold;
+  color: var(--light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.campus-save-btn {
+  background-color: var(--bright);
+}
+
+.campus-cancel-btn {
+  background-color: var(--dimmer);
+  border: solid 1px var(--light);
+}
+
+.campus-save-btn:hover,
+.campus-cancel-btn:hover {
+  transform: scale(1.02);
+}
+
+.campus-save-btn:disabled,
+.campus-cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.campus-save-btn:disabled:hover,
+.campus-cancel-btn:disabled:hover {
+  transform: none;
+}
+
+.modal-yes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-yes:disabled:hover {
+  transform: none;
+}
+
+.campus-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* margin-top: 0.5rem; */
+}
+
+.campus-edit-btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.campus-edit-btn:hover {
+  transform: scale(1.02);
 }

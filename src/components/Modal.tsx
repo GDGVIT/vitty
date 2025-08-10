@@ -27,7 +27,7 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
   const [venue, setVenue] = useState("");
 
   const [tip, setTip] = useState<string | undefined>("");
-  const { deleteSlot, addCourse } = useTimeTableStore();
+  const { removeSlotFromDraft, addCourseToDraft } = useTimeTableStore();
 
   useEffect(() => {
     if (status === "remove") {
@@ -89,13 +89,13 @@ export default function Modal({ slot, status, onClose }: ModalProps) {
         start_time: null,
         end_time: null,
       };
-      addCourse(course);
+      addCourseToDraft(course);
       onClose();
     }
   };
 
   const onRemove = (): void => {
-    deleteSlot(slot);
+    removeSlotFromDraft(slot);
     onClose();
   };
 
